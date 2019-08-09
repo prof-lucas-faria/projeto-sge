@@ -1,0 +1,17 @@
+{
+  "name": "pwii/sge",
+  "type": "project",
+  "config": {
+    "vendor-dir": "vendor",
+    "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+      "sge\\": "public_html/",
+      "core\\": "core/"
+    }
+  },
+  "require": {
+    "mpdf/mpdf": "^8.0"
+  }
+}

@@ -1,0 +1,56 @@
+table {
+    width: 100%;
+    border-top: 10px double #31941b;
+    border-bottom: 10px double #31941b;
+    border-left: none;
+    border-right: none;
+}
+
+table tr,
+table td {
+    border: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.fs16 {
+    font-size: 16px;
+}
+
+.fs18 {
+    font-size: 30px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+.pb30 {
+    padding-bottom: 30px;
+}
+
+.pb80 {
+    padding-bottom: 80px;
+}
+
+.pb170 {
+    padding-bottom: 170px;
+}
+
+.p10 {
+    padding: 10px 0;
+}
+
+.lh {
+    line-height: 30px;
+}
