@@ -27,36 +27,42 @@ use core\sistema\Autenticacao;
 </head>
 
 <body class="bg-light">
-<!-- NAVBAR-->
-<nav class="navbar navbar-dark bg-dark">
-    <a href="index.php" class="navbar-brand text-light">SGE</a>
-    <div class="dropdown dropleft">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-align-justify"></i>
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="index.php">Página Inicial</a>
-            <div class="dropdown-divider"></div>
-            <?php if (Autenticacao::verificarLogin() and !Autenticacao::usuarioAdministrador()) { ?>
-                <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
-            <?php }
+<header>
+    <!-- NAVBAR-->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a href="index.php" class="logo">SGE</a>
+            <div class="dropdown dropleft">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="index.php">Página Inicial</a>
+                    <div class="dropdown-divider"></div>
+                    <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
+                        <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
+                    <?php }
 
-            if (Autenticacao::verificarLogin()) { ?>
-                <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
-                <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
-                <?php if (Autenticacao::usuarioAdministrador()) { ?>
-                    <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Evento</a>
-                    <a class="dropdown-item" href="usuarios.php">Usuários</a>
-                <?php } ?>
-                <div class="dropdown-divider"></div>
-                <a id="logout" class="dropdown-item" href="#">Sair</a>
-            <?php } else { ?>
-                <a class="dropdown-item" href="cadastro.php">Cadastrar Usuário</a>
-                <div class="dropdown-divider"></div>
-                <a id="login" class="dropdown-item" href="login.php">Entrar</a>
-            <?php } ?>
+                    if (Autenticacao::verificarLogin()) { ?>
+                        <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
+                        <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
+                        <?php if (Autenticacao::usuarioAdministrador()) { ?>
+                            <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Evento</a>
+                            <a class="dropdown-item" href="usuarios.php">Usuários</a>
+                        <?php } ?>
+                        <div class="dropdown-divider"></div>
+                        <a id="logout" class="dropdown-item" href="#">Sair</a>
+                    <?php } else { ?>
+                        <a class="dropdown-item" href="cadastro.php">Cadastrar Usuário</a>
+                        <div class="dropdown-divider"></div>
+                        <a id="login" class="dropdown-item" href="login.php">Entrar</a>
+                    <?php } ?>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
-<!-- NAVBAR-->
+    </nav>
+    <!-- NAVBAR-->
+</header>
+
+<main>
