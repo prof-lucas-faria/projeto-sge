@@ -1,5 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+.topo {
+    width: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.topo .brasao {
+    width: 80px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.topo .brasao img {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
 table {
     width: 100%;
+    margin-top: -50px;
+    padding-top: 30px;
     border-top: 10px double #31941b;
     border-bottom: 10px double #31941b;
     border-left: none;
@@ -11,8 +38,22 @@ table td {
     border: none;
 }
 
+.cabecalho {
+    line-height: 12px;
+}
+
 .center {
     text-align: center;
+}
+
+.nome {
+    color: blue;
+}
+
+.certificado {
+    font-size: 32px;
+    padding: 40px 0;
+    font-weight: bold;
 }
 
 .right {
@@ -21,6 +62,10 @@ table td {
 
 .bold {
     font-weight: bold;
+}
+
+.fs14 {
+    font-size: 14px;
 }
 
 .fs16 {
@@ -39,12 +84,16 @@ table td {
     padding-bottom: 30px;
 }
 
-.pb80 {
-    padding-bottom: 80px;
+.pb40 {
+    padding-bottom: 40px;
 }
 
-.pb170 {
-    padding-bottom: 170px;
+.pb60 {
+    padding-bottom: 60px;
+}
+
+.pb80 {
+    padding-bottom: 80px;
 }
 
 .p10 {
@@ -53,4 +102,22 @@ table td {
 
 .lh {
     line-height: 30px;
+}
+
+.rodape {
+    width: 50%;
+    position: relative;
+    margin: -40px auto 0;
+}
+
+.rodape .logo {
+    width: 273px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.rodape .logo img {
+    display: inline-block;
+    width: 273px;
+    height: 80px;
 }

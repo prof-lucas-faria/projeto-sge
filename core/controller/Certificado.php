@@ -97,25 +97,31 @@ class Certificado {
         $html .= "    <title>Certificado</title>";
         $html .= "</head>";
         $html .= "<body>";
+        $html .= "<section class='topo'>";
+        $html .= "  <div class='brasao'><img src='" . BASE . "public_html/assets/imagens/brasao.jpeg' width='80' height='80'></div>";
+        $html .= "</section>";
         $html .= "<table>";
         $html .= "    <tr>";
-        $html .= "        <td colspan='3' class='center bold fs16 pt10'>MINISTÉRIO DA EDUCAÇÃO</td>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14 pt10'>MINISTÉRIO DA EDUCAÇÃO</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
-        $html .= "        <td colspan='3' class='center bold fs16'>SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA</td>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14'>SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
-        $html .= "        <td colspan='3' class='center bold fs16 pb170'>INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA GOIANO<br/> CAMPUS CERES</td>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14'>INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA GOIANO<br/> CAMPUS CERES</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='center certificado'>Certificado</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
         $html .= "        <td colspan='3' class='center'>O IF Goiano - Campus Ceres no uso de suas atribuições e em consonância com a legislação vigente certifica que</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
-        $html .= "        <td colspan='3' class='center fs18 p10'>{$dados['nome']}</td>";
+        $html .= "        <td colspan='3' class='center bold nome fs18 p10'>{$dados['nome']}</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
-        $html .= "        <td colspan='3' class='center pb80 lh'>
-                            CPF nº {$dados['cpf']}, participou das atividades do(a) {$dados['evento']}, promovido pelo(a) Coordenação de Sistemas
+        $html .= "        <td colspan='3' class='center pb40 lh'>
+                            CPF nº {$dados['cpf']}, participou das atividades do(a) <b>{$dados['evento']}</b>, promovido pelo(a) Coordenação de Sistemas
                             de Informação {$dados['periodo']} com carga horária de {$dados['carga_horaria']}h.
                           </td>";
         $html .= "    </tr>";
@@ -128,11 +134,14 @@ class Certificado {
         $html .= "        <td class='center'>Nome</td>";
         $html .= "    </tr>";
         $html .= "    <tr>";
-        $html .= "        <td class='center pb30'>Cargo/Função</td>";
-        $html .= "        <td class='center pb30'>Cargo/Função</td>";
-        $html .= "        <td class='center pb30'>Cargo/Função</td>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
         $html .= "    </tr>";
         $html .= "</table>";
+        $html .= "<section class='rodape'>";
+        $html .= "  <div class='logo'><img src='" . BASE . "public_html/assets/imagens/Logotipo.png' width='273' height='70'></div>";
+        $html .= "</section>";
         $html .= "</body>";
         $html .= "</html>";
 
@@ -141,8 +150,8 @@ class Certificado {
             'format' => 'A4',
             'default_font_size' => 0,
             'default_font' => 14,
-            'margin_left' => 10,
-            'margin_right' => 10,
+            'margin_left' => 20,
+            'margin_right' => 20,
             'margin_top' => 10,
             'margin_bottom' => 10,
             'margin_header' => 10,

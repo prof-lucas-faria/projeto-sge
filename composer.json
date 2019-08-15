@@ -12,6 +12,8 @@
     }
   },
   "require": {
-    "mpdf/mpdf": "^8.0"
+    "mpdf/mpdf": "^8.0",
+    "ext-json": "*",
+    "ext-mbstring": "*"
   }
 }
