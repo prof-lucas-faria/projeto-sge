@@ -53,27 +53,23 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 <div class="container">
     <form id="formulario" data-me="<?= $me ?>">
-        <div class="row">
-            <div class="col-4">
+        <div class="form-row">
+            <div class="form-group col-md-4">
                 <label for="periodo">Nome ou descrição do evento:</label>
                 <div class="form-group has-search">
                     <span class="fa fa-search form-control-feedback"></span>
                     <input id="texto" type="text" class="form-control" placeholder="Buscar">
                 </div>
             </div>
-            <div class="form-row col-4">
-                <div class="form-group col-md-6">
-                    <label for="data_inicio">Data de Início:</label>
-                    <input type="date" class="form-control" id="data_inicio" required
-                           value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="data_termino">Data de Término:</label>
-                    <input type="date" class="form-control" id="data_termino" required
-                           value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
-                </div>
+            <div class="form-group col-md-2">
+                <label for="data_inicio">Data de Início:</label>
+                <input type="date" class="form-control" id="data_inicio" required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
             </div>
-            <div class="col-3">
+            <div class="form-group col-md-2">
+                <label for="data_termino">Data de Término:</label>
+                <input type="date" class="form-control" id="data_termino" required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
+            </div>
+            <div class="form-group col-md-3">
                 <div class="form-group has-search">
                     <label for="periodo">Período:</label>
                     <span class="fa fa-search form-control-feedback"></span>
@@ -85,8 +81,9 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                     </select>
                 </div>
             </div>
-
-            <button id="filtrar" class="col-1 btn btn-block btn-outline-dark">Filtrar</button>
+            <div class="form-group col-md-1 align-self-center">
+                <button id="filtrar" class="btn btn-block btn-outline-dark">Filtrar</button>
+            </div>
         </div>
     </form>
 </div>
@@ -118,7 +115,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                             </a>
                                         <?php } else { ?>
                                             <?php $cont = 0;
-                                            if (count((array)$dados2['lista_eventos']) > 0) {
+                                            if (isset($dados2['lista_eventos']) && count((array)$dados2['lista_eventos']) > 0) {
                                                 foreach ($dados2['lista_eventos'] as $j => $evento2) {
                                                     if ($evento->evento_id == $evento2->evento_id) $cont++; ?>
                                                 <?php }
