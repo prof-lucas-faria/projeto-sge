@@ -8,7 +8,7 @@ const addCampoAutores = () => {
         event.preventDefault();
         let form_group_autores = $('#form_group_autores');
 
-        form_group_autores.append('<input type="text" class="form-control mb-2" name="autores">');
+        form_group_autores.append('<input type="text" class="form-control mt-2" name="autores">');
         
     });
 

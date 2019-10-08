@@ -39,7 +39,8 @@ use core\sistema\Footer;
                     <div class="form-row">
                         <div id="form_group_autores" class="form-group col-md-12">
                             <label for="">Autores:</label>
-                            <input type="text" class="form-control mb-2" id="autores" name="autores">
+                            <input type="text" class="form-control" id="autores" name="autores" placeholder="">
+                            <small class="mb-2">Insira nesse campo o primeiro autor do trabalho</small>
                         </div>
                     </div>
                     <div class="form-row">
