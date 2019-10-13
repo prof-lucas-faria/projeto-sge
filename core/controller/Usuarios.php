@@ -167,7 +167,11 @@ class Usuarios {
     public function listarAutores($dados) {
         $usuario = new Usuario();
 
-        $campos = Usuario::COL_USUARIO_ID . " as value, " . Usuario::COL_NOME . " as label";
+        $campos = Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(". 
+                                                                    Usuario::COL_NOME .", ".
+                                                                    " ' - ', " .
+                                                                    Usuario::COL_EMAIL . 
+                                                                    ") as label";
 
 
         $lista = $usuario->listar($campos, $dados, null, 10);
