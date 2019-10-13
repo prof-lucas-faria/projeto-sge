@@ -4,7 +4,13 @@ require_once 'header.php';
 
 use core\controller\Eventos;
 use core\sistema\Footer;
+use core\controller\Usuarios;
 
+// $usuarios = new Usuarios();
+// $a = $usuarios->listarAutores(["nome" => "andre"]);
+// echo '<pre>';
+// print_r($a);
+// echo '</pre>';
 
 ?>
 <main role="main">
@@ -39,7 +45,8 @@ use core\sistema\Footer;
                     <div class="form-row">
                         <div id="form_group_autores" class="form-group col-md-12">
                             <label for="">Autores:</label>
-                            <input type="text" class="form-control" id="autores" name="autores" placeholder="">
+                            <!-- Necessário colocar aqui o id o usuário dentro do data, preencher o input com o nome do usuário e deixa disabled -->
+                            <input type="text" class="form-control" name="autores" placeholder="">
                             <small class="mb-2">Insira nesse campo o primeiro autor do trabalho</small>
                         </div>
                     </div>
