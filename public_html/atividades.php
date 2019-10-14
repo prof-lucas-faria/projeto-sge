@@ -32,11 +32,10 @@ $x = 0;
 (strtotime(date('Y/m/d')) > strtotime($evento->data_prorrogacao)) ? $d = "disabled" : $d = "";
 ?>
 
-<main role='main' class="mt-0">
-    <div class="jumbotron" style="border-radius:0px; background:url(assets/imagens/grande.png) no-repeat 0 0">
-        <div class="container mb-4"></div>
-    </div>
-    <div class="container">
+<main role="main">
+	<div class="jumbotron mt-n5" style="height: 250px; border-radius:0px; background:url(assets/imagens/grande2.jpg) no-repeat 0 0"></div>
+	
+	<div class="container">
         <div class="row">
             <div class="col-md-12 mb-3">
                 <h1 class="display-4 text-center"><?= $evento->nome ?></h1>

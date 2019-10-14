@@ -13,6 +13,12 @@ class Util {
         return $nova_data->format('d/m/Y');
     }
 
+    public static function formataDataExtenso($data) {
+        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+        return strftime('%d de %B de %Y', strtotime($data));
+    }
+    
     public function codigoAlfanumerico() {
         $maiuscula = implode('', range('A', 'Z')); // ABCDEFGHIJKLMNOPQRSTUVWXYZ
         $minuscula = implode('', range('a', 'z')); // abcdefghijklmnopqrstuvwxyzy
