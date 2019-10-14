@@ -5,7 +5,21 @@ require_once 'header.php';
 use core\controller\Eventos;
 use core\sistema\Footer;
 use core\controller\Usuarios;
+use core\model\Usuario;
+use core\sistema\Autenticacao;
 
+
+if (!Autenticacao::getCookieUsuario()) {
+    header('Location: login.php');
+} else {
+    $usuario_id = Autenticacao::getCookieUsuario();
+    echo $usuario_id;
+}
+
+$usuarios = new Usuarios();
+$usuario = $usuarios->listarUsuarioID($usuario_id);
+print_r($usuario);
+echo $usuario->usuario_id;
 // $usuarios = new Usuarios();
 // $a = $usuarios->listarAutores(["nome" => "andre"]);
 // echo '<pre>';
@@ -46,8 +60,20 @@ use core\controller\Usuarios;
                         <div id="form_group_autores" class="form-group col-md-12">
                             <label for="">Autores:</label>
                             <!-- Necessário colocar aqui o id o usuário dentro do data, preencher o input com o nome do usuário e deixa disabled -->
-                            <input type="text" class="form-control" name="autores" placeholder="">
-                            <small class="mb-2">Insira nesse campo o primeiro autor do trabalho</small>
+                            <?php
+                            if (isset($usuario->usuario_id)) {
+                                ?>
+                                <input type="text" class="form-control" id="autores" name="autores" placeholder="" data-usuario_id="<?= (isset($usuario->usuario_id)) ? $usuario->usuario_id : "" ?>" value="<?= (isset($usuario->nome)) ? $usuario->nome : "" ?>" disabled>
+
+                            <?php
+                            } else {
+
+                                ?>
+                                <h1 class="h5 mb-5 font-weight-normal text-center">É necessário estar logado para submeter o trabalho.</h1>
+                            <?php
+                            }
+                            ?>
+                            <small class="mb-2">Apenas o primeiro autor pode submeter o trabalho.</small>
                         </div>
                     </div>
                     <div class="form-row">
@@ -78,12 +104,16 @@ use core\controller\Usuarios;
                             <small>Escolha o arquivo que <strong>não possui</strong> a identificação dos autores.</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="arquivo_com_id">Arquivo Identificado:</label>
+                            <!-- <label for="arquivo_com_id">Arquivo Identificado:</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
                                 <label class="custom-file-label" for="arquivo_com_id">Selecione seu trabalho</label>
                             </div>
-                            <small>Escolha o arquivo que <strong>possui</strong> a identificação dos autores.</small>
+                            <small>Escolha o arquivo que <strong>possui</strong> a identificação dos autores.</small> -->
+                            <div class="inputFile">
+                                <span>Selecione um arquivo</span>
+                                <input type="file" name="arquivo" id="arquivo" />
+                            </div>
                         </div>
                     </div>
 

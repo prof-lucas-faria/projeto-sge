@@ -7,9 +7,18 @@ const addCampoAutores = () => {
     //Função para adicionar input para autor
     $('#addAutores').on('click', function (event) {
         event.preventDefault();
-        let form_group_autores = $('#form_group_autores');
 
-        form_group_autores.append('<input type="text" class="form-control mt-2" name="autores">');
+        let qtd_input_autores = document.querySelectorAll("input[name=autores]").length;
+        // console.log(qtd_input_autores);
+
+        // Confere o limite de autores
+        if (qtd_input_autores < 6){
+            let form_group_autores = $('#form_group_autores');
+            form_group_autores.append('<input type="text" class="form-control mt-2" name="autores">');
+        }else{
+            // Enviar um toast falando que o limite de autores é 6
+            
+        }
 
     });
 
