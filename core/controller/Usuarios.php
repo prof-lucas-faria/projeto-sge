@@ -158,4 +158,30 @@ class Usuarios {
             return true;
         }
     }
+
+    /**
+     * Listar autores
+     *
+     * @return array
+     */
+    public function listarAutores($dados) {
+        $usuario = new Usuario();
+
+        $campos = Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(". 
+                                                                    Usuario::COL_NOME .", ".
+                                                                    " ' - ', " .
+                                                                    Usuario::COL_EMAIL . 
+                                                                    ") as label";
+
+
+        $lista = $usuario->listar($campos, $dados, null, 10);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_usuarios", $lista);
+        }
+
+        return json_encode($this->lista_usuarios);
+    }
+
+
 }
