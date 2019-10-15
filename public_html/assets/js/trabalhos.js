@@ -69,6 +69,7 @@ const listarAutores = () => {
     
 };
 
+// Essa função muda a cor do input quando o arquivo for selecionado e coloca no label do input o nome do arquivo
 const validarFile = () => {
     $('input[type=file]').on('change', function(){
         let nome_arquivo = $(this).val().split("\\").pop();
