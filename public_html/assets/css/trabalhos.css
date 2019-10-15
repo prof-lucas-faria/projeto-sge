@@ -1,10 +1,10 @@
 /* Muda o texto no file input */
 
 .custom-file-input:lang(pt-br)~.custom-file-label::after {
-    content: "Enviar";
+    content: "Procurar";
 }
 .custom-file-input:lang(pt-br)~.custom-file-label-success::after {
-    content: "Enviar";
+    content: "Procurar";
 }
 
 /* Estiliza um file de sucesso para a submissão do arquivo */
