@@ -214,6 +214,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							</a>
 
 						</div>
+						
 						<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">

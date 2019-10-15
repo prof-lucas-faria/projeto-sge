@@ -4,15 +4,18 @@ require_once 'header.php';
 
 use core\controller\Eventos;
 use core\sistema\Footer;
+use core\controller\Tematicas;
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 
 $eventos = new Eventos();
+$tematicas = new Tematicas();
 
 $dados_eventos = "";
 $evento = "";
 
 $evento = $eventos->listarEvento($evento_id);
+$lista_tematicas = $tematicas->listarTematicas();
 
 ?>
 
@@ -42,14 +45,27 @@ $evento = $eventos->listarEvento($evento_id);
                         </div>
                         <div class="form-group col-md-4">
                             <label for="local">Local:</label>
-                            <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>">
+                            <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
                         </div>
                     </div>
-                    <div class="form-group mb-4">
+                    <div class="form-group">
                         <label for="descricao">Descrição:</label>
                         <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
                     </div>
+                    <div class="form-group mb-4">
+                            <label>Área Temáticas:</label> <br>
+                            <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
+                                <option value=""></option> 
+                                <?php
+                                foreach ($lista_tematicas as $key => $tematica) { ?>
+                                    <option value="<?= $tematica->tematica_id?>" > <?= $tematica->descricao ?> </option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
                     <hr class="mb-3">
+
                     <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
                     <div class="form-row">
                         <div class="form-group col-md-4">

@@ -3,6 +3,8 @@ let construct = () => {
 };
 
 const eventos = () => {
+    $(".custom-select").chosen();
+
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
 
@@ -14,6 +16,7 @@ const eventos = () => {
             data_termino = $('#data_termino').val(),
             data_prorrogacao = $('#data_prorrogacao').val(),
             local = $('#local').val(),
+            tematica = $('#tematica').val(),
             evento_id = $('#formulario').attr('data-evento_id');
 
         const validaDatas = () => {
@@ -43,6 +46,7 @@ const eventos = () => {
             data_termino !== "" &&
             data_prorrogacao !== "" &&
             local !== "" &&
+            tematica != "" &&
             validaDatas()
         ) {
             let dados = {
@@ -53,7 +57,8 @@ const eventos = () => {
                 data_inicio: data_inicio,
                 data_termino: data_termino,
                 data_prorrogacao: data_prorrogacao,
-                local: local
+                local: local,
+                tematica: tematica
             };
 
             if(evento_id !== ""){
