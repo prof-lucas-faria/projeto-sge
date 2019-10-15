@@ -20,6 +20,7 @@ use core\sistema\Autenticacao;
 
     <!-- CSS Autoral -->
     <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/trabalhos.css">
 
     <!-- Biblioteca de ícones do Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
