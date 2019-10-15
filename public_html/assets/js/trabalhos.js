@@ -1,6 +1,7 @@
 let construct = () => {
     addCampoAutores();
     listarAutores();
+    validarFile();
 };
 
 const addCampoAutores = () => {
@@ -66,6 +67,19 @@ const listarAutores = () => {
             
     });
     
+};
+
+// Essa função muda a cor do input quando o arquivo for selecionado e coloca no label do input o nome do arquivo
+const validarFile = () => {
+    $('input[type=file]').on('change', function(){
+        let nome_arquivo = $(this).val().split("\\").pop();
+        let id = $(this).attr("id");
+        let id_pesquisa = 'div.custom-file > label[for=' + id + ']'; 
+        let label = $(id_pesquisa);
+        label.html(nome_arquivo); 
+        label.removeClass("custom-file-label");
+        label.addClass("custom-file-label-success");
+     });
 };
 
 construct();

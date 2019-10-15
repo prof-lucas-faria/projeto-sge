@@ -27,6 +27,7 @@ echo $usuario->usuario_id;
 // echo '</pre>';
 
 ?>
+
 <main role="main">
     <div class="container center-block mb-4">
         <div class="row">
@@ -99,21 +100,18 @@ echo $usuario->usuario_id;
                             <label for="arquivo_sem_id">Arquivo Não Identificado:</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
+                                <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
                                 <label class="custom-file-label" for="arquivo_sem_id">Selecione seu trabalho</label>
                             </div>
                             <small>Escolha o arquivo que <strong>não possui</strong> a identificação dos autores.</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <!-- <label for="arquivo_com_id">Arquivo Identificado:</label>
+                            <label for="arquivo_com_id">Arquivo Identificado:</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
                                 <label class="custom-file-label" for="arquivo_com_id">Selecione seu trabalho</label>
                             </div>
-                            <small>Escolha o arquivo que <strong>possui</strong> a identificação dos autores.</small> -->
-                            <div class="inputFile">
-                                <span>Selecione um arquivo</span>
-                                <input type="file" name="arquivo" id="arquivo" />
-                            </div>
+                            <small>Escolha o arquivo que <strong>possui</strong> a identificação dos autores.</small>
                         </div>
                     </div>
 
