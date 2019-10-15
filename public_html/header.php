@@ -123,12 +123,18 @@ use core\controller\Eventos;
                         </div>
                     </li>
                 </ul>
-
+                
+                <?php 
+                if (Autenticacao::verificarLogin()) { 
+                ?> 
                 <li class="nav-item">
                     <a class="nav-link" href="#" title="Sair" id="logout">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
+                <?php
+                }
+                ?> 
             </div>
 
             <!-- <div class="dropdown dropleft">
@@ -165,3 +171,4 @@ use core\controller\Eventos;
     </nav>
     <!-- NAVBAR -->
 </header>
+
