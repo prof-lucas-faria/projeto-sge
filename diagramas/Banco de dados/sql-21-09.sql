@@ -140,12 +140,12 @@ CREATE TABLE IF NOT EXISTS `sge`.`trabalho` (
   `status` VARCHAR(100) NULL,
   `tematica_id` INT NOT NULL,
   `autor` INT NOT NULL,
-  `tipo_tipo_id` INT NOT NULL,
+  `tipo_id` INT NOT NULL,
   PRIMARY KEY (`trabalho_id`),
   INDEX `fk_submissao_evento1_idx` (`evento_id` ASC),
   INDEX `fk_trabalho_tematica1_idx` (`tematica_id` ASC),
   INDEX `fk_trabalho_usuario2_idx` (`autor` ASC),
-  INDEX `fk_trabalho_tipo1_idx` (`tipo_tipo_id` ASC),
+  INDEX `fk_trabalho_tipo1_idx` (`tipo_id` ASC),
   CONSTRAINT `fk_submissao_evento1`
     FOREIGN KEY (`evento_id`)
     REFERENCES `sge`.`evento` (`evento_id`)
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `sge`.`trabalho` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_trabalho_tipo1`
-    FOREIGN KEY (`tipo_tipo_id`)
+    FOREIGN KEY (`tipo_id`)
     REFERENCES `sge`.`tipo` (`tipo_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
