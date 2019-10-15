@@ -40,6 +40,10 @@ $evento = $eventos->listarEvento($evento_id);
                             <label for="evento_termino">Data de Término:</label>
                             <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="local">Local:</label>
+                            <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>">
+                        </div>
                     </div>
                     <div class="form-group mb-4">
                         <label for="descricao">Descrição:</label>

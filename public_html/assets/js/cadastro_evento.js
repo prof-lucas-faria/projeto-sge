@@ -13,6 +13,7 @@ const eventos = () => {
             data_inicio = $('#data_inicio').val(),
             data_termino = $('#data_termino').val(),
             data_prorrogacao = $('#data_prorrogacao').val(),
+            local = $('#local').val(),
             evento_id = $('#formulario').attr('data-evento_id');
 
         const validaDatas = () => {
@@ -25,7 +26,7 @@ const eventos = () => {
 
             if (date_evento_inicio <= date_evento_termino &&
                 date_data_inicio < date_data_termino &&
-                date_data_termino < date_data_prorrogacao) {
+                date_data_termino <= date_data_prorrogacao) {
 
                 return true;
             } else {
@@ -41,6 +42,7 @@ const eventos = () => {
             data_inicio !== "" &&
             data_termino !== "" &&
             data_prorrogacao !== "" &&
+            local !== "" &&
             validaDatas()
         ) {
             let dados = {
@@ -50,15 +52,16 @@ const eventos = () => {
                 descricao: descricao,
                 data_inicio: data_inicio,
                 data_termino: data_termino,
-                data_prorrogacao: data_prorrogacao
+                data_prorrogacao: data_prorrogacao,
+                local: local
             };
 
             if(evento_id !== ""){
                 dados.evento_id = evento_id;
             }
-
+            
             dados.acao = "Eventos/cadastrar";
-
+            
             $.ajax({
                 url: baseUrl,
                 type: "POST",

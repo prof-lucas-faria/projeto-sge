@@ -35,6 +35,8 @@ $dados = $eventos->listarEventos($dados_eventos); //todos os eventos
 if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
     $dados_eventos['busca']['me'] = Autenticacao::getCookieUsuario();
     $dados2 = $eventos->listarEventos($dados_eventos); //eventos que o usuario se inscreveu
+} else {
+    $dados2 = [];
 }
 
 ?>
@@ -98,8 +100,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
                     <div class="col-md-4" style="">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="assets/imagens/pequena.png" style="height:200px"
-                                 alt="Card image cap">
+                            <img class="card-img-top" src="assets/imagens/pequena.png" style="height:200px" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title" style="min-height:7ch;"><?= $evento->nome ?></h4>
                                 <p class="card-text"
@@ -115,7 +116,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                             </a>
                                         <?php } else { ?>
                                             <?php $cont = 0;
-                                            if (isset($dados2['lista_eventos']) && count((array)$dados2['lista_eventos']) > 0) {
+                                            if (isset($dados2['lista_eventos']) && count((array)$dados2['lista_eventos'][0]) > 0) {
                                                 foreach ($dados2['lista_eventos'] as $j => $evento2) {
                                                     if ($evento->evento_id == $evento2->evento_id) $cont++; ?>
                                                 <?php }

@@ -15,9 +15,10 @@ class Evento extends CRUD {
     const COL_DATA_INICIO = "data_inicio";
     const COL_DATA_TERMINO = "data_termino";
     const COL_DESCRICAO = "descricao";
-    const COL_DATA_PRORROGACAO = "data_prorrogacao";
     const COL_EVENTO_INICIO = "evento_inicio";
     const COL_EVENTO_TERMINO = "evento_termino";
+    const COL_DATA_PRORROGACAO = "data_prorrogacao";
+    const COL_LOCAL = "local";
     const COL_EVENTO_INATIVO = "inativo";
 
     /**

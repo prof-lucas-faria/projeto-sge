@@ -18,9 +18,10 @@ class Eventos {
     private $data_inicio = null;
     private $data_termino = null;
     private $descricao = null;
-    private $data_prorrogacao = null;
     private $evento_inicio = null;
     private $evento_termino = null;
+    private $data_prorrogacao = null;
+    private $local = null;
     private $lista_eventos = [];
     private $total_paginas = null;
 
@@ -41,9 +42,10 @@ class Eventos {
      * @throws \Exception
      */
     public function cadastrar($dados) {
-
+        print_r($dados);
         $dados['nome'] = ucfirst($dados['nome']); // Deixa a primeira letra do nome do evento maiúscula
         $dados['descricao'] = ucfirst($dados['descricao']); // Deixa a primeira letra da descricao do evento maiúscula
+        $dados['local'] = ucfirst($dados['local']);
 
         $dados['inativo'] = "0"; // Cadastra o evento como ativo
         $evento = new Evento();
