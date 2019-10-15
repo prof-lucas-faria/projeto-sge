@@ -1,12 +1,11 @@
 <?php
 
-
 namespace core\controller;
 
 use core\sistema\Util;
-use core\model\Usuario;
+use core\model\Avaliador;
 
-class Usuarios {
+class Avaliadores {
     /**
      * Limite da listagem de usuario
      */
@@ -29,7 +28,7 @@ class Usuarios {
     private $cep = null;
     private $nacionalidade = null;
     private $ocupacao = null;
-    private $admin = null;
+    private $adm = null;
     private $lista_usuarios = [];
 
     public function __set($atributo, $valor) {
@@ -135,7 +134,7 @@ class Usuarios {
 
 
     /**
-     * Altera as permissões dos usuários cadastrados entre admin ou não
+     * Altera as permissões dos usuários cadastrados
      *
      * @param $dados
      * @return bool
@@ -157,30 +156,6 @@ class Usuarios {
         } else {
             return true;
         }
-    }
-
-    /**
-     * Listar autores
-     *
-     * @return array
-     */
-    public function listarAutores($dados) {
-        $usuario = new Usuario();
-
-        $campos = Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(". 
-                                                                    Usuario::COL_NOME .", ".
-                                                                    " ' - ', " .
-                                                                    Usuario::COL_EMAIL . 
-                                                                    ") as label";
-
-
-        $lista = $usuario->listar($campos, $dados, null, 10);
-
-        if (count($lista) > 0) {
-            $this->__set("lista_usuarios", $lista);
-        }
-
-        return json_encode($this->lista_usuarios);
     }
 
 

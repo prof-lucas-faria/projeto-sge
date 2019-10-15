@@ -4,9 +4,9 @@
 namespace core\controller;
 
 use core\sistema\Util;
-use core\model\Usuario;
+use core\model\Permissao;
 
-class Usuarios {
+class Permissoes {
     /**
      * Limite da listagem de usuario
      */
@@ -29,7 +29,7 @@ class Usuarios {
     private $cep = null;
     private $nacionalidade = null;
     private $ocupacao = null;
-    private $admin = null;
+    private $adm = null;
     private $lista_usuarios = [];
 
     public function __set($atributo, $valor) {
@@ -135,7 +135,7 @@ class Usuarios {
 
 
     /**
-     * Altera as permissões dos usuários cadastrados entre admin ou não
+     * Altera as permissões dos usuários cadastrados
      *
      * @param $dados
      * @return bool

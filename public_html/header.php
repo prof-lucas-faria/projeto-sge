@@ -22,6 +22,7 @@ use core\controller\Eventos;
     <!-- CSS Autoral -->
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/trabalhos.css">
+    <link rel="stylesheet" href="assets/css/chosen.css">
 
     <!-- Biblioteca de ícones do Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -72,7 +73,7 @@ use core\controller\Eventos;
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item <?= $d_inicio ?>" href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>" >Editar</a>
-                                <a class="dropdown-item <?= $d_inicio ?>" href="excluir">Excluir</a>
+                                <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir" data-toggle="modal" data-target="#confirmModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
                             </div>
@@ -136,6 +137,26 @@ use core\controller\Eventos;
                 <?php
                 }
                 ?> 
+            </div>
+
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> esse evento?
+                        </div>
+                        <div class="modal-footer p-2">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
+                            <a id="botao_excluir" href="" class="btn btn-outline-danger" data-evento_id="<?= $evento->evento_id ?>">Sim</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- <div class="dropdown dropleft">
