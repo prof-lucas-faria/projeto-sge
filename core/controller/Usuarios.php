@@ -3,13 +3,11 @@
 
 namespace core\controller;
 
+use core\model\UsuarioPermissao;
 use core\sistema\Util;
 use core\model\Usuario;
 
 class Usuarios {
-    /**
-     * Limite da listagem de usuario
-     */
     /**
      * Limite da listagem de usuario
      */
@@ -46,6 +44,7 @@ class Usuarios {
      * la
      * @param $dados
      * @return bool
+     * @throws \Exception
      */
     public function cadastrar($dados) {
         $usuario = new Usuario();
@@ -91,6 +90,7 @@ class Usuarios {
     /**
      * Listar usuário id
      *
+     * @param $usuario_id
      * @return array
      */
 
@@ -104,6 +104,11 @@ class Usuarios {
         return $dados;
     }
 
+    /**
+     * @param $dados
+     * @return Usuario
+     * @throws \Exception
+     */
     public function atualizarDados($dados) {
 
         $usuario = new Usuario();
@@ -122,7 +127,11 @@ class Usuarios {
     public function listarUsuarios() {
         $usuario = new Usuario();
 
-        $campos = Usuario::COL_USUARIO_ID . ", " . Usuario::COL_NOME . ", " . Usuario::COL_EMAIL . ", " . Usuario::COL_ADMIN;
+        $campos = "u." . Usuario::COL_USUARIO_ID . ", " .
+            "u." . Usuario::COL_NOME . ", " .
+            "u.". Usuario::COL_EMAIL . ", " .
+            "u." . Usuario::COL_ADMIN . ", " .
+            "p." . UsuarioPermissao::COL_PERMISSAO;
 
         $lista = $usuario->listar($campos, null, null, 100);
 
@@ -132,7 +141,6 @@ class Usuarios {
 
         return $this->lista_usuarios;
     }
-
 
     /**
      * Altera as permissões dos usuários cadastrados

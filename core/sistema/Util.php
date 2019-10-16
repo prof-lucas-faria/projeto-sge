@@ -13,7 +13,7 @@ class Util {
         return $nova_data->format('d/m/Y');
     }
 
-    public function codigoAlfanumerico() {
+    public static function codigoAlfanumerico() {
         $maiuscula = implode('', range('A', 'Z')); // ABCDEFGHIJKLMNOPQRSTUVWXYZ
         $minuscula = implode('', range('a', 'z')); // abcdefghijklmnopqrstuvwxyzy
         $numeros = implode('', range(0, 9)); // 0123456789

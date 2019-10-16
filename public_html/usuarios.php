@@ -24,7 +24,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
                     <th scope="col" width="10%">ID</th>
                     <th scope="col" width="40%">Nome</th>
                     <th scope="col" width="35%">E-mail</th>
-                    <th scope="col" width="15%">Administrador</th>
+                    <th scope="col" width="15%">Organizador</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,8 +35,9 @@ $lista_usuarios = $usuarios->listarUsuarios();
                         <td><?= $usuario->usuario_id ?></td>
                         <td><?= $usuario->nome ?></td>
                         <td><?= $usuario->email ?></td>
-                        <td class="check_admin">
-                            <input type="checkbox" id="<?= $usuario->usuario_id ?>" value="<?= $usuario->admin ?>" <?= $usuario->admin == 1 ? 'checked' : '' ?>>
+                        <td class="check_permissao">
+                            <input type="checkbox" id="<?= $usuario->usuario_id ?>" value="<?= $usuario->permissao ?>"
+                                <?= $usuario->permissao == 1 ? 'checked' : '' ?>>
                         </td>
                     </tr>
 

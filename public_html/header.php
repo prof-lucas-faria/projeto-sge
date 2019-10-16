@@ -40,6 +40,7 @@ use core\sistema\Autenticacao;
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="index.php">Página Inicial</a>
                     <div class="dropdown-divider"></div>
+
                     <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
                         <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
                     <?php }
@@ -47,10 +48,15 @@ use core\sistema\Autenticacao;
                     if (Autenticacao::verificarLogin()) { ?>
                         <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
                         <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
-                        <?php if (Autenticacao::usuarioAdministrador()) { ?>
+
+                        <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
                             <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Evento</a>
+                        <?php }
+
+                        if (Autenticacao::usuarioAdministrador()) { ?>
                             <a class="dropdown-item" href="usuarios.php">Usuários</a>
                         <?php } ?>
+
                         <div class="dropdown-divider"></div>
                         <a id="logout" class="dropdown-item" href="#">Sair</a>
                     <?php } else { ?>
