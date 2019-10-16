@@ -81,12 +81,17 @@ class Usuario extends CRUD {
      */
     public function listar($campos = null, $busca = [], $ordem = null, $limite = null) {
 
-        $campos = $campos != null ? $campos : "*";
+        $tabela = self::TABELA . " u " .
+            "LEFT JOIN " . UsuarioPermissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . UsuarioPermissao::COL_USUARIO_ID;
+
+        $campos = $campos != null
+            ? $campos
+            : "u.*, p." . UsuarioPermissao::COL_PERMISSAO;
         $ordem = $ordem != null ? $ordem : self::COL_NOME . " ASC";
         $limite = $limite != null ? $limite : 10;
 
-        $where_condicao = "1 = 1";
-        $where_valor = [];
+        $where_condicao = self::COL_ADMIN . " = ?";
+        $where_valor = [0];
 
         if (count((array)$busca) > 0) {
 
@@ -106,7 +111,7 @@ class Usuario extends CRUD {
 
         try {
 
-            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
+            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
 
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
@@ -121,14 +126,19 @@ class Usuario extends CRUD {
      */
     public function selecionarUsuario($usuario_id) {
 
-        $where_condicao = self::COL_USUARIO_ID . " = ?";
+        $tabela = self::TABELA . " u " .
+            "LEFT JOIN " . UsuarioPermissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . UsuarioPermissao::COL_USUARIO_ID;
+
+        $campos = "u.*, p." . UsuarioPermissao::COL_PERMISSAO;
+
+        $where_condicao = "u." . self::COL_USUARIO_ID . " = ?";
         $where_valor[] = $usuario_id;
 
         $retorno = [];
 
         try {
 
-            $retorno = $this->read(self::TABELA, "*", $where_condicao, $where_valor, null, null, 1);
+            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, null, 1);
 
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();

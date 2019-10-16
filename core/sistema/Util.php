@@ -18,8 +18,8 @@ class Util {
         date_default_timezone_set('America/Sao_Paulo');
         return strftime('%d de %B de %Y', strtotime($data));
     }
-    
-    public function codigoAlfanumerico() {
+
+    public static function codigoAlfanumerico() {
         $maiuscula = implode('', range('A', 'Z')); // ABCDEFGHIJKLMNOPQRSTUVWXYZ
         $minuscula = implode('', range('a', 'z')); // abcdefghijklmnopqrstuvwxyzy
         $numeros = implode('', range(0, 9)); // 0123456789

@@ -3,6 +3,7 @@
 require_once 'header.php';
 
 use core\controller\Eventos;
+use core\controller\UsuariosPermissoes;
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
@@ -27,6 +28,12 @@ if (isset($_GET['me']) && $_GET['me'] == 1) {
     $me = "1";
 } else {
     $me = "";
+}
+
+// Filtra os eventos que o Organizador tem permissão de acesso
+if (Autenticacao::usuarioOrganizador()) {
+    $user_permissao = new UsuariosPermissoes();
+    $dados_eventos['busca']['eventos_organizador'] = $user_permissao->listarPermissaoEventos(Autenticacao::getCookieUsuario());
 }
 
 $dados = $eventos->listarEventos($dados_eventos); //todos os eventos

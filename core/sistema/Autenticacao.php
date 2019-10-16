@@ -10,6 +10,9 @@ class Autenticacao {
 
     const COOKIE_USUARIO = "usuario";
     const COOKIE_ACESSO = "acesso";
+    const ORGANIZADOR = 1;
+    const ASSISTENTE = 2;
+    const AVALIADOR = 3;
 
     /**
      * Retorna o valor do cookie do usuario logado
@@ -45,6 +48,11 @@ class Autenticacao {
         }
     }
 
+    /**
+     * Verifica se o usuário é Administrador
+     *
+     * @return bool
+     */
     public static function usuarioAdministrador() {
         if (isset($_COOKIE[self::COOKIE_USUARIO]) && isset($_COOKIE[self::COOKIE_ACESSO])) {
             $user = new Usuario();
@@ -52,6 +60,24 @@ class Autenticacao {
             $usuario = $user->selecionarUsuario($_COOKIE[self::COOKIE_USUARIO])[0];
 
             if (count((array)$usuario) > 0 && $usuario->admin == 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            self::logout();
+            return false;
+        }
+    }
+
+    public static function usuarioOrganizador() {
+        if (isset($_COOKIE[self::COOKIE_USUARIO])) {
+            $user = new Usuario();
+
+            $usuario = $user->selecionarUsuario($_COOKIE[self::COOKIE_USUARIO])[0];
+
+            if (count((array)$usuario) > 0 && $usuario->permissao == 1) {
                 return true;
             } else {
                 return false;
