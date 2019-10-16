@@ -82,11 +82,11 @@ class Usuario extends CRUD {
     public function listar($campos = null, $busca = [], $ordem = null, $limite = null) {
 
         $tabela = self::TABELA . " u " .
-            "LEFT JOIN " . UsuarioPermissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . UsuarioPermissao::COL_USUARIO_ID;
+            "LEFT JOIN " . Permissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . Permissao::COL_USUARIO_ID;
 
         $campos = $campos != null
             ? $campos
-            : "u.*, p." . UsuarioPermissao::COL_PERMISSAO;
+            : "u.*, p." . Permissao::COL_PERMISSAO;
         $ordem = $ordem != null ? $ordem : self::COL_NOME . " ASC";
         $limite = $limite != null ? $limite : 10;
 
@@ -127,9 +127,9 @@ class Usuario extends CRUD {
     public function selecionarUsuario($usuario_id) {
 
         $tabela = self::TABELA . " u " .
-            "LEFT JOIN " . UsuarioPermissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . UsuarioPermissao::COL_USUARIO_ID;
+            "LEFT JOIN " . Permissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . Permissao::COL_USUARIO_ID;
 
-        $campos = "u.*, p." . UsuarioPermissao::COL_PERMISSAO;
+        $campos = "u.*, p." . Permissao::COL_PERMISSAO;
 
         $where_condicao = "u." . self::COL_USUARIO_ID . " = ?";
         $where_valor[] = $usuario_id;

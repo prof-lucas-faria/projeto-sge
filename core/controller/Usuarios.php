@@ -3,7 +3,7 @@
 
 namespace core\controller;
 
-use core\model\UsuarioPermissao;
+use core\model\Permissao;
 use core\sistema\Util;
 use core\model\Usuario;
 
@@ -131,7 +131,7 @@ class Usuarios {
             "u." . Usuario::COL_NOME . ", " .
             "u.". Usuario::COL_EMAIL . ", " .
             "u." . Usuario::COL_ADMIN . ", " .
-            "p." . UsuarioPermissao::COL_PERMISSAO;
+            "p." . Permissao::COL_PERMISSAO;
 
         $lista = $usuario->listar($campos, null, null, 100);
 
@@ -175,10 +175,10 @@ class Usuarios {
     public function listarAutores($dados) {
         $usuario = new Usuario();
 
-        $campos = Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(". 
+        $campos = Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(".
                                                                     Usuario::COL_NOME .", ".
                                                                     " ' - ', " .
-                                                                    Usuario::COL_EMAIL . 
+                                                                    Usuario::COL_EMAIL .
                                                                     ") as label";
 
 
