@@ -3,6 +3,7 @@
 namespace core\controller;
 
 use core\model\Tematica;
+use core\model\Evento_Tematica;
 
 class Tematicas {
     /**
@@ -61,5 +62,18 @@ class Tematicas {
         }
 
         return $this->lista_tematica;
+    }
+    
+    public function listar($evento_id){
+        $tematica = new Evento_Tematica();
+
+        $lista = $tematica->listar($evento_id);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_tematica", $lista);
+        }
+
+        return $this->lista_tematica;
+           
     }
 }

@@ -3,7 +3,7 @@
 require_once 'header.php';
 
 use core\controller\Usuarios;
-use core\model\Evento_Tematica;
+use core\controller\Tematicas;
 use core\sistema\Footer;
 use core\sistema\Autenticacao;
 
@@ -17,7 +17,7 @@ if (!isset($_GET['evento_id'])) {
 
 $evento_id = $_GET['evento_id'];
 
-$tematicas = new Evento_Tematica();    
+$tematicas = new Tematicas();    
 $usuarios = new Usuarios();
 
 $lista_tematicas = $tematicas->listar($evento_id);
