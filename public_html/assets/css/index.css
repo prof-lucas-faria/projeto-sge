@@ -125,4 +125,12 @@ footer .container div p a:hover {
     text-decoration: none;
 }
 
+.hidden {
+    visibility: hidden;
+    display: none;
+}
 /* Footer*/
+
+.chosen-container {
+    width: 100% !important;
+}
