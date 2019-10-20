@@ -5,18 +5,24 @@ require_once 'header.php';
 use core\controller\Eventos;
 use core\sistema\Footer;
 use core\controller\Tematicas;
+use core\controller\Tipos;
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 
 $eventos = new Eventos();
 $tematicas = new Tematicas();
+$tipos = new Tipos();
 
 $dados_eventos = "";
 $evento = "";
 
 $evento = $eventos->listarEvento($evento_id);
 $lista_tematicas = $tematicas->listarTematicas();
+$lista_tipos = $tipos->listarTipos();
 
+echo "<pre>";
+// print_r($lista_tipos);
+echo "</pre>";
 ?>
 
 <main role="main">
@@ -52,18 +58,82 @@ $lista_tematicas = $tematicas->listarTematicas();
                         <label for="descricao">Descrição:</label>
                         <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
                     </div>
-                    <div class="form-group mb-4">
-                            <label>Área Temáticas:</label> <br>
-                            <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
-                                <option value=""></option> 
+                    <div class="form-group">
+                        <label>Área Temáticas:</label> <br>
+                        <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
+                            <option value=""></option>
+                            <?php
+                            foreach ($lista_tematicas as $key => $tematica) { ?>
+                                <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox mw-100">
+                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                            <label class="custom-control-label" for="customControlAutosizing">Haverá a submissão de trabalhos científicos</label>
+                        </div>
+                    </div>
+                    <!-- Submissões -->
+                    <div id="tipo_trabalho " class="">
+                        <h1 class="h4 mb-3 font-weight-normal">Submissões:</h1>
+                        <div class="form-group">
+                            <label>Tipos de Trabalhos:</label>
+
+                            <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple id="tipos">
+                                <option value=""></option>
                                 <?php
-                                foreach ($lista_tematicas as $key => $tematica) { ?>
-                                    <option value="<?= $tematica->tematica_id?>" > <?= $tematica->descricao ?> </option>
-                                    <?php
+                                foreach ($lista_tipos as $key => $tipo) { ?>
+                                    <option value="<?= $tipo->tipo_id ?>"> <?= $tipo->descricao ?> </option>
+                                <?php
                                 }
                                 ?>
                             </select>
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="evento_inicio">Data de Início:</label>
+                                <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="evento_termino">Data de Término:</label>
+                                <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-row align-self-center">
+                            <div class="form-group col-md-4">
+                                <label for="arquivo_sem_id">Modelo Escrita:</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
+                                    <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
+                                    <label class="custom-file-label" for="arquivo_sem_id">Selecione o arquivo</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="arquivo_com_id">Modelo Banner:</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
+                                    <label class="custom-file-label" for="arquivo_com_id">Selecione o arquivo</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="arquivo_com_id">Limite de Autores:</label>
+                                <input type="text" class="form-control" id="qtd_max_autor" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="2">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
                     <hr class="mb-3">
 
                     <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
@@ -82,10 +152,11 @@ $lista_tematicas = $tematicas->listarTematicas();
                             <input type="date" class="form-control" id="data_prorrogacao" required value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="col-md-7"></div>
                         <div class="col-md-1" id="btn_atividade">
-                        <?= (isset($evento->evento_id)) ? '<a href="./cadastro_atividade.php?evento_id='. $evento->evento_id .'"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>': "" ?>
+                            <?= (isset($evento->evento_id)) ? '<a href="./cadastro_atividade.php?evento_id=' . $evento->evento_id . '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>' : "" ?>
                         </div>
                         <div class="col-md-2">
                             <button type="reset" class="btn btn-block btn-outline-info">Limpar</button>
@@ -94,6 +165,8 @@ $lista_tematicas = $tematicas->listarTematicas();
                             <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">Cadastrar</button>
                         </div>
                     </div>
+
+
                 </form>
             </div>
         </div>

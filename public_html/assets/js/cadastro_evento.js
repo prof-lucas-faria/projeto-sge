@@ -1,9 +1,11 @@
 let construct = () => {
     eventos();
+    validarFile();
+    teste();
 };
 
 const eventos = () => {
-    $(".custom-select").chosen();
+    $(".custom-select").chosen({ width: '100%' });
 
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
@@ -101,4 +103,28 @@ const eventos = () => {
     });
 };
 
+const validarFile = () => {
+    $('input[type=file]').on('change', function(){
+        let nome_arquivo = $(this).val().split("\\").pop();
+        let id = $(this).attr("id");
+        console.log(id);
+        let id_pesquisa = 'div.custom-file > label[for=' + id + ']'; 
+        let label = $(id_pesquisa);
+        label.html(nome_arquivo); 
+        console.log(label);
+        
+        label.removeClass("custom-file-label");
+        label.addClass("custom-file-label-success");
+     });
+};
+
+const teste = () => {
+    $('#tipos').on('change', function () {
+        // console.log($(this).val().pop());
+        let id = $(this).val().pop();
+        let pesquisa = "select[id=tipos]>option[value=" + id + "]";
+        console.log($(pesquisa).text());
+        
+    })
+};
 construct();
