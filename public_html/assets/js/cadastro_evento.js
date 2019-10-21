@@ -5,7 +5,7 @@ let construct = () => {
 };
 
 const eventos = () => {
-    $(".custom-select").chosen({ width: '100%' });
+    $(".custom-select").chosen({no_results_text: "Oops, nada foi encontrado!"});
 
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
@@ -124,7 +124,7 @@ const teste = () => {
         let id = $(this).val().pop();
         let pesquisa = "select[id=tipos]>option[value=" + id + "]";
         console.log($(pesquisa).text());
-        
+        console.log($(pesquisa).val());        
     })
 };
 construct();
