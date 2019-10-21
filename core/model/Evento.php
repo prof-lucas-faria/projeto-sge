@@ -74,17 +74,34 @@ class Evento extends CRUD {
     public function listar($campos = null, $busca = [], $ordem = null, $limite = null) {
 
         $campos = $campos != null ? $campos : "*";
-        $ordem = $ordem != null ? $ordem : self::COL_NOME . " ASC";
+        $ordem = $ordem != null ? $ordem : "e." . self::COL_NOME . " ASC";
 
-        $where_condicao = "e." . self::COL_EVENTO_INATIVO . " = 0"; // Se o campo for igual a 0, o evento está ativo, se for igual a 1 o evento está inativo
-        $where_valor = [];
+        $where_condicao = "e." . self::COL_EVENTO_INATIVO . " = ?"; // Se o campo for igual a 0, o evento está ativo, se for igual a 1 o evento está inativo
+        $where_valor = [0];
 
         if (count($busca) > 0) {
 
             if (isset($busca['texto']) && !empty($busca['texto'])) {
-                $where_condicao .= " AND (" . self::COL_NOME . " LIKE ? OR " . self::COL_DESCRICAO . " LIKE ?)";
+                $where_condicao .= " AND (e." . self::COL_NOME . " LIKE ? OR e." . self::COL_DESCRICAO . " LIKE ?)";
                 $where_valor[] = "%{$busca['texto']}%";
                 $where_valor[] = "%{$busca['texto']}%";
+            }
+
+            if (isset($busca['eventos_organizador'])) {
+                if (count($busca['eventos_organizador']) > 0) {
+                    $where_condicao .= " AND (e." . self::COL_EVENTO_ID . " IN (";
+
+                    $array_con = array_fill(0, count($busca['eventos_organizador']), '?');
+
+                    $where_condicao .= implode(', ', $array_con);
+                    $where_condicao .= "))";
+
+                    foreach ($busca['eventos_organizador'] as $evento) {
+                        $where_valor[] = $evento;
+                    }
+                } else {
+                    return [];
+                }
             }
 
             if (

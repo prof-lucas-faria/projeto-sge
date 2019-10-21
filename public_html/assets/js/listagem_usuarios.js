@@ -12,15 +12,19 @@ const eventos = () => {
         const dados = {usuarios: []};
 
         $.each(tabela, (i, v) => {
+            let check = $(v).find('.check_permissao input[type=checkbox]');
+            let check_permissao = check.is(':checked') ? 1 : 0;
+
             dados.usuarios.push({
-                usuario_id: $(v).find('.check_admin input[type=checkbox]').attr('id'),
-                admin: $(v).find('.check_admin input[type=checkbox]').is(':checked') ? 1 : 0
+                usuario_id: check.attr('id'),
+                permissao: check_permissao,
+                eventos: null,
             });
         });
 
         if (dados.usuarios.length > 0) {
 
-            dados.acao = "Usuarios/atualizarPermissoes";
+            dados.acao = "UsuariosPermissoes/atualizarPermissoes";
 
             $.ajax({
                 url: baseUrl,

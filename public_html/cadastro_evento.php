@@ -26,148 +26,156 @@ echo "</pre>";
 ?>
 
 <main role="main">
-    <div class="container center-block mb-4">
-        <div class="row">
-            <div class="col">
-                <h1 class="display-4 text-center">SGE</h1>
-                <h1 class="h3 mb-3 font-weight-normal text-center">Cadastro Evento</h1>
+    <div class="container center-block mt-5 mb-5">
+        <div class="card shadow-sm mb-4 p-4">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-5 mb-3 font-weight-bold text-center">Cadastro Evento</h1>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="col-md-9">
-                <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
-                    <div class="form-group">
-                        <label for="nome">Nome:</label>
-                        <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" required autofocus>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="evento_inicio">Data de Início:</label>
-                            <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="evento_termino">Data de Término:</label>
-                            <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="local">Local:</label>
-                            <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="descricao">Descrição:</label>
-                        <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Área Temáticas:</label> <br>
-                        <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
-                            <option value=""></option>
-                            <?php
-                            foreach ($lista_tematicas as $key => $tematica) { ?>
-                                <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox mw-100">
-                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                            <label class="custom-control-label" for="customControlAutosizing">Haverá a submissão de trabalhos científicos</label>
-                        </div>
-                    </div>
-                    <!-- Submissões -->
-                    <div id="tipo_trabalho " class="">
-                        <h1 class="h4 mb-3 font-weight-normal">Submissões:</h1>
+            <div class="row justify-content-md-center">
+                <div class="col-md-9">
+                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
                         <div class="form-group">
-                            <label>Tipos de Trabalhos:</label>
+                            <label for="nome">Nome:</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" required autofocus>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="evento_inicio">Data de Início:</label>
+                                <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="evento_termino">Data de Término:</label>
+                                <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="local">Local:</label>
+                                <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label>
+                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
+                        </div>
 
-                            <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple id="tipos">
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label>
+                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Área Temáticas:</label> <br>
+                            <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
                                 <option value=""></option>
                                 <?php
-                                foreach ($lista_tipos as $key => $tipo) { ?>
-                                    <option value="<?= $tipo->tipo_id ?>"> <?= $tipo->descricao ?> </option>
+                                foreach ($lista_tematicas as $key => $tematica) { ?>
+                                    <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
                                 <?php
                                 }
                                 ?>
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox mw-100">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                <label class="custom-control-label" for="customControlAutosizing">Haverá a submissão de trabalhos científicos</label>
+                            </div>
+                        </div>
+                        <!-- Submissões -->
+                        <div id="tipo_trabalho " class="">
+                            <h1 class="h4 mb-3 font-weight-normal">Submissões:</h1>
+                            <div class="form-group">
+                                <label>Tipos de Trabalhos:</label>
+
+                                <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple id="tipos">
+                                    <option value=""></option>
+                                    <?php
+                                    foreach ($lista_tipos as $key => $tipo) { ?>
+                                        <option value="<?= $tipo->tipo_id ?>"> <?= $tipo->descricao ?> </option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="evento_inicio">Data de Início:</label>
+                                    <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="evento_termino">Data de Término:</label>
+                                    <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-self-center">
+                                <div class="form-group col-md-4">
+                                    <label for="arquivo_sem_id">Modelo Escrita:</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
+                                        <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
+                                        <label class="custom-file-label" for="arquivo_sem_id">Selecione o arquivo</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="arquivo_com_id">Modelo Banner:</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
+                                        <label class="custom-file-label" for="arquivo_com_id">Selecione o arquivo</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="arquivo_com_id">Limite de Autores:</label>
+                                    <input type="text" class="form-control" id="qtd_max_autor" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="2">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Submissões -->
+                       
+                        <!-- Inscrições -->
+                        <hr class="mb-3">
+                        
+                        <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="evento_inicio">Data de Início:</label>
-                                <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="evento_termino">Data de Término:</label>
-                                <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-row align-self-center">
                             <div class="form-group col-md-4">
-                                <label for="arquivo_sem_id">Modelo Escrita:</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
-                                    <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
-                                    <label class="custom-file-label" for="arquivo_sem_id">Selecione o arquivo</label>
-                                </div>
+                                <label for="data_inicio">Data de Início:</label>
+                                <input type="date" class="form-control" id="data_inicio" required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="arquivo_com_id">Modelo Banner:</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
-                                    <label class="custom-file-label" for="arquivo_com_id">Selecione o arquivo</label>
-                                </div>
+                                <label for="data_termino">Data de Término:</label>
+                                <input type="date" class="form-control" id="data_termino" required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
                             </div>
+
                             <div class="form-group col-md-4">
-                                <label for="arquivo_com_id">Limite de Autores:</label>
-                                <input type="text" class="form-control" id="qtd_max_autor" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="2">
+                                <label for="data_prorrogacao">Data de Prorrogação:</label>
+                                <input type="date" class="form-control" id="data_prorrogacao" required value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
                             </div>
                         </div>
+                        <!-- Inscrições -->
+                        
 
+                        <hr class="mb-3">
+                        
+                        <div class="form-row">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-1" id="btn_atividade">
+                                <?= (isset($evento->evento_id)) ? '<a href="./cadastro_atividade.php?evento_id=' . $evento->evento_id . '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>' : "" ?>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="reset" class="btn btn-block btn-outline-info">Limpar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
+                                    Cadastrar
+                                </button>
+                            </div>
 
-
-                    </div>
-
-
-
-
-                    <hr class="mb-3">
-
-                    <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="data_inicio">Data de Início:</label>
-                            <input type="date" class="form-control" id="data_inicio" required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="data_termino">Data de Término:</label>
-                            <input type="date" class="form-control" id="data_termino" required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
-                        </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="data_prorrogacao">Data de Prorrogação:</label>
-                            <input type="date" class="form-control" id="data_prorrogacao" required value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-1" id="btn_atividade">
-                            <?= (isset($evento->evento_id)) ? '<a href="./cadastro_atividade.php?evento_id=' . $evento->evento_id . '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>' : "" ?>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="reset" class="btn btn-block btn-outline-info">Limpar</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">Cadastrar</button>
-                        </div>
-                    </div>
-
-
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
         <!-- Toast Sucesso -->
