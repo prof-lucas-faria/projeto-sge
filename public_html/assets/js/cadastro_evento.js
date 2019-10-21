@@ -1,7 +1,7 @@
 let construct = () => {
     eventos();
     validarFile();
-    teste();
+    showSubmissao();
 };
 
 const eventos = () => {
@@ -118,13 +118,18 @@ const validarFile = () => {
      });
 };
 
-const teste = () => {
-    $('#tipos').on('change', function () {
-        // console.log($(this).val().pop());
-        let id = $(this).val().pop();
-        let pesquisa = "select[id=tipos]>option[value=" + id + "]";
-        console.log($(pesquisa).text());
-        console.log($(pesquisa).val());        
-    })
+const showSubmissao = () => {
+    $("#tipo_trabalho").children().hide(); 
+
+    $('#submissoes').on('change',function () {
+        if($(this).is(':checked')){
+            $("#tipo_trabalho").children().show(); 
+            
+        }else{
+            console.log('hide');
+            $("#tipo_trabalho").children().hide(); 
+        }
+
+    });
 };
 construct();

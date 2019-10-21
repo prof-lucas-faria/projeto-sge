@@ -78,12 +78,12 @@ echo "</pre>";
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox mw-100">
-                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                                <label class="custom-control-label" for="customControlAutosizing">Haverá a submissão de trabalhos científicos</label>
+                                <input type="checkbox" class="custom-control-input" id="submissoes">
+                                <label class="custom-control-label" for="submissoes">Haverá a submissão de trabalhos científicos</label>
                             </div>
                         </div>
                         <!-- Submissões -->
-                        <div id="tipo_trabalho " class="">
+                        <div id="tipo_trabalho" class="">
                             <h1 class="h4 mb-3 font-weight-normal">Submissões:</h1>
                             <div class="form-group">
                                 <label>Tipos de Trabalhos:</label>
@@ -157,7 +157,7 @@ echo "</pre>";
                         
 
                         <hr class="mb-3">
-                        
+
                         <div class="form-row">
                             <div class="col-md-7"></div>
                             <div class="col-md-1" id="btn_atividade">
