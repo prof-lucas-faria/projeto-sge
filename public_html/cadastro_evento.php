@@ -130,7 +130,6 @@ $lista_tematicas = $tematicas->listarTematicas();
         <!-- Toast -->
 
         <!-- Toast Alerta -->
-
         <div class="toast" id="msg_alerta" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
             <div class="toast-header">
                 <strong class="mr-auto">Houve um erro!</strong>
@@ -145,6 +144,7 @@ $lista_tematicas = $tematicas->listarTematicas();
             <div class="card-footer text-muted bg-warning p-1"></div>
         </div>
         <!-- Toast -->
+
         <!-- Toast Alterar Sucesso -->
         <div class="toast" id="msg_alterar_sucesso" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
             <div class="toast-header">
@@ -160,6 +160,7 @@ $lista_tematicas = $tematicas->listarTematicas();
             <div class="card-footer text-muted bg-success p-1"></div>
         </div>
         <!-- Toast -->
+        
         <!-- Toast Alterar Erro -->
         <div class="toast" id="msg_alterar_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
             <div class="toast-header">

@@ -22,7 +22,8 @@ $usuarios = new Usuarios();
 
 $lista_tematicas = $tematicas->listar($evento_id);
 $lista_usuarios = $usuarios->listarUsuarios();
-
+ 
+// print_r(json_encode($lista_tematicas));
 ?>
 
 <main role="main">
@@ -36,23 +37,23 @@ $lista_usuarios = $usuarios->listarUsuarios();
         </div>
         <div class="row justify-content-md-center">
             <div class="col-md-9">
-                <form class="needs-validation" id="formulario" data-evento_id="1">
+                <form class="needs-validation" id="formulario" data-evento_id="1" data-lista='<?= json_encode($lista_tematicas) ?>'>
                     
                     <div id="avaliadores">
                         <div class="form-group">
                             <label for="avaliador_id">Nome do Avaliador:</label>
-                            <input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade"
-                            data-avaliador_id="<?= (isset($avaliador->avaliador_id)) ? $avaliador->avaliador_id : "" ?>" value="<?= (isset($avaliador->nome)) ? $avaliador->nome : "" ?>" required autofocus>
+                            <input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade" required>
                         </div>
                         
                         <div class="form-group">
                             <label>Área de atuação:</label> <br>
-                            <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple>
+                            <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica"  multiple>
                                 <option value=""></option> 
                                 <?php
-                                foreach ($lista_tematicas as $key => $tematica) { ?>
+                                foreach ($lista_tematicas as $key => $tematica) { 
+                                ?>
                                     <option value="<?= $tematica->tematica_id?>"> <?= $tematica->descricao ?> </option>
-                                    <?php
+                                <?php
                                 }
                                 ?>
                             </select>
@@ -102,7 +103,23 @@ $lista_usuarios = $usuarios->listarUsuarios();
                 </button>
             </div>
             <div class="toast-body">
-                Desculpe, não conseguimos atualizar as permissões dos usuários.
+                Desculpe, não conseguimos cadastrar estes usuários como avaliadores.
+            </div>
+            <div class="card-footer text-muted bg-danger p-1"></div>
+        </div>
+        <!-- Toast -->
+
+        <!-- Toast Alerta -->
+        <div class="toast" id="msg_alerta" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
+            <div class="toast-header">
+                <strong class="mr-auto">Houve um erro!</strong>
+                <small>Agora</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Por favor, confira se todos os dados informados.
             </div>
             <div class="card-footer text-muted bg-warning p-1"></div>
         </div>

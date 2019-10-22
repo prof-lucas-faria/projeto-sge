@@ -175,7 +175,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 			</div>
 		</div>
 
-		<div class="card shadow-sm mb-3">
+		<!-- <div class="card shadow-sm mb-3">
 			<div class="row">
 				<div class="col-md-2">
 					<div class="btn-group-vertical">
@@ -214,7 +214,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							</a>
 
 						</div>
-						
+
 						<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
@@ -242,7 +242,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="card shadow-sm p-4">
 			<h2 class="text-center">Programação</h2><br>
