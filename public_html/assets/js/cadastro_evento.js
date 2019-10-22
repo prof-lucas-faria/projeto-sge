@@ -1,9 +1,11 @@
 let construct = () => {
     eventos();
+    validarFile();
+    showSubmissao();
 };
 
 const eventos = () => {
-    $(".custom-select").chosen();
+    $(".custom-select").chosen({no_results_text: "Oops, nada foi encontrado!"});
 
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
@@ -101,4 +103,33 @@ const eventos = () => {
     });
 };
 
+const validarFile = () => {
+    $('input[type=file]').on('change', function(){
+        let nome_arquivo = $(this).val().split("\\").pop();
+        let id = $(this).attr("id");
+        console.log(id);
+        let id_pesquisa = 'div.custom-file > label[for=' + id + ']'; 
+        let label = $(id_pesquisa);
+        label.html(nome_arquivo); 
+        console.log(label);
+        
+        label.removeClass("custom-file-label");
+        label.addClass("custom-file-label-success");
+     });
+};
+
+const showSubmissao = () => {
+    $("#tipo_trabalho").children().hide(); 
+
+    $('#submissoes').on('change',function () {
+        if($(this).is(':checked')){
+            $("#tipo_trabalho").children().show(); 
+            
+        }else{
+            console.log('hide');
+            $("#tipo_trabalho").children().hide(); 
+        }
+
+    });
+};
 construct();

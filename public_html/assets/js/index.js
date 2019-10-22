@@ -40,11 +40,11 @@ const confirmacao = () => {
 
 const ajustarAlturaMain = () => {
     const body = $('body');
-    const nav = $('nav');
+    const header = $('header');
     const main = $('main');
     const footer = $('footer');
 
-    const min_height = body.outerHeight() - (nav.outerHeight() + footer.outerHeight()) - 20;
+    const min_height = body.outerHeight() - (header.outerHeight() + footer.outerHeight()) - 40;
 
     $(main).css('min-height', min_height + 'px');
 
