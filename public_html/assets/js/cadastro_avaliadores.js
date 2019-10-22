@@ -8,8 +8,7 @@ const eventos = () => {
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
 
-        let form = $('form'),
-            dados = {avaliadores: []};
+        let dados = {avaliadores: []};
             evento_id = $('#formulario').attr('data-evento_id'),
             flag = false;
 

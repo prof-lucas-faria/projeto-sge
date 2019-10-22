@@ -7,14 +7,7 @@ use core\model\Avaliador;
 use core\model\Tematica_Avaliador;
 
 class Avaliadores {
-    /**
-     * Limite da listagem de usuario
-     */
-    /**
-     * Limite da listagem de usuario
-     */
-    const LIMITE = 9;
-
+    
     private $avaliador_id = null;
     private $usuario_id = null;
     private $lista_avaliadores = [];
@@ -38,41 +31,41 @@ class Avaliadores {
      */
     public function cadastrar($dados) {
         $avaliador = new Avaliador();
-        // $permissao = new Permissao();
+        $permissao = new Permissao();
 
         $dados = $dados['avaliadores'];
 
         foreach ($dados as $i => $value) {
             
-            // $dados_per = [
-            //     Permissao::COL_EVENTO_ID => $dados[$i]['evento_id'],
-            //     Permissao::COL_USUARIO_ID => $dados[$i]['usuario_id'],
-            //     Permissao::COL_PERMISSAO => 1
-            // ]; 
+            $dados_per = [
+                Permissao::COL_EVENTO_ID => $dados[$i]['evento_id'],
+                Permissao::COL_USUARIO_ID => $dados[$i]['usuario_id'],
+                Permissao::COL_PERMISSAO => 3
+            ]; 
     
-            //$resultado = $permissao->adicionar($dados_per);
+            $resultado = $permissao->adicionar($dados_per);
     
-            // if ($resultado > 0) {            
-                // $tematica['lista_tematica'] = $dados[$i]['tematica'];
+            if ($resultado > 0) {            
+                $tematica['lista_tematica'] = $dados[$i]['tematica'];
                 
-                // $resultado = $avaliador->adicionar($dados[$i]['usuario_id']);
+                $resultado = $avaliador->adicionar($dados[$i]['usuario_id']);
         
-                // if ($resultado > 0) {
-                //     $tematica['avaliador_id'] = $resultado;
-                //     // print_r($tematica);
+                if ($resultado > 0) {
+                    $tematica['avaliador_id'] = $resultado;
+                    // print_r($tematica);
             
-                //     $tematica_avaliador = new Tematica_Avaliador();
+                    $tematica_avaliador = new Tematica_Avaliador();
 
-                //     $resultado = $tematica_avaliador->adicionar($tematica);
+                    $resultado = $tematica_avaliador->adicionar($tematica);
             
-                //     if ($resultado > 0) {
-                //         return $resultado;
-                //     } else {
-                //         return false;
-                //     }
-                // }
-            // }
+                }
+            }
             
+            if ($resultado > 0) {
+                return $resultado;
+            } else {
+                return false;
+            }
         }
         
     }
