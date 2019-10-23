@@ -35,7 +35,7 @@ echo "</pre>";
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
+                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="nome">Nome:</label>
                             <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" required autofocus>
@@ -54,11 +54,6 @@ echo "</pre>";
                                 <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="descricao">Descrição:</label>
-                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
-                        </div>
-
                         <div class="form-group">
                             <label for="descricao">Descrição:</label>
                             <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
@@ -101,36 +96,36 @@ echo "</pre>";
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="evento_inicio">Data de Início:</label>
-                                    <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                    <label for="data_inicio_sub">Data de Início:</label>
+                                    <input type="date" class="form-control" id="data_inicio_sub" required value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="evento_termino">Data de Término:</label>
-                                    <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                    <label for="data_termino_sub">Data de Término:</label>
+                                    <input type="date" class="form-control" id="data_termino_sub" required value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>">
                                 </div>
                             </div>
-
-                            <div class="form-row align-self-center">
+                            
+                            <!-- <h1 class="h5 mt-2 mb-2 font-weight-normal">Submissões:</h1>
+                            <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <label for="arquivo_sem_id">Modelo Escrita:</label>
+                                    <label for="modelo_escrita">Modelo Escrita:</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
-                                        <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
-                                        <label class="custom-file-label" for="arquivo_sem_id">Selecione o arquivo</label>
+                                        <input type="file" class="custom-file-input" id="modelo_escrita" lang="pt-br">
+                                        <label class="custom-file-label" for="modelo_escrita">Selecione o arquivo</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="arquivo_com_id">Modelo Banner:</label>
+                                    <label for="modelo_banner">Modelo Banner:</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
-                                        <label class="custom-file-label" for="arquivo_com_id">Selecione o arquivo</label>
+                                        <input type="file" class="custom-file-input" id="modelo_banner" lang="pt-br">
+                                        <label class="custom-file-label" for="modelo_banner">Selecione o arquivo</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="arquivo_com_id">Limite de Autores:</label>
+                                    <label for="qtd_max_autor">Limite de Autores:</label>
                                     <input type="text" class="form-control" id="qtd_max_autor" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="2">
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Submissões -->
                        
