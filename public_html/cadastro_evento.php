@@ -20,9 +20,6 @@ $evento = $eventos->listarEvento($evento_id);
 $lista_tematicas = $tematicas->listarTematicas();
 $lista_tipos = $tipos->listarTipos();
 
-echo "<pre>";
-// print_r($lista_tipos);
-echo "</pre>";
 ?>
 
 <main role="main">
@@ -54,11 +51,6 @@ echo "</pre>";
                                 <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="descricao">Descrição:</label>
-                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
-                        </div>
-
                         <div class="form-group">
                             <label for="descricao">Descrição:</label>
                             <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
@@ -102,11 +94,11 @@ echo "</pre>";
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="evento_inicio">Data de Início:</label>
-                                    <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                    <input type="date" class="form-control" id="evento_inicio" value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="evento_termino">Data de Término:</label>
-                                    <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                    <input type="date" class="form-control" id="evento_termino" value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
                                 </div>
                             </div>
 
@@ -133,10 +125,10 @@ echo "</pre>";
                             </div>
                         </div>
                         <!-- Submissões -->
-                       
+
                         <!-- Inscrições -->
                         <hr class="mb-3">
-                        
+
                         <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
                         <div class="form-row">
                             <div class="form-group col-md-4">
@@ -154,7 +146,7 @@ echo "</pre>";
                             </div>
                         </div>
                         <!-- Inscrições -->
-                        
+
 
                         <hr class="mb-3">
 
@@ -241,7 +233,7 @@ echo "</pre>";
             <div class="card-footer text-muted bg-success p-1"></div>
         </div>
         <!-- Toast -->
-        
+
         <!-- Toast Alterar Erro -->
         <div class="toast" id="msg_alterar_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
             <div class="toast-header">

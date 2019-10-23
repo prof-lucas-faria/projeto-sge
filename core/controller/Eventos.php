@@ -42,7 +42,7 @@ class Eventos {
      * @throws \Exception
      */
     public function cadastrar($dados) {
-        
+
         $dados['nome'] = ucfirst($dados['nome']); // Deixa a primeira letra do nome do evento maiúscula
         $dados['descricao'] = ucfirst($dados['descricao']); // Deixa a primeira letra da descricao do evento maiúscula
         $dados['local'] = ucfirst($dados['local']);
@@ -51,9 +51,9 @@ class Eventos {
         $evento = new Evento();
         // Tratar o cadastro ou alteração aqui
 
-        $tematica['lista_tematica'] = $dados['tematica'];        
+        $tematica['lista_tematica'] = $dados['tematica'];
         unset($dados['tematica']);
-        
+
         if (isset($dados['evento_id'])) {
             // Se for passado o evento_id será feito o update
             $resultado = $evento->alterar($dados);
@@ -66,7 +66,7 @@ class Eventos {
         // print_r($tematica);
 
         $evento_tematica = new Evento_Tematica();
-        $resultado = $evento_tematica->adicionar($tematica);
+        $evento_tematica->adicionar($tematica);
 
         if ($resultado > 0) {
             return $resultado;

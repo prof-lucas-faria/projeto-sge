@@ -48,7 +48,7 @@ const eventos = () => {
             data_termino !== "" &&
             data_prorrogacao !== "" &&
             local !== "" &&
-            tematica != "" &&
+            tematica !== "" &&
             validaDatas()
         ) {
             let dados = {
@@ -63,12 +63,12 @@ const eventos = () => {
                 tematica: tematica
             };
 
-            if(evento_id !== ""){
+            if (evento_id !== "") {
                 dados.evento_id = evento_id;
             }
-            
+
             dados.acao = "Eventos/cadastrar";
-            
+
             $.ajax({
                 url: baseUrl,
                 type: "POST",
@@ -77,19 +77,19 @@ const eventos = () => {
                 async: true,
                 success: function (res) {
                     if (res) {
-                        if (evento_id == ""){
+                        if (evento_id == "") {
                             $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-
-                            urlAtividade =  './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
+                            window.history.pushState(null, null, window.location.href + '?evento_id=' + res);
+                            urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
-                        }else{
+                        } else {
                             $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
                         }
                     } else {
 
-                        if (evento_id == ""){
+                        if (evento_id == "") {
                             $('#msg_erro').toast('show');
-                        }else{
+                        } else {
                             $('#msg_alterar_erro').toast('show');
 
                         }
@@ -104,30 +104,30 @@ const eventos = () => {
 };
 
 const validarFile = () => {
-    $('input[type=file]').on('change', function(){
+    $('input[type=file]').on('change', function () {
         let nome_arquivo = $(this).val().split("\\").pop();
         let id = $(this).attr("id");
         console.log(id);
-        let id_pesquisa = 'div.custom-file > label[for=' + id + ']'; 
+        let id_pesquisa = 'div.custom-file > label[for=' + id + ']';
         let label = $(id_pesquisa);
-        label.html(nome_arquivo); 
+        label.html(nome_arquivo);
         console.log(label);
-        
+
         label.removeClass("custom-file-label");
         label.addClass("custom-file-label-success");
-     });
+    });
 };
 
 const showSubmissao = () => {
-    $("#tipo_trabalho").children().hide(); 
+    $("#tipo_trabalho").children().hide();
 
-    $('#submissoes').on('change',function () {
-        if($(this).is(':checked')){
-            $("#tipo_trabalho").children().show(); 
-            
-        }else{
+    $('#submissoes').on('change', function () {
+        if ($(this).is(':checked')) {
+            $("#tipo_trabalho").children().show();
+
+        } else {
             console.log('hide');
-            $("#tipo_trabalho").children().hide(); 
+            $("#tipo_trabalho").children().hide();
         }
 
     });
