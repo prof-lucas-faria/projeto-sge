@@ -21,9 +21,9 @@ class Tematica_Avaliador extends CRUD {
         try {
             for ($i = 0; $i < count((array)$dados["lista_tematica"]); $i++) {
 
-                $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados["lista_tematica"][$i]);
+                $this->deletarRelacao($dados[self::COL_AVALIADOR_ID], $dados["lista_tematica"][$i]);
 
-                $value[self::COL_EVENTO_ID] = $dados[self::COL_EVENTO_ID];
+                $value[self::COL_AVALIADOR_ID] = $dados[self::COL_AVALIADOR_ID];
                 $value['tematica_id'] = $dados["lista_tematica"][$i];
 
                 $this->create(self::TABELA, $value);

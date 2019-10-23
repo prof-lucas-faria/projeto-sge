@@ -175,7 +175,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 			</div>
 		</div>
 
-		<div class="card shadow-sm mb-4 p-4">
+		<!-- <div class="card shadow-sm mb-3">
 			<div class="row">
 				<div class="col-md-2">
 					<div class="btn-group-vertical">
@@ -242,7 +242,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="card shadow-sm p-4 mb-5">
 			<h2 class="text-center">Programação</h2><br>
