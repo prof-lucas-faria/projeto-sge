@@ -87,21 +87,22 @@ class Usuario extends CRUD {
         $campos = $campos != null
             ? $campos
             : "u.*, p." . Permissao::COL_PERMISSAO;
-        $ordem = $ordem != null ? $ordem : self::COL_NOME . " ASC";
+        $ordem = $ordem != null ? $ordem : "u." . self::COL_NOME . " ASC";
         $limite = $limite != null ? $limite : 10;
 
-        $where_condicao = self::COL_ADMIN . " = ?";
-        $where_valor = [0];
+        // $where_condicao = "u." . self::COL_ADMIN . " = ?";
+        $where_condicao =  " 1 = 1";
+        // $where_valor = [0];
 
         if (count((array)$busca) > 0) {
 
             if (isset($busca[self::COL_NOME]) && !empty($busca[self::COL_NOME])) {
-                $where_condicao .= " AND " . self::COL_NOME . " LIKE ?";
+                $where_condicao .= " AND u." . self::COL_NOME . " LIKE ?";
                 $where_valor[] = "%{$busca[self::COL_NOME]}%";
             }
 
             if (isset($busca[self::COL_CPF]) && !empty($busca[self::COL_CPF])) {
-                $where_condicao .= " AND " . self::COL_CPF . " = ?";
+                $where_condicao .= " AND u." . self::COL_CPF . " = ?";
                 $where_valor[] = $busca[self::COL_CPF];
             }
 
@@ -112,7 +113,7 @@ class Usuario extends CRUD {
         try {
 
             $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
-
+            // print_r($this->pegarUltimoSQL());
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }
