@@ -43,6 +43,9 @@ class Eventos {
      */
     public function cadastrar($dados) {
         
+        echo '<pre>';
+        print_r($dados);
+        echo '</pre>';
         $dados['nome'] = ucfirst($dados['nome']); // Deixa a primeira letra do nome do evento maiúscula
         $dados['descricao'] = ucfirst($dados['descricao']); // Deixa a primeira letra da descricao do evento maiúscula
         $dados['local'] = ucfirst($dados['local']);

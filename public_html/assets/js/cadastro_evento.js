@@ -29,9 +29,12 @@ const eventos = () => {
             tipos = $('#tipos').val(),
                 data_inicio_sub = $('#data_inicio_sub').val(),
                 data_termino_sub = $('#data_termino_sub').val(),
-                modelo_escrita = $('#modelo_escrita')[0].files[0],
-                modelo_banner = $('#modelo_banner')[0].files[0],
+                modelo_escrita = $('#modelo_escrita2')[0].files,
+                modelo_banner = $('#modelo_banner2')[0].files,
                 qtd_max_autor = $('#qtd_max_autor').val();
+                console.log(modelo_escrita);
+                console.log(modelo_banner);
+                
         } else {
             tipos = "",
                 data_inicio_sub = "",

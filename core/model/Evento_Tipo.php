@@ -18,18 +18,10 @@ class Evento_Tipo extends CRUD {
     public function adicionar($dados){
 
         try {
-            $retorno = 0;
 
-            for ($i = 0; $i < count((array)$dados["lista_tipos"]); $i++) {
+            $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados['tipo_id']);
 
-                $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados["lista_tipos"][$i]);
-
-                $value[self::COL_EVENTO_ID] = $dados[self::COL_EVENTO_ID];
-                $value['tipo_id'] = $dados["lista_tipos"][$i];
-
-                $this->create(self::TABELA, $value);
-                $retorno++;
-            }
+            $this->create(self::TABELA, $dados);
 
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
@@ -68,7 +60,7 @@ class Evento_Tipo extends CRUD {
         $retorno = [];
 
         try {
-            $retorno = $this->read(self::TABELA . "e inner join tipo t on e.tipo_id = t.tipo_id",
+            $retorno = $this->read(self::TABELA . " e inner join tipo t on e.tipo_id = t.tipo_id",
                                     "*", $where_condicao,$where_valor, null, null, null
                                 );
             
@@ -77,6 +69,7 @@ class Evento_Tipo extends CRUD {
             return false;
 
         }
+        return $retorno;
     }
 
 

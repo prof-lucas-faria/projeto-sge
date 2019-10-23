@@ -35,6 +35,10 @@ class Requisicao {
             }
         }
 
+        foreach ($_FILES as $index => $valor) {
+            $request["dados"][$index] = $valor;
+        }
+
         // Passa o index dados para o array principal
         if (!$acao) {
             $request = $request["dados"];
