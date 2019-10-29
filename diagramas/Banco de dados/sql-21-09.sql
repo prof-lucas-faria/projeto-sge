@@ -122,7 +122,7 @@ ENGINE = InnoDB;
 -- Table `sge`.`tipo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`tipo` (
-  `tipo_id` INT NOT NULL,
+  `tipo_id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`tipo_id`))
 ENGINE = InnoDB;
@@ -132,7 +132,7 @@ ENGINE = InnoDB;
 -- Table `sge`.`trabalho`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`trabalho` (
-  `trabalho_id` INT NOT NULL,
+  `trabalho_id` INT NOT NULL AUTO_INCREMENT,
   `evento_id` INT NOT NULL,
   `titulo` VARCHAR(200) NOT NULL,
   `arquivo_nao_identificado` VARCHAR(100) NOT NULL,
@@ -238,7 +238,7 @@ ENGINE = InnoDB;
 -- Table `sge`.`avaliador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`avaliador` (
-  `avaliador_id` INT NOT NULL,
+  `avaliador_id` INT NOT NULL AUTO_INCREMENT,
   `usuario_id` INT NOT NULL,
   PRIMARY KEY (`avaliador_id`),
   INDEX `fk_avaliador_usuario1_idx` (`usuario_id` ASC),

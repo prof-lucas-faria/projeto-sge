@@ -146,13 +146,22 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                         class="text-muted"><?= Util::formataDataBR($evento->evento_inicio) ?></small>
                                 </div>
                             </div>
-                            <?php if (strtotime(date('Y/m/d')) < strtotime($evento->evento_inicio)) { ?>
+                            <?php 
+                            if (strtotime(date('Y/m/d')) < strtotime($evento->evento_inicio)) { 
+                            ?>
                                 <div class="card-footer text-muted bg-success p-1"></div>
-                            <?php } else if (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio) && strtotime(date('Y/m/d')) < strtotime($evento->evento_termino)) { ?>
+                            <?php 
+                            } else if (strtotime(date('Y/m/d')) >= strtotime($evento->evento_inicio) && 
+                                        strtotime(date('Y/m/d')) <= strtotime($evento->evento_termino)) { 
+                            ?>
                                 <div class="card-footer text-muted bg-warning p-1"></div>
-                            <?php } else { ?>
+                            <?php 
+                            } else { 
+                            ?>
                                 <div class="card-footer text-muted bg-danger p-1"></div>
-                            <?php } ?>
+                            <?php 
+                            } 
+                            ?>
                         </div>
                     </div>
 

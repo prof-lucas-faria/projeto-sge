@@ -92,7 +92,7 @@ class Usuario extends CRUD {
 
         // $where_condicao = "u." . self::COL_ADMIN . " = ?";
         $where_condicao =  " 1 = 1";
-        // $where_valor = [0];
+        $where_valor = [];
 
         if (count((array)$busca) > 0) {
 
