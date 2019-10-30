@@ -91,7 +91,7 @@ class Usuario extends CRUD {
         $limite = $limite != null ? $limite : 10;
 
         // $where_condicao = "u." . self::COL_ADMIN . " = ?";
-        $where_condicao =  " 1 = 1";
+        $where_condicao = " 1 = 1";
         $where_valor = [];
 
         if (count((array)$busca) > 0) {
@@ -113,7 +113,6 @@ class Usuario extends CRUD {
         try {
 
             $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
-            // print_r($this->pegarUltimoSQL());
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }
