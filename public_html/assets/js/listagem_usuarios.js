@@ -18,13 +18,13 @@ const eventos = () => {
             dados.usuarios.push({
                 usuario_id: check.attr('id'),
                 permissao: check_permissao,
-                eventos: null,
+                evento_id: null,
             });
         });
 
         if (dados.usuarios.length > 0) {
 
-            dados.acao = "UsuariosPermissoes/atualizarPermissoes";
+            dados.acao = "Permissoes/atualizarPermissoes";
 
             $.ajax({
                 url: baseUrl,

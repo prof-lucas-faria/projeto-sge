@@ -5,6 +5,8 @@ namespace core\controller;
 
 use core\model\Evento;
 use core\model\Evento_Tematica;
+use core\model\Permissao;
+use core\sistema\Autenticacao;
 
 class Eventos {
 
@@ -53,7 +55,7 @@ class Eventos {
         $tematica['lista_tematica'] = $dados['tematica'];
         unset($dados['tematica']);
 
-        if (isset($dados['evento_id'])) {
+        if (isset($dados['evento_id']) && !empty($dados['evento_id'])) {
             // Se for passado o evento_id será feito o update
             $resultado = $evento->alterar($dados);
         } else {
@@ -62,10 +64,21 @@ class Eventos {
         }
 
         $tematica['evento_id'] = $resultado;
-        // print_r($tematica);
 
         $evento_tematica = new Evento_Tematica();
         $evento_tematica->adicionar($tematica);
+
+        if (Autenticacao::usuarioOrganizador()) {
+            $permissao = new Permissao();
+
+            $params = [
+                Permissao::COL_USUARIO_ID => Autenticacao::getCookieUsuario(),
+                Permissao::COL_PERMISSAO => Autenticacao::ORGANIZADOR,
+                Permissao::COL_EVENTO_ID => $resultado
+            ];
+
+            $permissao->salvar($params);
+        }
 
         if ($resultado > 0) {
             return $resultado;
