@@ -3,7 +3,7 @@ let construct = () => {
     validarFile();
     showSubmissao();
     addTipos();
-    teste();
+    // teste();
 };
 
 const eventos = () => {
@@ -22,51 +22,22 @@ const eventos = () => {
             local = $('#local').val(),
             tematica = $('#tematica').val(),
             evento_id = $('#formulario').attr('data-evento_id'),
-            submissoes = $('#submissoes').is(':checked');
+            submissoes = $('#submissoes').is(':checked'),
+            data_inicio_sub = $('#data_inicio_sub').val(),
+            data_termino_sub = $('#data_termino_sub').val(),
+            tipos = [];
 
 
         if (submissoes) {
-            tipos = $('#tipos').val(),
-                data_inicio_sub = $('#data_inicio_sub').val(),
-                data_termino_sub = $('#data_termino_sub').val(),
-                modelo_escrita = $('#modelo_escrita2')[0].files,
-                modelo_banner = $('#modelo_banner2')[0].files,
-                qtd_max_autor = $('#qtd_max_autor').val();
-                console.log(modelo_escrita);
-                console.log(modelo_banner);
-                
-        } else {
-            tipos = "",
-                data_inicio_sub = "",
-                data_termino_sub = "",
-                modelo_escrita = "",
-                modelo_banner = "",
-                qtd_max_autor = "";
+            // tipos = JSON.stringify(getTipos());
+            // console.log(tipos);
 
         }
-
-        // console.log(modelo_banner);
-        // console.log(modelo_escrita);
-
-        const validaDatas = () => {
-
-            let date_evento_inicio = new Date(evento_inicio),
-                date_evento_termino = new Date(evento_termino),
-                date_data_inicio = new Date(data_inicio),
-                date_data_termino = new Date(data_termino),
-                date_data_prorrogacao = new Date(data_prorrogacao);
-
-            if (date_evento_inicio <= date_evento_termino &&
-                date_data_inicio < date_data_termino &&
-                date_data_termino <= date_data_prorrogacao) {
-
-                return true;
-            } else {
-                $('#msg_alerta').toast('show');
-                return false;
-            }
-        };
-
+        [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao] = getTipos();
+        // console.log(a,b,c);
+        tipos = JSON.stringify(tipos);
+      
+      
         if (nome !== "" &&
             evento_inicio !== "" &&
             evento_termino !== "" &&
@@ -75,34 +46,9 @@ const eventos = () => {
             data_termino !== "" &&
             data_prorrogacao !== "" &&
             local !== "" &&
-            tematica != "" &&
-            tipos !== "" &&
-            data_inicio_sub !== "" &&
-            data_termino_sub !== "" &&
-            modelo_escrita !== "" &&
-            modelo_banner !== "" &&
-            qtd_max_autor !== "" &&
-            validaDatas()
+            tematica != ""
+            // && validaDatas()
         ) {
-            // let dados = {
-            //     nome: nome,
-            //     evento_inicio: evento_inicio,
-            //     evento_termino: evento_termino,
-            //     descricao: descricao,
-            //     data_inicio: data_inicio,
-            //     data_termino: data_termino,
-            //     data_prorrogacao: data_prorrogacao,
-            //     local: local,
-            //     tematica: tematica,
-            //     tipos: tipos,
-            //     data_inicio_sub: data_inicio_sub,
-            //     data_termino_sub: data_termino_sub,
-            //     modelo_escrita: modelo_escrita,
-            //     modelo_banner: modelo_banner,
-            //     qtd_max_autor: qtd_max_autor    
-
-            // };
-
             let dados = new FormData();
             dados.append("nome", nome);
             dados.append("evento_inicio", evento_inicio);
@@ -114,32 +60,49 @@ const eventos = () => {
             dados.append("local", local);
             dados.append("tematica", tematica);
             dados.append("tipos", tipos);
-            dados.append("data_inicio_sub", data_inicio_sub);
-            dados.append("data_termino_sub", data_termino_sub);
-            dados.append("modelo_escrita", modelo_escrita);
-            dados.append("modelo_banner", modelo_banner);
-            dados.append("qtd_max_autor", qtd_max_autor);
 
-            if (evento_id == "") {
+            // console.log(vetor_modelo_escrita);
+
+            for (let i = 0; i < vetor_modelo_escrita.length; i++) {
+                if (vetor_modelo_escrita[i] !== null) {
+                    dados.append("modelo_escrita[]", vetor_modelo_escrita[i]);
+                    console.log('sim' + vetor_modelo_escrita[i]);
+                    
+                } else {
+                    dados.append("modelo_escrita[]", new File([""], "null"));
+                    console.log('nao' + vetor_modelo_escrita[i]);
+                
+                }
+
+                if (vetor_modelo_apresentacao[i] !== null) {
+                    dados.append("modelo_apresentacao[]", vetor_modelo_apresentacao[i]);
+                } else {
+                    dados.append("modelo_apresentacao[]", new File([""], "null"));
+                }
+
+            }
+            if (evento_id !== "") {
                 // dados.evento_id = evento_id;
                 dados.append("evento_id", evento_id);
             }
 
-            // dados.acao = "Eventos/cadastrar";
             dados.append("acao", "Eventos/cadastrar");
+            console.log(dados);
 
             $.ajax({
                 url: baseUrl,
                 type: "POST",
                 data: dados,
-                contentType: false,
+                enctype: 'multipart/form-data',
                 processData: false,
+                contentType: false,
+                cache: false,
                 async: true,
                 success: function (res) {
                     if (res) {
                         if (evento_id == "") {
                             $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                            window.history.pushState(null, null, window.location.href + '?evento_id=' + res);
+                            window.location.href = window.location.href + '?evento_id=' + res ;
                             urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
                         } else {
@@ -151,6 +114,7 @@ const eventos = () => {
                             $('#msg_erro').toast('show');
                         } else {
                             $('#msg_alterar_erro').toast('show');
+                            console.log('q isso??');
 
                         }
                     }
@@ -164,7 +128,7 @@ const eventos = () => {
 };
 
 const validarFile = () => {
-    $(document).on('change','input[type=file]', function () {
+    $(document).on('change', 'input[type=file]', function () {
         let nome_arquivo = $(this).val().split("\\").pop();
         let id = $(this).attr("id");
         console.log(id);
@@ -204,35 +168,35 @@ const addTipos = () => {
             let pesquisa = "select[id=tipos]>option[value=" + params.selected + "]";
             // console.log($(pesquisa).text());
             console.log($(pesquisa).val());
-            let submissao = "<div name='tipos_trabalhos' data-tipo_id='"+ params.selected +"' id=tipo"+ params.selected +">";
-            submissao += "<h1 class='h5 mt-2 mb-2 font-weight-normal'>"+ $(pesquisa).text() +"</h1>";
+            let submissao = "<div name='tipos_trabalhos' id=tipo" + params.selected + ">";
+            submissao += "<h1 class='h5 mt-2 mb-2 font-weight-normal'>" + $(pesquisa).text() + "</h1>";
             submissao += "<div class='form-row'>";
             submissao += "<div class='form-group col-md-4'>";
-            submissao += "<label for='modelo_escrita"+ params.selected+"'>Modelo Escrita:</label>";
+            submissao += "<label for='modelo_escrita" + params.selected + "'>Modelo Escrita:</label>";
             submissao += "<div class='custom-file'>";
-            submissao += "<input type='file' class='custom-file-input' id='modelo_escrita"+ params.selected+"' lang='pt-br'>";
-            submissao += " <label class='custom-file-label' for='modelo_escrita"+ params.selected+"'>Selecione o arquivo</label>";
+            submissao += "<input type='file' class='custom-file-input' name='modelo_escrita' id='modelo_escrita" + params.selected + "' lang='pt-br'>";
+            submissao += " <label class='custom-file-label' for='modelo_escrita" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
             submissao += "</div>";
             submissao += "<div class='form-group col-md-4'>";
-            submissao += "<label for='modelo_banner"+ params.selected+"'>Modelo Banner:</label>";
+            submissao += "<label for='modelo_apresentacao" + params.selected + "'>Modelo Banner:</label>";
             submissao += "<div class='custom-file'>";
-            submissao += "<input type='file' class='custom-file-input' id='modelo_banner"+ params.selected+"' lang='pt-br'>";
-            submissao += "<label class='custom-file-label' for='modelo_banner"+ params.selected+"'>Selecione o arquivo</label>";
+            submissao += "<input type='file' class='custom-file-input' name='modelo_apresentacao' id='modelo_apresentacao" + params.selected + "' lang='pt-br'>";
+            submissao += "<label class='custom-file-label' for='modelo_apresentacao" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
             submissao += "</div>";
             submissao += "<div class='form-group col-md-4'>";
-            submissao += "<label for='qtd_max_autor"+ params.selected +"'>Limite de Autores:</label>";
-            submissao += "<input type='text' class='form-control' id='qtd_max_autor"+ params.selected +"' onkeyup='this.value=this.value.replace(/[^0-9]/g,'');' maxlength='2'>";
+            submissao += "<label for='qtd_max_autor" + params.selected + "'>Limite de Autores:</label>";
+            submissao += "<input type='text' class='form-control' data-tipo_id='" + params.selected + "'  name='qtd_max_autor' id='qtd_max_autor" + params.selected + "' onkeyup='this.value=this.value.replace(/[^0-9]/g,'');' maxlength='2'>";
             submissao += "</div>";
             submissao += "</div>";
             submissao += "</div>";
 
             $("#tipo_trabalho").append(submissao);
-            
+
         } else {
-            console.log('deselected - ' + '#tipo'+params.deselected);
-            let remover = '#tipo'+params.deselected;
+            console.log('deselected - ' + '#tipo' + params.deselected);
+            let remover = '#tipo' + params.deselected;
             $(document).find(remover).remove();
         }
 
@@ -240,17 +204,82 @@ const addTipos = () => {
     })
 };
 
-const teste = () => {
-    $(document).on('click', 'button[type=reset]', function () {
-        let tipos_trabalhos = $(document).find('div[name=tipos_trabalhos');
+// getTipos -> Percorre todos os campos relacionados ao tipo de trabalho e coloca dentro de um array
+const getTipos = () => {
+    let tipos_trabalhos = $(document).find('div[name=tipos_trabalhos');
+    let tipos = [];
+    let vetor_modelo_apresentacao = [];
+    let vetor_modelo_escrita = [];
 
-        console.log(tipos_trabalhos);
-        $(tipos_trabalhos).each(function (index, params) {
-            console.log(index + "- " + params);
-            $(params).children;
-            
-        });
+    let count = 1;
+    $(tipos_trabalhos).each(function (index, params) {
+        console.log(params);
+        console.log(index);
+
+        console.log();
+
+        let tipo_id = $(params).find('input[name=qtd_max_autor').attr('data-tipo_id');
+
+
+        seletorEscrita = '#modelo_escrita' + tipo_id;
+        seletorApresentacao = '#modelo_apresentacao' + tipo_id;
+
+
+        let modelo_escrita = "";
+        let modelo_apresentacao = "";
+
+        if ($(seletorEscrita).get(0).files.length === 0) {
+            modelo_escrita = null;
+        }else{
+            modelo_escrita = $(seletorEscrita)[0].files[0];
+        }
         
-    })
+        if ($(seletorApresentacao).get(0).files.length === 0){
+            modelo_apresentacao = null;
+        }else{
+            modelo_apresentacao = $(seletorApresentacao)[0].files[0];
+        }
+
+
+        let qtde_max_autor = $(params).find('input[name=qtd_max_autor').val();
+
+        modelo_apresentacao = modelo_apresentacao;
+        modelo_escrita = modelo_escrita;
+        console.log(modelo_apresentacao);
+        console.log(modelo_apresentacao);
+
+
+        let tipo = {
+            tipo_id: tipo_id,
+            qtde_max_autor: qtde_max_autor
+        };
+
+        tipos.push(tipo);
+        vetor_modelo_apresentacao.push(modelo_apresentacao);
+        vetor_modelo_escrita.push(modelo_escrita);
+
+    });
+    console.log(tipos);
+    return [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao];
 };
+
+const validaDatas = () => {
+
+    let date_evento_inicio = new Date(evento_inicio),
+        date_evento_termino = new Date(evento_termino),
+        date_data_inicio = new Date(data_inicio),
+        date_data_termino = new Date(data_termino),
+        date_data_prorrogacao = new Date(data_prorrogacao);
+
+    if (date_evento_inicio <= date_evento_termino &&
+        date_data_inicio < date_data_termino &&
+        date_data_termino <= date_data_prorrogacao) {
+
+        return true;
+    } else {
+        $('#msg_alerta').toast('show');
+        return false;
+    }
+};
+
 construct();

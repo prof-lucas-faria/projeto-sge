@@ -42,17 +42,28 @@ class Eventos {
      * @throws \Exception
      */
     public function cadastrar($dados) {
+
+
         $dados['nome'] = ucfirst($dados['nome']); // Deixa a primeira letra do nome do evento maiúscula
         $dados['descricao'] = ucfirst($dados['descricao']); // Deixa a primeira letra da descricao do evento maiúscula
         $dados['local'] = ucfirst($dados['local']);
 
         $dados['inativo'] = "0"; // Cadastra o evento como ativo
         $evento = new Evento();
-        // Tratar o cadastro ou alteração aqui
-
+        
         $tematica['lista_tematica'] = $dados['tematica'];
         unset($dados['tematica']);
+        
+        // Manipula os tipos que serão cadastrados
+        $tipos['tipos'] = json_decode($dados['tipos']);
+        unset($dados['tipos']);
+        $tipos['modelo_escrita'] = isset($dados['modelo_escrita']) ? $dados['modelo_apresentacao'] : null;
+        unset($dados['modelo_escrita']);
+        $tipos['modelo_apresentacao'] = isset($dados['modelo_apresentacao']) ? $dados['modelo_apresentacao'] : null;
+        unset($dados['modelo_apresentacao']);
 
+         
+        // Tratar o cadastro ou alteração aqui
         if (isset($dados['evento_id'])) {
             // Se for passado o evento_id será feito o update
             $resultado = $evento->alterar($dados);
@@ -63,9 +74,13 @@ class Eventos {
 
         $tematica['evento_id'] = $resultado;
         // print_r($tematica);
+        $tipos['evento_id'] = $resultado;
 
         $evento_tematica = new Evento_Tematica();
         $evento_tematica->adicionar($tematica);
+        
+        $eventos_tipos = new Eventos_Tipos();
+        $eventos_tipos->adicionar($tipos);
 
         if ($resultado > 0) {
             return $resultado;

@@ -32,28 +32,28 @@ $lista_tipos = $tipos->listarTipos();
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>" enctype="multipart/form-data">
+                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
                         <div class="form-group">
                             <label for="nome">Nome:</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" required autofocus>
+                            <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>"   autofocus>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="evento_inicio">Data de Início:</label>
-                                <input type="date" class="form-control" id="evento_inicio" required value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                <input type="date" class="form-control" id="evento_inicio"   value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="evento_termino">Data de Término:</label>
-                                <input type="date" class="form-control" id="evento_termino" required value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                <input type="date" class="form-control" id="evento_termino"   value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="local">Local:</label>
-                                <input type="text" class="form-control" id="local" required value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
+                                <input type="text" class="form-control" id="local"   value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="descricao">Descrição:</label>
-                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" required value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
+                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento"   value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
                         </div>
                         <div class="form-group">
                             <label>Área Temáticas:</label> <br>
@@ -94,11 +94,11 @@ $lista_tipos = $tipos->listarTipos();
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="evento_inicio">Data de Início:</label>
-                                    <input type="date" class="form-control" id="evento_inicio" value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                    <input type="date" class="form-control" id="evento_inicio" value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="evento_termino">Data de Término:</label>
-                                    <input type="date" class="form-control" id="evento_termino" value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                    <input type="date" class="form-control" id="evento_termino" value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>">
                                 </div>
                             </div>
                             
@@ -133,16 +133,16 @@ $lista_tipos = $tipos->listarTipos();
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="data_inicio">Data de Início:</label>
-                                <input type="date" class="form-control" id="data_inicio" required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
+                                <input type="date" class="form-control" id="data_inicio"   value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="data_termino">Data de Término:</label>
-                                <input type="date" class="form-control" id="data_termino" required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
+                                <input type="date" class="form-control" id="data_termino"   value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="data_prorrogacao">Data de Prorrogação:</label>
-                                <input type="date" class="form-control" id="data_prorrogacao" required value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
+                                <input type="date" class="form-control" id="data_prorrogacao"   value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
                             </div>
                         </div>
                         <!-- Inscrições -->

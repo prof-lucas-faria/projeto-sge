@@ -6,6 +6,7 @@ namespace core\controller;
 use core\model\Evento;
 use core\model\Tipo;
 use core\model\Evento_Tipo;
+use core\sistema\Arquivos;
 
 class Eventos_Tipos {
 
@@ -30,28 +31,65 @@ class Eventos_Tipos {
 
         $retorno = 0;
 
-        for ($i = 0; $i < count((array) $dados["lista_tipo"]); $i++) {
+        for ($i = 0; $i < count((array) $dados["tipos"]); $i++) {
 
             $evento_tipo = new Evento_Tipo();
 
-
             $value['evento_id'] = $dados['evento_id'];
-            $value['tipo_id'] = $dados["lista_tipo"][$i]['tipo_id'];
+            $value['tipo_id'] = $dados["tipos"][$i]->tipo_id;
+            $value['qtde_max_autor'] = $dados["tipos"][$i]->qtde_max_autor;
 
-            // Esses dois campos será necessário chamar um método para a cópia dos arquivos para o servidor, que retornará o caminho salvo, que será gravado no bd
-            $value['modelo_escrita'] = $dados["lista_tipo"][$i]['modelo_escrita'];
-            $value['modelo_apresentacao'] = $dados["lista_tipo"][$i]['modelo_apresentacao'];
+            // echo '<pre>';
+            // print_r($dados['modelo_escrita']);
+            // echo '</pre>';
+            // echo '<pre>';
+            // print_r($dados['modelo_apresentacao']);
+            // echo '</pre>';
+            // Verificação caso o modelo de escrita seja null
+            if (isset($dados['modelo_escrita']['tmp_name'][$i]) && $dados['modelo_escrita']['name'][$i] != null ) {
+                $arquivoEscrita['tmp_name'] = $dados['modelo_escrita']['tmp_name'][$i];
+                $arquivoEscrita['name'] = $dados['modelo_escrita']['name'][$i];
+                $arquivoEscrita['type'] = $dados['modelo_escrita']['type'][$i];
+                $arquivoEscrita['error'] = $dados['modelo_escrita']['error'][$i];
+                $arquivoEscrita['size'] = $dados['modelo_escrita']['size'][$i];
+            }else{
+                $arquivoEscrita['tmp_name'] = null;
+                $arquivoEscrita['name'] =  null;
+                $arquivoEscrita['type'] =  null;
+                $arquivoEscrita['error'] =  null;
+                $arquivoEscrita['size'] =  null;
+            }
 
-            $value['qtde_max_autor'] = $dados["lista_tipo"][$i]['qtd_max_autor'];
+            if (isset($dados['modelo_apresentacao']['tmp_name'][$i])  && $dados['modelo_escrita']['name'][$i] != null) {
+                $arquivoApresentacao['tmp_name'] = $dados['modelo_apresentacao']['tmp_name'][$i];
+                $arquivoApresentacao['name'] = $dados['modelo_apresentacao']['name'][$i];
+                $arquivoApresentacao['type'] = $dados['modelo_apresentacao']['type'][$i];
+                $arquivoApresentacao['error'] = $dados['modelo_apresentacao']['error'][$i];
+                $arquivoApresentacao['size'] = $dados['modelo_apresentacao']['size'][$i];    
+            }else{
+                $arquivoApresentacao['tmp_name'] = null;
+                $arquivoApresentacao['name'] =  null;
+                $arquivoApresentacao['type'] =  null;
+                $arquivoApresentacao['error'] =  null;
+                $arquivoApresentacao['size'] =  null;
+            }
 
+            $arquivos = new Arquivos();
 
+            // Manda para a classe arquivo enviar o trabalho
+            $value['modelo_escrita'] = $arquivos->uploadModelo($arquivoEscrita, $value['evento_id'], $value['tipo_id']);
+            $value['modelo_apresentacao'] = $arquivos->uploadModelo($arquivoApresentacao, $value['evento_id'], $value['tipo_id']);
+
+            // move_uploaded_file($dados['modelo_escrita']['tmp_name'][$i], $PATH_ARQUIVOS . "/" . $dados['modelo_escrita']['name'][$i]);
+            // move_uploaded_file($dados['modelo_apresentacao']['tmp_name'][$i], $PATH_ARQUIVOS . "/" . $dados['modelo_apresentacao']['name'][$i]);
+            
+            // print_r($value);
             $evento_tipo->adicionar($value);
             $retorno++;
         }
     }
 
-    public function listarEventosTipos($evento_id)
-    {
+    public function listarEventosTipos($evento_id){
         $evento_tipo = new Evento_Tipo();
 
         $tipos = $evento_tipo->listar($evento_id);
