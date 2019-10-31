@@ -14,7 +14,11 @@ class Permissao extends CRUD {
     const COL_EVENTO_ID = "evento_id";
 
     public function salvar($dados) {
-        $check = $this->checkPermissao($dados[self::COL_USUARIO_ID]);
+        $evento_id = isset($dados[self::COL_EVENTO_ID]) && !empty($dados[self::COL_EVENTO_ID])
+            ? $dados[self::COL_EVENTO_ID]
+            : null;
+
+        $check = $this->checkPermissao($dados[self::COL_USUARIO_ID], $evento_id);
 
         if (count((array)$check) > 0) {
             $this->alterar($dados);
@@ -24,11 +28,10 @@ class Permissao extends CRUD {
     }
 
     public function adicionar($dados) {
-
         try {
 
-            if (isset($dados[self::COL_EVENTO_ID]))
-                $dados[self::COL_EVENTO_ID] = json_encode($dados[self::COL_EVENTO_ID]);
+            $dados[self::COL_PERMISSAO] = (int)$dados[self::COL_PERMISSAO];
+            $dados[self::COL_EVENTO_ID] = $dados[self::COL_EVENTO_ID] === '' ? null : $dados[self::COL_EVENTO_ID];
 
             $retorno = $this->create(self::TABELA, $dados);
 
@@ -44,7 +47,7 @@ class Permissao extends CRUD {
 
         $data = [
             self::COL_PERMISSAO => $dados[self::COL_PERMISSAO],
-            self::COL_EVENTO_ID => json_encode($dados[self::COL_EVENTO_ID])
+            self::COL_EVENTO_ID => $dados[self::COL_EVENTO_ID] == '' ? null : $dados[self::COL_EVENTO_ID]
         ];
 
         $where_condicao = self::COL_USUARIO_ID . " = ?";
@@ -62,12 +65,33 @@ class Permissao extends CRUD {
         return $retorno;
     }
 
-    public function checkPermissao($usuario_id, $params = []) {
+    public function remover($usuario_id, $evento_id) {
+        $where_condicao = self::COL_USUARIO_ID . " = ? AND " . self::COL_EVENTO_ID . " = ?";
+        $where_valor = [$usuario_id, $evento_id];
+
+        try {
+
+            $this->delete(self::TABELA, $where_condicao, $where_valor);
+
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkPermissao($usuario_id, $evento_id = null,  $params = []) {
 
         $campos = isset($params['campos']) ? $params['campos'] : "*";
 
         $where_condicao = self::COL_USUARIO_ID . " = ?";
         $where_valor = [$usuario_id];
+
+        if ($evento_id != null) {
+            $where_condicao .= " AND " . self::COL_EVENTO_ID . " = ?";
+            $where_valor[] = $evento_id;
+        }
 
         try {
 

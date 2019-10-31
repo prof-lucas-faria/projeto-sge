@@ -4,6 +4,7 @@ namespace core\controller;
 
 use core\sistema\Util;
 use core\model\Avaliador;
+use core\model\Permissao;
 use core\model\Tematica_Avaliador;
 
 class Avaliadores {
@@ -105,5 +106,44 @@ class Avaliadores {
         }
     }
 
+
+    /**
+     * Listar avaliadores
+     *
+     * @return array
+     */
+    public function listarAvaliadores($evento_id) {
+        $avaliador = new Avaliador();
+
+        
+        /*
+        SELECT a.avaliador_id FROM avaliador a 
+            INNER JOIN usuario u 
+                ON a.usuario_id = u.usuario_id 
+            INNER JOIN permissao p 
+                ON u.usuario_id = p.usuario_id  
+            WHERE p.evento_id = 8;
+        */
+
+        if ($evento_id != null) {
+
+            $dados['evento_id'] = $evento_id;
+            $campos = " a." . Avaliador::COL_AVALIADOR_ID;
+
+        } else {
+
+            $dados = [];
+            $campos = null;
+
+        }
+
+        $lista = $avaliador->listar($campos, $dados, null, null);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_avaliadores", $lista);
+        }
+
+        return $this->lista_avaliadores;
+    }
 
 }

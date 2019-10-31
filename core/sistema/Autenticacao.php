@@ -71,13 +71,64 @@ class Autenticacao {
         }
     }
 
+    /**
+     * Verifica se o usuário é Organizador
+     *
+     * @return bool
+     */
     public static function usuarioOrganizador() {
         if (isset($_COOKIE[self::COOKIE_USUARIO])) {
             $user = new Usuario();
 
             $usuario = $user->selecionarUsuario($_COOKIE[self::COOKIE_USUARIO])[0];
 
-            if (count((array)$usuario) > 0 && $usuario->permissao == 1) {
+            if (count((array)$usuario) > 0 && $usuario->permissao == self::ORGANIZADOR) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            self::logout();
+            return false;
+        }
+    }
+
+    /**
+     * Verifica se o usuário é Assistente
+     *
+     * @return bool
+     */
+    public static function usuarioAssitente() {
+        if (isset($_COOKIE[self::COOKIE_USUARIO])) {
+            $user = new Usuario();
+
+            $usuario = $user->selecionarUsuario($_COOKIE[self::COOKIE_USUARIO])[0];
+
+            if (count((array)$usuario) > 0 && $usuario->permissao == self::ASSISTENTE) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            self::logout();
+            return false;
+        }
+    }
+
+    /**
+     * Verifica se o usuário é Avaliador
+     *
+     * @return bool
+     */
+    public static function usuarioAvaliador() {
+        if (isset($_COOKIE[self::COOKIE_USUARIO])) {
+            $user = new Usuario();
+
+            $usuario = $user->selecionarUsuario($_COOKIE[self::COOKIE_USUARIO])[0];
+
+            if (count((array)$usuario) > 0 && $usuario->permissao == self::AVALIADOR) {
                 return true;
             } else {
                 return false;

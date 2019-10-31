@@ -46,7 +46,7 @@ class Eventos_Tipos {
             // print_r($dados['modelo_apresentacao']);
             // echo '</pre>';
             // Verificação caso o modelo de escrita seja null
-            if (isset($dados['modelo_escrita']['tmp_name'][$i]) && $dados['modelo_escrita']['name'][$i] != null ) {
+            if ($dados['modelo_escrita']['name'][$i] != 'null' ) {
                 $arquivoEscrita['tmp_name'] = $dados['modelo_escrita']['tmp_name'][$i];
                 $arquivoEscrita['name'] = $dados['modelo_escrita']['name'][$i];
                 $arquivoEscrita['type'] = $dados['modelo_escrita']['type'][$i];
@@ -60,7 +60,7 @@ class Eventos_Tipos {
                 $arquivoEscrita['size'] =  null;
             }
 
-            if (isset($dados['modelo_apresentacao']['tmp_name'][$i])  && $dados['modelo_escrita']['name'][$i] != null) {
+            if ($dados['modelo_apresentacao']['name'][$i] != 'null') {
                 $arquivoApresentacao['tmp_name'] = $dados['modelo_apresentacao']['tmp_name'][$i];
                 $arquivoApresentacao['name'] = $dados['modelo_apresentacao']['name'][$i];
                 $arquivoApresentacao['type'] = $dados['modelo_apresentacao']['type'][$i];

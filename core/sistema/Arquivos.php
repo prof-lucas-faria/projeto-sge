@@ -24,7 +24,7 @@ class Arquivos
             $diretorio_nome = $diretorio . "/" . $arquivo_nome;
         }else{
             $diretorio_nome = null;
-            return false;
+            return null;
         }
         try {
             // Move o arquivo para o diretório escolhido

@@ -5,6 +5,8 @@ namespace core\controller;
 
 use core\model\Evento;
 use core\model\Evento_Tematica;
+use core\model\Permissao;
+use core\sistema\Autenticacao;
 
 class Eventos {
 
@@ -57,14 +59,14 @@ class Eventos {
         // Manipula os tipos que serão cadastrados
         $tipos['tipos'] = json_decode($dados['tipos']);
         unset($dados['tipos']);
-        $tipos['modelo_escrita'] = isset($dados['modelo_escrita']) ? $dados['modelo_apresentacao'] : null;
+        $tipos['modelo_escrita'] = isset($dados['modelo_escrita']) ? $dados['modelo_escrita'] : null;
         unset($dados['modelo_escrita']);
         $tipos['modelo_apresentacao'] = isset($dados['modelo_apresentacao']) ? $dados['modelo_apresentacao'] : null;
         unset($dados['modelo_apresentacao']);
 
          
         // Tratar o cadastro ou alteração aqui
-        if (isset($dados['evento_id'])) {
+        if (isset($dados['evento_id']) && !empty($dados['evento_id'])) {
             // Se for passado o evento_id será feito o update
             $resultado = $evento->alterar($dados);
         } else {
@@ -81,6 +83,18 @@ class Eventos {
         
         $eventos_tipos = new Eventos_Tipos();
         $eventos_tipos->adicionar($tipos);
+
+        if (Autenticacao::usuarioOrganizador()) {
+            $permissao = new Permissao();
+
+            $params = [
+                Permissao::COL_USUARIO_ID => Autenticacao::getCookieUsuario(),
+                Permissao::COL_PERMISSAO => Autenticacao::ORGANIZADOR,
+                Permissao::COL_EVENTO_ID => $resultado
+            ];
+
+            $permissao->salvar($params);
+        }
 
         if ($resultado > 0) {
             return $resultado;
