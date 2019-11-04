@@ -53,7 +53,7 @@ class Eventos {
         $dados['inativo'] = "0"; // Cadastra o evento como ativo
         $evento = new Evento();
         
-        $tematica['lista_tematica'] = $dados['tematica'];
+        $tematica['lista_tematica'] = explode(',', $dados['tematica']);
         unset($dados['tematica']);
         
         // Manipula os tipos que serão cadastrados
