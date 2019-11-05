@@ -94,11 +94,11 @@ $lista_tipos = $tipos->listarTipos();
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="evento_inicio">Data de Início:</label>
-                                    <input type="date" class="form-control" id="evento_inicio" value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>">
+                                    <input type="date" class="form-control" id="data_inicio_sub" value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>" >
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="evento_termino">Data de Término:</label>
-                                    <input type="date" class="form-control" id="evento_termino" value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>">
+                                    <input type="date" class="form-control" id="data_termino_sub" value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>" >
                                 </div>
                             </div>
                             
