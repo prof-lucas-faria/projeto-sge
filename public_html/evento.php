@@ -12,6 +12,10 @@ $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 $eventos = new Eventos();
 $atividades = new Atividades();
 
+$dados2 = [];
+$evento = "";
+$atividade = "";
+
 $evento = $eventos->listarEvento($evento_id);
 $atividade = $atividades->listarAtividades($evento_id);
 
@@ -22,8 +26,6 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 	$dados_eventos = [];
     $dados_eventos['busca']['me'] = Autenticacao::getCookieUsuario();
     $dados2 = $eventos->listarEventos($dados_eventos); //eventos que o usuario se inscreveu
-} else {
-    $dados2 = [];
 }
 
 ?>
@@ -146,7 +148,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					<div class="row text-primary">
 						<div class="col-md-12">
 							<i class="fas fa-calendar-check mr-2"></i>
-							<?= $evento->data_termino_sub != NULL ? Util::formataDataExtenso($evento->data_inicio_sub) : "" ?>
+							<?= $evento->data_inicio_sub != NULL ? Util::formataDataExtenso($evento->data_inicio_sub) : "" ?>
 						</div>
 					</div>
 
@@ -174,75 +176,6 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 				</div>
 			</div>
 		</div>
-
-		<!-- <div class="card shadow-sm mb-3">
-			<div class="row">
-				<div class="col-md-2">
-					<div class="btn-group-vertical">
-						<?php
-						$cont = 0;
-
-						if (isset($dados2['lista_eventos']) && count((array)$dados2['lista_eventos'][0]) > 0) {
-							foreach ($dados2['lista_eventos'] as $j => $evento2) {
-								if ($evento->evento_id == $evento2->evento_id) $cont++; ?>
-							<?php }
-						}
-
-						if ($cont == 1) {
-							$a = "disabled";
-							$b = "";
-						} else {
-							$a = "";
-							$b = "disabled";
-						}
-
-						if (!Autenticacao::usuarioAdministrador()) { ?>
-							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= $a ?> <?= $d ?>">Inscrever-se</a>
-						<?php }
-
-						if (Autenticacao::usuarioAdministrador()) { ?>
-						<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= $a ?>">Atividades</a>
-						<a href="cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= $d ?>">
-							Adicionar Atividades
-						</a>
-						<div class="btn-group">
-							<a href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? "disabled" : "" ?>">
-								Editar
-							</a>
-							<a href="excluir" class="btn btn-lg btn-outline-danger <?= (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? "disabled" : "" ?>" name="excluir" data-toggle="modal" data-target="#confirmModal">
-								Excluir
-							</a>
-
-						</div>
-
-						<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> esse evento?
-									</div>
-									<div class="modal-footer p-2">
-										<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
-										<a id="botao_excluir" href="" class="btn btn-outline-danger" data-evento_id="<?= $evento->evento_id ?>">Sim</a>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<?php } else { ?>
-							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= $b ?>">Atividades Inscritas</a>
-							<a href="#" id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>" data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>" class="btn btn-lg btn-outline-dark <?= $verificacaoGerarCeritificado ?>">Certificado</a>
-						<?php } ?>
-					</div>
-				</div>
-			</div>
-		</div> -->
 
 		<div class="card shadow-sm p-4 mb-5">
 			<h2 class="text-center">Programação</h2><br>

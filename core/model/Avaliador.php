@@ -18,9 +18,9 @@ class Avaliador extends CRUD {
     public function adicionar($dados) {
 
         try {
-
+            
             $retorno = $this->create(self::TABELA, $dados);
-
+            
         } catch (Exception $e) {
 
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();

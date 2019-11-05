@@ -49,8 +49,10 @@ class Avaliadores {
             if ($resultado > 0) {            
                 $tematica['lista_tematica'] = $dados[$i]['tematica'];
                 
-                $resultado = $avaliador->adicionar($dados[$i]['usuario_id']);
-        
+                $a['usuario_id'] = $dados[$i]['usuario_id'];
+                
+                $resultado = $avaliador->adicionar($a);
+                
                 if ($resultado > 0) {
                     $tematica['avaliador_id'] = $resultado;
                     // print_r($tematica);
@@ -59,8 +61,10 @@ class Avaliadores {
 
                     $resultado = $tematica_avaliador->adicionar($tematica);
             
+                } else {
+                    $permissao->remover($dados[$i]['usuario_id'], $dados[$i]['evento_id']);
                 }
-            }
+            } 
             
             if ($resultado > 0) {
                 return $resultado;
