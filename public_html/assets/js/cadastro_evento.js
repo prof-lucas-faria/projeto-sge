@@ -32,8 +32,8 @@ const eventos = () => {
         [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao] = getTipos();
         // console.log(a,b,c);
         tipos = JSON.stringify(tipos);
-      
-      
+
+
         if (nome !== "" &&
             evento_inicio !== "" &&
             evento_termino !== "" &&
@@ -58,11 +58,13 @@ const eventos = () => {
             dados.append("tipos", tipos);
 
             if (submissoes) {
-                dados.append("data_inicio_sub",data_inicio_sub );
-                dados.append("data_termino_sub",data_termino_sub );
-            }else{
-                // É necessário informar previamente a data final para a submissão, mesmo que ela seja alterada
-                return false;
+                if (data_inicio_sub !== "" && data_termino_sub !== "") {
+                    dados.append("data_inicio_sub", data_inicio_sub);
+                    dados.append("data_termino_sub", data_termino_sub);
+                } else {
+                    // É necessário informar previamente a data final para a submissão, mesmo que ela seja alterada
+                    return false;
+                }
             }
 
             // console.log(vetor_modelo_escrita);
@@ -71,11 +73,11 @@ const eventos = () => {
                 if (vetor_modelo_escrita[i] !== null) {
                     dados.append("modelo_escrita[]", vetor_modelo_escrita[i]);
                     console.log('sim' + vetor_modelo_escrita[i]);
-                    
+
                 } else {
                     dados.append("modelo_escrita[]", new File([""], "null"));
                     console.log('nao' + vetor_modelo_escrita[i]);
-                
+
                 }
 
                 if (vetor_modelo_apresentacao[i] !== null) {
@@ -234,18 +236,18 @@ const getTipos = () => {
 
         if ($(seletorEscrita).get(0).files.length === 0) {
             modelo_escrita = null;
-        }else{
+        } else {
             modelo_escrita = $(seletorEscrita)[0].files[0];
         }
-        
-        if ($(seletorApresentacao).get(0).files.length === 0){
+
+        if ($(seletorApresentacao).get(0).files.length === 0) {
             modelo_apresentacao = null;
-        }else{
+        } else {
             modelo_apresentacao = $(seletorApresentacao)[0].files[0];
         }
 
-
-        let qtde_max_autor = $(params).find('input[name=qtd_max_autor').val();
+        // Caso não seja informado, o limite máximo de autores será 15
+        let qtde_max_autor = ($(params).find('input[name=qtd_max_autor').val() !== "") ? $(params).find('input[name=qtd_max_autor').val() : 15;
 
         modelo_apresentacao = modelo_apresentacao;
         modelo_escrita = modelo_escrita;
