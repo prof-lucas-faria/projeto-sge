@@ -2,8 +2,7 @@
 
 
 namespace core\sistema;
-// require_once 'vendor/autoload.php';
-// require_once 'config.php';
+
 
 class Arquivos
 {
@@ -28,7 +27,7 @@ class Arquivos
         }
         try {
             // Move o arquivo para o diretório escolhido
-            move_uploaded_file($arquivo['tmp_name'], $diretorio_nome);
+            move_uploaded_file($arquivo['tmp_name'], self::PATH_ARQUIVOS . $diretorio_nome);
         } catch (\Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
             return false;
@@ -59,7 +58,8 @@ class Arquivos
         }
 
         // Define o diretório para a submissão dos arquivos 
-        $diretorio = self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "modelos" .  "/" . $tipo_id;
+        // $diretorio = self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "modelos" .  "/" . $tipo_id;
+        $diretorio = "/" . $evento_id . "/" . "modelos" .  "/" . $tipo_id;
 
         // Substitui as \ por /, caso existam 
         $diretorio = str_replace("\\", '/', $diretorio);

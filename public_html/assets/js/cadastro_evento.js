@@ -28,16 +28,12 @@ const eventos = () => {
             tipos = [];
 
 
-        if (submissoes) {
-            // tipos = JSON.stringify(getTipos());
-            // console.log(tipos);
 
-        }
         [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao] = getTipos();
         // console.log(a,b,c);
         tipos = JSON.stringify(tipos);
-      
-      
+
+
         if (nome !== "" &&
             evento_inicio !== "" &&
             evento_termino !== "" &&
@@ -61,17 +57,27 @@ const eventos = () => {
             dados.append("tematica", tematica);
             dados.append("tipos", tipos);
 
+            if (submissoes) {
+                if (data_inicio_sub !== "" && data_termino_sub !== "") {
+                    dados.append("data_inicio_sub", data_inicio_sub);
+                    dados.append("data_termino_sub", data_termino_sub);
+                } else {
+                    // É necessário informar previamente a data final para a submissão, mesmo que ela seja alterada
+                    return false;
+                }
+            }
+
             // console.log(vetor_modelo_escrita);
 
             for (let i = 0; i < vetor_modelo_escrita.length; i++) {
                 if (vetor_modelo_escrita[i] !== null) {
                     dados.append("modelo_escrita[]", vetor_modelo_escrita[i]);
                     console.log('sim' + vetor_modelo_escrita[i]);
-                    
+
                 } else {
                     dados.append("modelo_escrita[]", new File([""], "null"));
                     console.log('nao' + vetor_modelo_escrita[i]);
-                
+
                 }
 
                 if (vetor_modelo_apresentacao[i] !== null) {
@@ -143,9 +149,17 @@ const validarFile = () => {
 };
 
 const showSubmissao = () => {
-    $("#tipo_trabalho").children().hide();
+    $(document).ready( function () {
+        if ($('#submissoes').is(':checked')) {
+            $("#tipo_trabalho").children().show();
 
-    $('#submissoes').on('change', function () {
+        } else {
+            console.log('hide');
+            $("#tipo_trabalho").children().hide();
+        }
+
+    });
+    $(document).on('change','#submissoes', function () {
         if ($(this).is(':checked')) {
             $("#tipo_trabalho").children().show();
 
@@ -171,21 +185,33 @@ const addTipos = () => {
             let submissao = "<div name='tipos_trabalhos' id=tipo" + params.selected + ">";
             submissao += "<h1 class='h5 mt-2 mb-2 font-weight-normal'>" + $(pesquisa).text() + "</h1>";
             submissao += "<div class='form-row'>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "<div class='form-group col-md-12'>";
             submissao += "<label for='modelo_escrita" + params.selected + "'>Modelo Escrita:</label>";
+            submissao += "<div class='input-group'>";
             submissao += "<div class='custom-file'>";
             submissao += "<input type='file' class='custom-file-input' name='modelo_escrita' id='modelo_escrita" + params.selected + "' lang='pt-br'>";
             submissao += " <label class='custom-file-label' for='modelo_escrita" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
+            submissao += "<div class='col-md-2'>";
+            submissao += "<button class='btn btn-outline-secondary col-md-12' type='button' id='download_escrita' disabled><i class='fa fa-download' aria-hidden='true'></i></button>";
             submissao += "</div>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "</div>";
+            submissao += "</div>";
+            submissao += "<div class='form-group col-md-12'>";
             submissao += "<label for='modelo_apresentacao" + params.selected + "'>Modelo Banner:</label>";
+            submissao += "<div class='input-group'>";
             submissao += "<div class='custom-file'>";
             submissao += "<input type='file' class='custom-file-input' name='modelo_apresentacao' id='modelo_apresentacao" + params.selected + "' lang='pt-br'>";
             submissao += "<label class='custom-file-label' for='modelo_apresentacao" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
+
+            submissao += "<div class='col-md-2'>";
+            submissao += "<button class='btn btn-outline-secondary col-md-12' type='button' id='download_escrita' disabled><i class='fa fa-download' aria-hidden='true'></i></button>";
             submissao += "</div>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "</div>";
+            submissao += "</div>";
+
+            submissao += "<div class='form-group col-md-6'>";
             submissao += "<label for='qtd_max_autor" + params.selected + "'>Limite de Autores:</label>";
             submissao += "<input type='text' class='form-control' data-tipo_id='" + params.selected + "'  name='qtd_max_autor' id='qtd_max_autor" + params.selected + "' onkeyup='this.value=this.value.replace(/[^0-9]/g,'');' maxlength='2'>";
             submissao += "</div>";
@@ -230,18 +256,18 @@ const getTipos = () => {
 
         if ($(seletorEscrita).get(0).files.length === 0) {
             modelo_escrita = null;
-        }else{
+        } else {
             modelo_escrita = $(seletorEscrita)[0].files[0];
         }
-        
-        if ($(seletorApresentacao).get(0).files.length === 0){
+
+        if ($(seletorApresentacao).get(0).files.length === 0) {
             modelo_apresentacao = null;
-        }else{
+        } else {
             modelo_apresentacao = $(seletorApresentacao)[0].files[0];
         }
 
-
-        let qtde_max_autor = $(params).find('input[name=qtd_max_autor').val();
+        // Caso não seja informado, o limite máximo de autores será 15
+        let qtde_max_autor = ($(params).find('input[name=qtd_max_autor').val() !== "") ? $(params).find('input[name=qtd_max_autor').val() : 15;
 
         modelo_apresentacao = modelo_apresentacao;
         modelo_escrita = modelo_escrita;
