@@ -28,11 +28,7 @@ const eventos = () => {
             tipos = [];
 
 
-        if (submissoes) {
-            // tipos = JSON.stringify(getTipos());
-            // console.log(tipos);
 
-        }
         [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao] = getTipos();
         // console.log(a,b,c);
         tipos = JSON.stringify(tipos);
@@ -60,6 +56,14 @@ const eventos = () => {
             dados.append("local", local);
             dados.append("tematica", tematica);
             dados.append("tipos", tipos);
+
+            if (submissoes) {
+                dados.append("data_inicio_sub",data_inicio_sub );
+                dados.append("data_termino_sub",data_termino_sub );
+            }else{
+                // É necessário informar previamente a data final para a submissão, mesmo que ela seja alterada
+                return false;
+            }
 
             // console.log(vetor_modelo_escrita);
 
@@ -102,8 +106,8 @@ const eventos = () => {
                     if (res) {
                         if (evento_id == "") {
                             $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                            window.location.href = window.location.href + '?evento_id=' + res ;
-                            urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
+                            // window.location.href = window.location.href + '?evento_id=' + res ;
+                            // urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
                         } else {
                             $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
