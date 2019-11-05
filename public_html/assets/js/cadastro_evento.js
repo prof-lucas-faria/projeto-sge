@@ -149,9 +149,17 @@ const validarFile = () => {
 };
 
 const showSubmissao = () => {
-    $("#tipo_trabalho").children().hide();
+    $(document).ready( function () {
+        if ($('#submissoes').is(':checked')) {
+            $("#tipo_trabalho").children().show();
 
-    $('#submissoes').on('change', function () {
+        } else {
+            console.log('hide');
+            $("#tipo_trabalho").children().hide();
+        }
+
+    });
+    $(document).on('change','#submissoes', function () {
         if ($(this).is(':checked')) {
             $("#tipo_trabalho").children().show();
 
@@ -177,21 +185,33 @@ const addTipos = () => {
             let submissao = "<div name='tipos_trabalhos' id=tipo" + params.selected + ">";
             submissao += "<h1 class='h5 mt-2 mb-2 font-weight-normal'>" + $(pesquisa).text() + "</h1>";
             submissao += "<div class='form-row'>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "<div class='form-group col-md-12'>";
             submissao += "<label for='modelo_escrita" + params.selected + "'>Modelo Escrita:</label>";
+            submissao += "<div class='input-group'>";
             submissao += "<div class='custom-file'>";
             submissao += "<input type='file' class='custom-file-input' name='modelo_escrita' id='modelo_escrita" + params.selected + "' lang='pt-br'>";
             submissao += " <label class='custom-file-label' for='modelo_escrita" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
+            submissao += "<div class='col-md-2'>";
+            submissao += "<button class='btn btn-outline-secondary col-md-12' type='button' id='download_escrita' disabled><i class='fa fa-download' aria-hidden='true'></i></button>";
             submissao += "</div>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "</div>";
+            submissao += "</div>";
+            submissao += "<div class='form-group col-md-12'>";
             submissao += "<label for='modelo_apresentacao" + params.selected + "'>Modelo Banner:</label>";
+            submissao += "<div class='input-group'>";
             submissao += "<div class='custom-file'>";
             submissao += "<input type='file' class='custom-file-input' name='modelo_apresentacao' id='modelo_apresentacao" + params.selected + "' lang='pt-br'>";
             submissao += "<label class='custom-file-label' for='modelo_apresentacao" + params.selected + "'>Selecione o arquivo</label>";
             submissao += "</div>";
+
+            submissao += "<div class='col-md-2'>";
+            submissao += "<button class='btn btn-outline-secondary col-md-12' type='button' id='download_escrita' disabled><i class='fa fa-download' aria-hidden='true'></i></button>";
             submissao += "</div>";
-            submissao += "<div class='form-group col-md-4'>";
+            submissao += "</div>";
+            submissao += "</div>";
+
+            submissao += "<div class='form-group col-md-6'>";
             submissao += "<label for='qtd_max_autor" + params.selected + "'>Limite de Autores:</label>";
             submissao += "<input type='text' class='form-control' data-tipo_id='" + params.selected + "'  name='qtd_max_autor' id='qtd_max_autor" + params.selected + "' onkeyup='this.value=this.value.replace(/[^0-9]/g,'');' maxlength='2'>";
             submissao += "</div>";
