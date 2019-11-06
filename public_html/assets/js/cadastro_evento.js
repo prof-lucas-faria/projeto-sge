@@ -4,6 +4,7 @@ let construct = () => {
     showSubmissao();
     addTipos();
     // teste();
+    downloadArquivo();
 };
 
 const eventos = () => {
@@ -306,6 +307,23 @@ const validaDatas = () => {
         $('#msg_alerta').toast('show');
         return false;
     }
+};
+
+const downloadArquivo = () => {
+    
+    $('button[name=download_modelo]').click( function (e) {
+        e.preventDefault();
+        
+        let caminho_arquivo = $(this).attr('data-path');
+
+        if (caminho_arquivo !== '') {            
+            window.open('api.php?acao=Eventos/downloadArquivo&caminho_arquivo=' + caminho_arquivo, '_blank')
+        }
+    
+    });
+   
+
+
 };
 
 construct();

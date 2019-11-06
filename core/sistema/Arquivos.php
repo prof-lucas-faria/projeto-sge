@@ -3,6 +3,8 @@
 
 namespace core\sistema;
 
+use Exception;
+
 
 class Arquivos
 {
@@ -68,5 +70,29 @@ class Arquivos
         $diretorioSalvo = $this->uploadArquivo($arquivo, $diretorio);
 
         return $diretorioSalvo;
+    }
+
+
+    public function startDownload($diretorio_nome){
+        $diretorio_nome = self::PATH_ARQUIVOS . $diretorio_nome;
+
+        if (file_exists($diretorio_nome)) {
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($diretorio_nome).'"' );
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($diretorio_nome));
+            ob_clean();
+            flush();
+            readfile($diretorio_nome);
+            exit;
+
+        }else{
+            throw new Exception('Arquivo não encontrado', 1);
+            
+        }
     }
 }

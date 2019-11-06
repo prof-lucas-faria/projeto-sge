@@ -7,6 +7,7 @@ use core\model\Evento;
 use core\model\Evento_Tematica;
 use core\model\Permissao;
 use core\sistema\Autenticacao;
+use core\sistema\Arquivos;
 
 class Eventos {
 
@@ -173,5 +174,12 @@ class Eventos {
         } else {
             return false;
         }
+    }
+
+    public function downloadArquivo($dados){
+        $arquivos = new Arquivos();
+        // $dados = json_decode($dados);
+        print_r($dados);
+        $arquivos->startDownload($dados['caminho_arquivo']);
     }
 }
