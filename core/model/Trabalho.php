@@ -51,7 +51,9 @@ class Trabalho extends CRUD {
             if (isset($busca[self::COL_EVENTO_ID]) && !empty($busca[self::COL_EVENTO_ID])) {
                 $tabela = self::TABELA . " t 
                     INNER JOIN " . Evento::TABELA . " e 
-                        ON t." . self::COL_EVENTO_ID . " = e." . Evento::COL_EVENTO_ID;
+                        ON t." . self::COL_EVENTO_ID . " = e." . Evento::COL_EVENTO_ID .
+                    " INNER JOIN " . Tematica::TABELA . " te 
+                        ON t." . self::COL_TEMATICA_ID . " = te." . Tematica::COL_TEMATICA_ID;
                 
                 $where_condicao .= " AND t." . self::COL_EVENTO_ID . " = ?";
                 $where_valor[] = $busca[self::COL_EVENTO_ID];

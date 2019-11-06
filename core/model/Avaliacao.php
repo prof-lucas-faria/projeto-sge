@@ -5,11 +5,13 @@ namespace core\model;
 use core\CRUD;
 use Exception;
 
-class Avaliador extends CRUD {
+class Avaliacao extends CRUD {
 
-    const TABELA = "avaliador";
+    const TABELA = "avaliacao";
+    const COL_TRABALHO_ID = "trabalho_id";
     const COL_AVALIADOR_ID = "avaliador_id";
-    const COL_USUARIO_ID = "usuario_id";
+    const COL_CORRECAO = "correcao";
+    const COL_PARECER = "parecer";
 
     /**
      * @param $dados
@@ -38,23 +40,24 @@ class Avaliador extends CRUD {
      */
     public function alterar($dados) {
 
-        if (!isset($dados[self::COL_TEMATICA_ID])) {
-            throw new Exception("É necessário informar o ID do usuário para atualizar");
+        if (!isset($dados[self::COL_AVALIADOR_ID]) && !isset($dados[self::COL_TRABALHO_ID])) {
+            throw new Exception("É necessário informar o ID do avaliador e o trabalho para atualizar");
         }
 
-        $where_condicao = self::COL_TEMATICA_ID . " = ?";
-        $where_valor[] = $dados[self::COL_TEMATICA_ID];
+        $where_condicao = self::COL_TRABALHO_ID . " = ? AND " . self::COL_AVALIADOR_ID;
+        $where_valor[] = $dados[self::COL_TRABALHO_ID];
+        $where_valor[] = $dados[self::COL_AVALIADOR_ID];
 
         try {
 
-            $this->update(self::TABELA, $dados, $where_condicao, $where_valor);
+            $retorno = $this->update(self::TABELA, $dados, $where_condicao, $where_valor);
 
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
             return false;
         }
 
-        return $dados[self::COL_TEMATICA_ID];
+        return $retorno;
     }
 
     /**
@@ -66,28 +69,22 @@ class Avaliador extends CRUD {
      */
     public function listar($campos = null, $busca = [], $ordem = null, $limite = null) {
 
+        $campos = $campos != null ? $campos : "*";
+        $ordem = $ordem != null ? $ordem : self::COL_TRABALHO_ID;
+
         $where_condicao = "1 = 1";
         $where_valor = [];
 
-        if (count((array)$busca) > 0) {
-            $tabela = self::TABELA . " a 
-                INNER JOIN " . Usuario::TABELA . " u 
-                    ON a." . self::COL_USUARIO_ID . " = u." . Usuario::COL_USUARIO_ID . " 
-                INNER JOIN " . Permissao::TABELA . " p 
-                    ON u." . Usuario::COL_USUARIO_ID . " = p." . Permissao::COL_USUARIO_ID;
+        if ($busca != null) {
+            $where_condicao = self::COL_TRABALHO_ID . " = ? AND " . self::COL_AVALIADOR_ID;
+            $where_valor[] = $dados[self::COL_TRABALHO_ID];
+            $where_valor[] = $dados[self::COL_AVALIADOR_ID];
 
-            if (isset($busca[Permissao::COL_EVENTO_ID]) && !empty($busca[Permissao::COL_EVENTO_ID])) {
-                $where_condicao .= " AND p." . Permissao::COL_EVENTO_ID . " = ?";
-                $where_valor[] = $busca[Permissao::COL_EVENTO_ID];
-            }
-
-        } else {
-            $tabela = self::TABELA;
         }
 
         try {
 
-            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, null, null);
+            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
             // echo $this->pegarUltimoSQL();
 
         } catch (Exception $e) {

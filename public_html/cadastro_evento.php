@@ -8,14 +8,23 @@ use core\controller\Tematicas;
 use core\controller\Tipos;
 use core\controller\Eventos_Tipos;
 
-$evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
-
 $eventos = new Eventos();
 $tematicas = new Tematicas();
 $tipos = new Tipos();
 
+$evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
+
+$tematicas_evento = [];
 $dados_eventos = "";
 $evento = "";
+
+$lista_tematicas = $tematicas->listar($evento_id);
+
+if (count((array)$lista_tematicas[0]) > 0) {
+    foreach ($lista_tematicas as $value) {
+        $tematicas_evento[] = $value->tematica_id;
+    }
+}
 
 $evento = $eventos->listarEvento($evento_id);
 $lista_tematicas = $tematicas->listarTematicas();
@@ -82,8 +91,11 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                             <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
                                 <option value=""></option>
                                 <?php
-                                foreach ($lista_tematicas as $key => $tematica) { ?>
-                                    <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
+
+                                foreach ($lista_tematicas as $key => $tematica) { 
+                                ?>
+                                    
+                                    <option value="<?= $tematica->tematica_id ?>" <?= in_array($tematica->tematica_id, $tematicas_evento) ? "selected" : "" ?>> <?= $tematica->descricao ?> </option>
                                 <?php
                                 }
                                 ?>

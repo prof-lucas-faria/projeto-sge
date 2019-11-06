@@ -46,7 +46,8 @@ use core\controller\Eventos;
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
 
-                    <?php if (Autenticacao::usuarioAdministrador() && isset($_GET['evento_id'])) {
+                    <?php 
+                    if (Autenticacao::usuarioAdministrador() && isset($_GET['evento_id'])) {
                         $evento_id = $_GET['evento_id'];
 
                         $evento = new Eventos();
@@ -55,7 +56,9 @@ use core\controller\Eventos;
 
                         (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d_termino = "disabled" : $d_termino = "";
                         (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? $d_inicio = "disabled" : $d_inicio = "";
-                        ?>
+                    
+                        
+                    ?>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -81,6 +84,15 @@ use core\controller\Eventos;
                                    data-toggle="modal" data-target="#confirmModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
+
+                                <?php 
+                                if (isset($evento->data_inicio_sub)) { 
+                                ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                <?php 
+                                } 
+                                ?>
                             </div>
                         </li>
 

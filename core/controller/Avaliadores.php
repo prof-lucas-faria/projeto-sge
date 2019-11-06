@@ -5,6 +5,7 @@ namespace core\controller;
 use core\sistema\Util;
 use core\model\Avaliador;
 use core\model\Permissao;
+use core\model\Trabalho;
 use core\model\Tematica_Avaliador;
 
 class Avaliadores {
@@ -49,8 +50,10 @@ class Avaliadores {
             if ($resultado > 0) {            
                 $tematica['lista_tematica'] = $dados[$i]['tematica'];
                 
-                $resultado = $avaliador->adicionar($dados[$i]['usuario_id']);
-        
+                $a['usuario_id'] = $dados[$i]['usuario_id'];
+                
+                $resultado = $avaliador->adicionar($a);
+                
                 if ($resultado > 0) {
                     $tematica['avaliador_id'] = $resultado;
                     // print_r($tematica);
@@ -59,8 +62,10 @@ class Avaliadores {
 
                     $resultado = $tematica_avaliador->adicionar($tematica);
             
+                } else {
+                    $permissao->remover($dados[$i]['usuario_id'], $dados[$i]['evento_id']);
                 }
-            }
+            } 
             
             if ($resultado > 0) {
                 return $resultado;
@@ -115,19 +120,9 @@ class Avaliadores {
     public function listarAvaliadores($evento_id) {
         $avaliador = new Avaliador();
 
-        
-        /*
-        SELECT a.avaliador_id FROM avaliador a 
-            INNER JOIN usuario u 
-                ON a.usuario_id = u.usuario_id 
-            INNER JOIN permissao p 
-                ON u.usuario_id = p.usuario_id  
-            WHERE p.evento_id = 8;
-        */
-
         if ($evento_id != null) {
 
-            $dados['evento_id'] = $evento_id;
+            $dados = $evento_id;
             $campos = " a." . Avaliador::COL_AVALIADOR_ID;
 
         } else {
@@ -143,7 +138,125 @@ class Avaliadores {
             $this->__set("lista_avaliadores", $lista);
         }
 
-        return $this->lista_avaliadores;
+        if ($evento_id != null) {
+            return json_encode($this->lista_avaliadores);
+        } else {
+            return $this->lista_avaliadores;
+        }
+    }
+
+
+    public function distribuirTrabalhos($dados) {
+
+        $trabalhos = new Trabalhos();
+
+        print_r($dados);
+
+        // if (count((array)$avaliador[0]) > 0 && count((array)$trabalho[0]) > 0) {
+
+        //     // trabalhos existentes no evento
+        //     foreach ($trabalho as $value) {
+        //         $dados_trabalho[] = $value->trabalho_id;
+        //         $dados_trabalho[] = $value->trabalho_id;
+        //     }
+        
+        //     $media = round(count($dados_trabalho)/count((array)$avaliador));
+        
+        //     foreach ($avaliador as $value) {
+        
+        //         $distribuicao = $trabalhos->listarTrabalhos($evento_id, $value->avaliador_id);
+        
+        //         // trabalhos que são possiveis do avaliador x avaliar
+        //         foreach ($distribuicao as $x) {
+        //             $dados_avaliador[$value->avaliador_id][] = $x->trabalho_id;
+        //         }
+        
+        
+        //         if (count($dados_avaliador[$value->avaliador_id]) <= $media) {
+        
+        //             foreach ($dados_avaliador[$value->avaliador_id] as $x) {
+        
+        //                 $lista[$value->avaliador_id][] = $x;
+        
+        //                 $j = array_search($x, $dados_trabalho);
+        //                 unset($dados_trabalho[$j]); 
+        
+        //             }
+        
+        //             unset($dados_avaliador[$value->avaliador_id]);
+        //         }
+        
+        //     }
+        
+        //     /* Dados reais para teste
+        //     $dados_avaliador = [
+        //         1 => [25,26,28,30,31,32,34,38,39,40,41,43,44,45,46,47,48],
+        //         2 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48], 
+        //         3 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+        //         4 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+        //         5 => [25,26,27,28,29,30,31,32,33,34,35,37,38,42,44,45,46,47,48],
+        //         6 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+        //         7 => [26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+        //         8 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48]
+        //     ];
+        
+        //     $dados_trabalho = [
+        //         25,25,26,26,27,27,28,28,29,29,30,30,31,31,32,32,33,33,34,34,35,35,36,36,
+        //         37,37,38,38,39,39,40,40,41,41,42,42,43,43,44,44,45,45,46,46,47,47,48,48
+        //     ];
+            
+        //     foreach ($dados_avaliador as $key => $value) {
+        //         if (count($dados_avaliador[$key]) <= $media) {
+        
+        //             foreach ($value as $i => $x) {
+        //                 $lista[$key][] = $x;
+        
+        //                 $j = array_search($x, $dados_trabalho);
+        //                 unset($dados_trabalho[$j]); 
+        //             }
+        
+        //             unset($dados_avaliador[$key]);
+        //         }
+        //     } */
+        
+        //     $aval = count($dados_avaliador);
+        //     $trab = count($dados_trabalho);
+        
+        //     if ($aval > 0 ) {
+        //         $media = round($trab/$aval, 0);
+        //         if ($trab%$aval != 0) $media++;    
+        //     } else {
+        //         $media = $trab;
+        //     }
+        
+        
+        //     // while (count($dados_trabalho) != 0) { 
+        //     for ($cont = 0; $cont < $media; $cont++) {       
+        
+        //         foreach ($dados_avaliador as $key => $value) {
+        //             if(!isset($lista[$key])) $lista[$key] = []; 
+        
+        //             foreach ($dados_trabalho as $i => $x) {           
+        //                 if (!in_array($x, $lista[$key]) && in_array($x, $dados_avaliador[$key]) && (count($lista[$key]) < $media || $aval == 0)) {
+                            
+        //                     $lista[$key][] = $x; 
+        //                     unset($dados_trabalho[$i]); 
+        //                     break;     
+                            
+        //                 } 
+        //             }      
+        //         }
+        //     }
+        
+        //     if (count($dados_trabalho) > 0) {
+        //         return $dados_trabalho;
+        //     } else {
+        //         return json_encode($lista);
+        //     }
+
+        // } else {
+        //     return false;
+        // }
     }
 
 }
