@@ -5,6 +5,13 @@ let construct = () => {
 
 
 const eventos = () => {
+    $(document).ready(function() {
+		let height = $(document).find("#div1").height();
+		console.log(height);
+		
+		$("#div2").height(height);
+    });	
+
     $('#botao_excluir').on('click', function (event) {
         event.preventDefault();
         let evento_id = $(this).attr('data-evento_id');

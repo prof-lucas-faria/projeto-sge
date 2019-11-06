@@ -37,6 +37,8 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 ?>
 
+
+
 <main role="main">
 <!--	<div class="jumbotron mt-n5" style="height: 250px; border-radius:0px; background:url(assets/imagens/grande2.jpg) no-repeat 0 0"></div>-->
 
@@ -112,7 +114,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 						</div>
 					</div>
 
-					<div class="row mt-3" style="min-height:9ch;">
+					<div class="row mt-3" id="div1">
 						<div class="col-md-10 offset-1 align-self-center align-text-middle">
 							<!-- colocar badge dos temas do evento -->
 							
@@ -177,7 +179,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 						</div>
 					</div>
 
-					<div class="row mt-3" style="min-height:9ch;">
+					<div class="row mt-3" id="div2">
 						<div class="col-md-10 offset-1 align-self-center align-text-middle">
 							
 							<?php 
@@ -306,6 +308,9 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 	</div>
 </main>
 
+<script>
+	
+</script>
 
 <?php
 $footer = new Footer();
