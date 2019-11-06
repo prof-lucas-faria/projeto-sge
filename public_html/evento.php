@@ -6,18 +6,25 @@ use core\controller\Atividades;
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
+use core\controller\Tematicas;
+use core\controller\Eventos_Tipos;
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 
 $eventos = new Eventos();
 $atividades = new Atividades();
+$tematicas = new Tematicas();
+$tipos = new Eventos_Tipos();
 
 $dados2 = [];
 $evento = "";
 $atividade = "";
+$lista_tipos = "";
 
 $evento = $eventos->listarEvento($evento_id);
 $atividade = $atividades->listarAtividades($evento_id);
+$lista_tematicas = $tematicas->listar($evento_id);
+$lista_tipos = $tipos->listarEventosTipos($evento_id);
 
 (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d = "disabled" : $d = "";
 (strtotime(date('Y/m/d')) < strtotime($evento->evento_termino)) ? $verificacaoGerarCeritificado = "disabled": $verificacaoGerarCeritificado = "";
@@ -105,19 +112,30 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 						</div>
 					</div>
 
-					<div class="row mt-3">
-						<div class="col-md-12">
+					<div class="row mt-3" style="min-height:9ch;">
+						<div class="col-md-10 offset-1 align-self-center align-text-middle">
 							<!-- colocar badge dos temas do evento -->
-							<span class="badge badge-pill badge-primary">Info</span>
-							<span class="badge badge-pill badge-secondary">Agro</span>
+							
+							<?php 
+							$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
+							$i = 0;
+							foreach ($lista_tematicas as $key => $tematica) {
+							?>
+								<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tematica->descricao ?> </span>
+							<?php	
+								if ($i > 5) $i = 0;
+							}
+							?>
+
+							<!-- <span class="badge badge-pill badge-secondary">Agro</span>
 							<span class="badge badge-pill badge-success">Bio</span>
 							<span class="badge badge-pill badge-danger">Quimica</span>
-							<span class="badge badge-pill badge-warning">Zoo</span>
-							<br><p><small class="text-muted">Inscrições apenas pelo site.</small></p>
+							<span class="badge badge-pill badge-warning">Zoo</span> -->
+							<!--  -->
 						</div>
 					</div>
 
-					<div class="row">
+					<div class="row mt-2">
 						<div class="col-md-12">
 							<?php
 								$cont = 0;
@@ -136,7 +154,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 									$b = "disabled";
 								}
 							?>
-
+							<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
 							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark <?= $a ?> <?= $d ?>">Inscrever-se</a>
 						</div>
 					</div>
@@ -159,17 +177,29 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 						</div>
 					</div>
 
-					<div class="row mt-3">
-						<div class="col-md-12">
-							<!-- colocar badge dos tipos de trabalhos possíveis a submissão -->
-							<span class="badge badge-pill badge-danger">Resumo expandido</span>
-							<span class="badge badge-pill badge-success">Relato de experiência</span>
-							<br><p><small class="text-muted">Submissões apenas pelo site.</small></p>
+					<div class="row mt-3" style="min-height:9ch;">
+						<div class="col-md-10 offset-1 align-self-center align-text-middle">
+							
+							<?php 
+							$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
+							$i = 0;
+
+							if ($lista_tipos != "") {							
+								foreach ($lista_tipos as $key => $tipo) {
+							?>
+									<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tipo->descricao ?> </span>
+							<?php	
+								if ($i > 5) $i = 0;
+								}
+							}
+							?>
+
 						</div>
 					</div>
 
-					<div class="row">
+					<div class="row mt-2">
 						<div class="col-md-12">
+							<p><small class="text-muted">Submissões apenas pelo site.</small></p>
 							<a href="#" class="btn btn-lg btn-outline-dark">Submeter</a>
 						</div>
 					</div>
