@@ -30,7 +30,7 @@ const eventos = () => {
 
 
 
-        [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao] = getTipos();
+        [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao, vetor_path_escrita, vetor_path_apresentacao] = getTipos();
         // console.log(a,b,c);
         tipos = JSON.stringify(tipos);
 
@@ -71,20 +71,41 @@ const eventos = () => {
             // console.log(vetor_modelo_escrita);
 
             for (let i = 0; i < vetor_modelo_escrita.length; i++) {
+
                 if (vetor_modelo_escrita[i] !== null) {
+                    // Se o modelo for anexado na pagina 
                     dados.append("modelo_escrita[]", vetor_modelo_escrita[i]);
                     console.log('sim' + vetor_modelo_escrita[i]);
 
                 } else {
-                    dados.append("modelo_escrita[]", new File([""], "null"));
-                    console.log('nao' + vetor_modelo_escrita[i]);
+                    // Caso o modelo não seja anexado
+
+                    if (vetor_path_escrita[i] !== '') {
+                        // Caso o modelo já tenha sido enviado
+                        dados.append("modelo_escrita[]", new File([""], vetor_path_escrita[i]));
+                        console.log('ja existe' + vetor_path_escrita[i]);
+
+                    } else {
+                        // Caso o modelo nunca tenha sido enviado
+                        dados.append("modelo_escrita[]", new File([""], "null"));
+                        console.log('nao' + vetor_modelo_escrita[i]);
+                    }
 
                 }
 
                 if (vetor_modelo_apresentacao[i] !== null) {
+                    // Se o modelo for anexado na página
                     dados.append("modelo_apresentacao[]", vetor_modelo_apresentacao[i]);
                 } else {
-                    dados.append("modelo_apresentacao[]", new File([""], "null"));
+                    // Caso o modelo não seja anexado
+                    if (vetor_path_apresentacao[i] !== '') {
+                        // Caso o modelo já tenha sido enviado
+                        dados.append("modelo_apresentacao[]", new File([""], vetor_path_apresentacao[i]));
+                        console.log("ja existe" + vetor_path_apresentacao[i]);
+                    } else {
+                        // Caso o modelo nunca tenha sido enviado
+                        dados.append("modelo_apresentacao[]", new File([""], "null"));
+                    }
                 }
 
             }
@@ -109,11 +130,12 @@ const eventos = () => {
                     if (res) {
                         if (evento_id == "") {
                             $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                            window.location.href = window.location.href + '?evento_id=' + res ;
+                            window.location.href = window.location.href + '?evento_id=' + res;
                             urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
                         } else {
                             $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                            window.location.href = window.location.href;
                         }
                     } else {
 
@@ -150,7 +172,7 @@ const validarFile = () => {
 };
 
 const showSubmissao = () => {
-    $(document).ready( function () {
+    $(document).ready(function () {
         if ($('#submissoes').is(':checked')) {
             $("#tipo_trabalho").children().show();
 
@@ -160,7 +182,7 @@ const showSubmissao = () => {
         }
 
     });
-    $(document).on('change','#submissoes', function () {
+    $(document).on('change', '#submissoes', function () {
         if ($(this).is(':checked')) {
             $("#tipo_trabalho").children().show();
 
@@ -237,6 +259,8 @@ const getTipos = () => {
     let tipos = [];
     let vetor_modelo_apresentacao = [];
     let vetor_modelo_escrita = [];
+    let vetor_path_apresentacao = [];
+    let vetor_path_escrita = [];
 
     let count = 1;
     $(tipos_trabalhos).each(function (index, params) {
@@ -245,7 +269,16 @@ const getTipos = () => {
 
         console.log();
 
-        let tipo_id = $(params).find('input[name=qtd_max_autor').attr('data-tipo_id');
+        input_qtd_max_autor = $(params).find('input[name=qtd_max_autor');
+
+        console.log(input_qtd_max_autor);
+
+        let tipo_id = $(input_qtd_max_autor).attr('data-tipo_id');
+        let path_escrita = $(input_qtd_max_autor).attr('data-path_escrita');
+        let path_apresentacao = $(input_qtd_max_autor).attr('data-path_apresentacao');
+
+        // console.log('1' + path_escrita);
+        // console.log('1' + path_apresentacao);
 
 
         seletorEscrita = '#modelo_escrita' + tipo_id;
@@ -268,7 +301,7 @@ const getTipos = () => {
         }
 
         // Caso não seja informado, o limite máximo de autores será 15
-        let qtde_max_autor = ($(params).find('input[name=qtd_max_autor').val() !== "") ? $(params).find('input[name=qtd_max_autor').val() : 15;
+        let qtde_max_autor = ($(params).find('input[name=qtd_max_autor').val() !== "") ? $(params).find('input[name=qtd_max_autor').val() : '15';
 
         modelo_apresentacao = modelo_apresentacao;
         modelo_escrita = modelo_escrita;
@@ -281,13 +314,18 @@ const getTipos = () => {
             qtde_max_autor: qtde_max_autor
         };
 
+        // console.log('-----------------------------' + tipo.tipo_id);
+
+
         tipos.push(tipo);
         vetor_modelo_apresentacao.push(modelo_apresentacao);
         vetor_modelo_escrita.push(modelo_escrita);
+        vetor_path_apresentacao.push(path_apresentacao);
+        vetor_path_escrita.push(path_escrita);
 
     });
     console.log(tipos);
-    return [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao];
+    return [tipos, vetor_modelo_escrita, vetor_modelo_apresentacao, vetor_path_escrita, vetor_path_apresentacao];
 };
 
 const validaDatas = () => {
@@ -310,18 +348,18 @@ const validaDatas = () => {
 };
 
 const downloadArquivo = () => {
-    
-    $('button[name=download_modelo]').click( function (e) {
+
+    $('button[name=download_modelo]').click(function (e) {
         e.preventDefault();
-        
+
         let caminho_arquivo = $(this).attr('data-path');
 
-        if (caminho_arquivo !== '') {            
+        if (caminho_arquivo !== '') {
             window.open('api.php?acao=Eventos/downloadArquivo&caminho_arquivo=' + caminho_arquivo, '_blank')
         }
-    
+
     });
-   
+
 
 
 };

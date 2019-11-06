@@ -21,10 +21,15 @@ $evento = $eventos->listarEvento($evento_id);
 $lista_tematicas = $tematicas->listarTematicas();
 $lista_tipos = $tipos->listarTipos();
 
-if ($evento_id != null) {
-    $eventos_tipos = new Eventos_Tipos();
+$eventos_tipos = new Eventos_Tipos();
 
-    $lista_eventos_tipos = $eventos_tipos->listarEventosTipos($evento_id);
+$lista_eventos_tipos = $eventos_tipos->listarEventosTipos($evento_id);
+// echo '<pre>';
+// print_r($lista_eventos_tipos);
+// echo '</pre>';
+
+
+if ($evento_id != null && $lista_eventos_tipos != null) {
     // echo '<pre>';
     // print_r($lista_eventos_tipos);
     // echo '</pre>';
@@ -87,7 +92,7 @@ if ($evento_id != null) {
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox mw-100">
-                                <input type="checkbox" class="custom-control-input" id="submissoes" <?= (isset($lista_eventos_tipos)) ? "checked" : "" ?>>
+                                <input type="checkbox" class="custom-control-input" id="submissoes" <?= ($lista_eventos_tipos != null) ? "checked" : "" ?>>
                                 <label class="custom-control-label" for="submissoes">Haverá a submissão de trabalhos científicos</label>
                             </div>
                         </div>
@@ -121,7 +126,7 @@ if ($evento_id != null) {
 
 
                             <?php
-                            if (isset($lista_eventos_tipos) && count($lista_eventos_tipos)  > 0) {
+                            if ($lista_eventos_tipos != null ) {
                                 foreach ($lista_eventos_tipos as $tipo) { ?>
                                     <div name='tipos_trabalhos' id="<?= 'tipo' . $tipo->tipo_id ?>">
                                         <h1 class='h5 mt-2 mb-2 font-weight-normal'> <?= $tipo->descricao ?> </h1>
@@ -151,14 +156,14 @@ if ($evento_id != null) {
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                    <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_escrita" data-path=<?=(isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""'. 'disabled='.'"disabled"'?> ><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                    <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_apresentacao" data-path=<?=(isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""'. 'disabled='.'"disabled"'?> ><i class="fa fa-download" aria-hidden="true"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class='form-group col-md-6'>
                                                 <label for="<?= 'qtd_max_autor' . $tipo->tipo_id ?>">Limite de Autores:</label>
-                                                <input type='text' class='form-control' data-tipo_id="<?= $tipo->tipo_id ?>" name='qtd_max_autor' id="<?= 'qtd_max_autor' . $tipo->tipo_id ?>" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" maxlength='2' value="<?= $tipo->qtde_max_autor ?>"">
+                                                <input type='text' class='form-control' data-tipo_id="<?= $tipo->tipo_id ?>" data-path_apresentacao='<?= $tipo->modelo_apresentacao ?>' data-path_escrita='<?= $tipo->modelo_escrita ?>' name='qtd_max_autor' id="<?= 'qtd_max_autor' . $tipo->tipo_id ?>" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" maxlength='2' value="<?= $tipo->qtde_max_autor ?>"">
                                         </div>
                                     </div>
                                 </div>
