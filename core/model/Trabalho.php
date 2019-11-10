@@ -34,6 +34,25 @@ class Trabalho extends CRUD {
         return $retorno;
     }
 
+    public function alterar($dados){
+        if (!isset($dados[self::COL_TRABALHO_ID])) {
+            throw new Exception("É necessário informar o ID do trabalho para atualizar");
+        }
+
+        $where_condicao = self::COL_TRABALHO_ID . " = ?";
+        $where_valor[] = $dados[self::COL_TRABALHO_ID];
+        try {
+
+            $this->update(self::TABELA, $dados, $where_condicao, $where_valor);
+
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+            return false;
+        }
+
+        return $dados[self::COL_TRABALHO_ID];
+    }
+
     /**
      * @param null $campos
      * @param array $busca
@@ -94,6 +113,26 @@ class Trabalho extends CRUD {
         return $retorno;
     }
     
+    /**
+     * @param $trabalho_id
+     * @return array
+     */
+    public function selecionarTrabalho($trabalho_id){
+
+        $where_condicao = self::COL_TRABALHO_ID . " = ?";
+        $where_valor[] = $trabalho_id;
+
+        $retorno = [];
+
+        try {
+
+            $retorno = $this->read(self::TABELA, "*", $where_condicao, $where_valor, null, null, 1);
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+        }
+
+        return $retorno;
+    }
 
 }
 

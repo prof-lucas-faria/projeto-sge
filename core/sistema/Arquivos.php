@@ -115,7 +115,7 @@ class Arquivos
     public function startDownload($diretorio_nome)
     {
         $diretorio_nome = self::PATH_ARQUIVOS . $diretorio_nome;
-
+        print_r($diretorio_nome);
         if (file_exists($diretorio_nome)) {
 
             header('Content-Description: File Transfer');

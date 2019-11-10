@@ -9,6 +9,8 @@ use core\model\Usuario;
 use core\sistema\Autenticacao;
 use core\controller\Eventos_Tipos;
 use core\controller\Tematicas;
+use core\controller\Trabalhos;
+use core\controller\Usuarios_Trabalhos;
 
 if (!Autenticacao::getCookieUsuario()) {
     header('Location: login.php');
@@ -18,7 +20,7 @@ if (!Autenticacao::getCookieUsuario()) {
 }
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
-$trabalho_id = isset($_GET['trabalho_id']) ? $_GET['evento_id'] : null;
+$trabalho_id = isset($_GET['trabalho_id']) ? $_GET['trabalho_id'] : null;
 
 $usuarios = new Usuarios();
 $usuario = $usuarios->listarUsuarioID($usuario_id);
@@ -36,8 +38,18 @@ $lista_tipos = $eventos_tipos->listarEventosTipos($evento_id);
 $tematicas = new Tematicas();
 $lista_tematicas = $tematicas->listar($evento_id);
 
+$trabalhos = new Trabalhos();
+$trabalho = $trabalhos->listarTrabalho($trabalho_id);
+
+$usuarios_trabalhos = new Usuarios_Trabalhos();
+$listaAutores = $usuarios_trabalhos->listarNomeId($trabalho_id);
+
 // echo '<pre>';
-// print_r($lista_tipos);
+// print_r($listaAutores);
+// echo '</pre>';
+
+// echo '<pre>';
+// print_r($trabalho);
 // echo '</pre>';
 
 ?>
@@ -52,9 +64,7 @@ $lista_tematicas = $tematicas->listar($evento_id);
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario" data-evento_id="<?=isset($evento_id) ? $evento_id : ''?>"
-                    data-trabalho_id="<?=isset($trabalho_id) ? $trabalho_id : ''?>"
-                    >
+                    <form class="needs-validation" id="formulario" data-evento_id="<?= isset($evento_id) ? $evento_id : '' ?>" data-trabalho_id="<?= isset($trabalho_id) ? $trabalho_id : '' ?>">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="area_tematica">Tipo do Trabalho:</label>
@@ -62,7 +72,7 @@ $lista_tematicas = $tematicas->listar($evento_id);
                                     <option value="" selected disabled>Selecione um Tipo</option>
                                     <?php
                                     foreach ($lista_tipos as $key => $tipo) { ?>
-                                        <option value="<?= $tipo->tipo_id ?>" <?= (isset($evento_tipos_id) && in_array($tipo->tipo_id, $evento_tipos_id)) ? "selected" : "" ?> data-qtde_max_autor="<?= isset($tipo->qtde_max_autor) ? $tipo->qtde_max_autor : '0' ?>"> <?= $tipo->descricao ?> </option>
+                                        <option value="<?= $tipo->tipo_id ?>" <?= (isset($trabalho->tipo_id) && $tipo->tipo_id == $trabalho->tipo_id) ? "selected" : "" ?> data-qtde_max_autor="<?= isset($tipo->qtde_max_autor) ? $tipo->qtde_max_autor : '0' ?>"> <?= $tipo->descricao ?> </option>
                                     <?php
                                     }
                                     ?>
@@ -77,7 +87,7 @@ $lista_tematicas = $tematicas->listar($evento_id);
                                     <?php
                                     foreach ($lista_tematicas as $key => $tematica) {
                                         ?>
-                                        <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
+                                        <option value="<?= $tematica->tematica_id ?>" <?= (isset($trabalho->tematica_id) && $tematica->tematica_id == $trabalho->tematica_id) ? "selected" : "" ?>> <?= $tematica->descricao ?> </option>
                                     <?php
                                     }
                                     ?>
@@ -94,11 +104,32 @@ $lista_tematicas = $tematicas->listar($evento_id);
                                     <div class="input-group" id='autores'>
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                                <input type="checkbox"  id='apresentadores' name='apresentadores' >
+                                                <input type="checkbox" id='apresentadores' name='apresentadores' <?= (isset($listaAutores[0]->apresentador) && $listaAutores[0]->apresentador == 1) ? 'checked' : '' ?>>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" id="autores" name="autores" placeholder="" data-usuario_id="<?= (isset($usuario->usuario_id)) ? $usuario->usuario_id : "" ?>" value="<?= (isset($usuario->nome)) ? $usuario->nome : "" ?>" disabled>
                                     </div>
+                                    <?php
+                                        if ($listaAutores != null) {
+
+
+                                            for ($i = 1; $i < count((array) $listaAutores); $i++) {
+
+                                                ?>
+                                            <div class='input-group mt-3' name='autores'>
+                                                <div class='input-group-prepend'>
+                                                    <div class='input-group-text'>
+                                                        <input type='checkbox' id='apresentadores' name='apresentadores' aria-label='Checkbox for following text inpu' <?= (isset($listaAutores[$i]->apresentador) && $listaAutores[$i]->apresentador == 1) ? 'checked' : '' ?>>
+                                                    </div>
+                                                </div>
+                                                <input type="text" class="form-control" id="autores" name="autores" placeholder="" data-usuario_id="<?= (isset($listaAutores[$i]->usuario_id)) ? $listaAutores[$i]->usuario_id : "" ?>" value="<?= (isset($listaAutores[$i]->nome)) ? $listaAutores[$i]->nome : "" ?>">
+
+                                            </div>
+                                    <?php
+
+                                            }
+                                        }
+                                        ?>
 
                                 <?php
                                 } else {
@@ -128,50 +159,64 @@ $lista_tematicas = $tematicas->listar($evento_id);
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="titulo">Título:</label>
-                                <input type="text" class="form-control" id="titulo" placeholder="Insira o título " autofocus>
+                                <input type="text" class="form-control" id="titulo" placeholder="Insira o título " value="<?= (isset($trabalho->titulo)) ? $trabalho->titulo : "" ?>">
                             </div>
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label for="arquivo_sem_id">Arquivo Não Identificado:</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br" >
-                                    <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
-                                    <label class="custom-file-label" for="arquivo_sem_id">Selecione seu
-                                        trabalho</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="arquivo_sem_id" lang="pt-br">
+                                        <!-- Para deixar verde é só mudar a classe para custom-file-label-success -->
+                                        <label class=<?= (isset($trabalho->arquivo_nao_identificado)) ? 'custom-file-label-success' : 'custom-file-label' ?> for="arquivo_sem_id">
+                                            <?= (isset($trabalho->arquivo_nao_identificado)) ? basename($trabalho->arquivo_nao_identificado) : 'Selecione o arquivo' ?>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_arquivo' id="download_arquivo_nao_identificado" data-path=<?= (isset($trabalho->arquivo_nao_identificado)) ? '"' . $trabalho->arquivo_nao_identificado . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
+                                    </div>
                                 </div>
                                 <small>Escolha o arquivo que <strong>não possui</strong> a identificação dos
                                     autores.</small>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label for="arquivo_com_id">Arquivo Identificado:</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br" >
-                                    <label class="custom-file-label" for="arquivo_com_id">Selecione seu
-                                        trabalho</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="arquivo_com_id" lang="pt-br">
+                                        <label class=<?= (isset($trabalho->arquivo_identificado)) ? 'custom-file-label-success' : 'custom-file-label' ?> for="arquivo_com_id">
+                                            <?= (isset($trabalho->arquivo_identificado)) ? basename($trabalho->arquivo_identificado) : 'Selecione o arquivo' ?>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_arquivo' id="download_arquivo_identificado" data-path=<?= (isset($trabalho->arquivo_identificado)) ? '"' . $trabalho->arquivo_identificado . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
+                                    </div>
                                 </div>
                                 <small>Escolha o arquivo que <strong>possui</strong> a identificação dos
                                     autores.</small>
+
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="col-md-7"></div>
-                            <div class="col-md-1" id="btn_atividade">
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
-                                    Cadastrar
-                                </button>
+                        <div class=" form-row">
+                                <div class="col-md-7"></div>
+                                <div class="col-md-1" id="btn_atividade">
+                                </div>
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
+                                        Cadastrar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                 </div>
             </div>
-        </div>
-</main>
+<!-- </main> -->
 
 <?php
 

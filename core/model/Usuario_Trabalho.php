@@ -62,4 +62,25 @@ class Usuario_Trabalho extends CRUD {
         }
         return $retorno;
     }
+
+    public function listarNomeId($trabalho_id){
+        $campos = "u.usuario_id, u.nome, ut.apresentador";
+
+        $where_condicao = self::COL_TRABALHO_ID . " = ?";
+        $where_valor[] = $trabalho_id;
+
+        $retorno = [];
+
+        try {
+            $retorno = $this->read(self::TABELA . " ut inner join usuario u on ut.usuario_id = u.usuario_id",
+                                    $campos, $where_condicao,$where_valor, null, null, null
+                                );
+            
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+            return false;
+
+        }
+        return $retorno;
+    }
 }

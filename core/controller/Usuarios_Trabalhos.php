@@ -60,6 +60,16 @@ class Usuarios_Trabalhos {
         }
      }
 
-}
+     public function listarNomeId($trabalho_id){
+        $usuario_trabalho = new Usuario_Trabalho();
 
-?>
+        $usuarios = $usuario_trabalho->listarNomeId($trabalho_id);
+
+        if (count($usuarios) > 0 && (!empty($usuarios[0]))) {
+            return $usuarios;
+        } else {
+            return false;
+        }
+     }
+
+}

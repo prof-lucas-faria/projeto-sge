@@ -3,10 +3,11 @@ let construct = () => {
     listarAutores();
     validarFile();
     trabalhos();
+    downloadArquivo();
 };
 
 const trabalhos = () => {
-    // $(".custom-select").chosen({ no_results_text: "Oops, nada foi encontrado!", max_selected_options:1 });
+    //  $(".custom-select").chosen({ no_results_text: "Oops, nada foi encontrado!", max_selected_options:1 });
 
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
@@ -14,10 +15,18 @@ const trabalhos = () => {
         let tipo = $('#tipo').val(),
             tematica = $('#tematica').val(),
             titulo = $('#titulo').val(),
-            evento_id = $('#formulario').attr('data-evento_id'),
-            arquivo_sem_id = $('#arquivo_sem_id')[0].files[0],
-            arquivo_com_id = $('#arquivo_com_id')[0].files[0];
+            trabalho_id = $('#formulario').attr('data-trabalho_id'),
+            evento_id = $('#formulario').attr('data-evento_id');
+        // arquivo_sem_id = $('#arquivo_sem_id')[0].files[0],
+        // arquivo_com_id = $('#arquivo_com_id')[0].files[0];
 
+        let qtd_max_autores = $('#tipo option:selected').attr('data-qtde_max_autor');
+
+        let arquivo_sem_id = ($('#arquivo_sem_id').get(0).files.length !== 0) ? $('#arquivo_sem_id')[0].files[0] : $('#download_arquivo_nao_identificado').attr('data-path');
+        let arquivo_com_id = ($('#arquivo_com_id').get(0).files.length !== 0) ? $('#arquivo_com_id')[0].files[0] : $('#download_arquivo_identificado').attr('data-path');
+
+        console.log(arquivo_com_id);
+   
         let autores = $(document).find('input[name=autores]');
         let a = [];
         autores.each(function (index, params) {
@@ -33,16 +42,16 @@ const trabalhos = () => {
         apresentadores.each(function (index, params) {
             // console.log(params);
             // console.log(params.checked);
-            
-            if (params.checked){
+
+            if (params.checked) {
                 a.push("1");
-            }else{
+            } else {
                 a.push("0");
             }
         });
         apresentadores = a;
         console.log(apresentadores);
-                
+
 
 
         if (tipo !== "" &&
@@ -51,6 +60,7 @@ const trabalhos = () => {
             arquivo_sem_id !== "" &&
             arquivo_com_id !== "" &&
             autores.length > 0 &&
+            autores.length < qtd_max_autores &&
             validaApresentadores(apresentadores)
         ) {
             let dados = new FormData();
@@ -69,6 +79,11 @@ const trabalhos = () => {
                 dados.append("apresentadores[]", item);
             })
 
+            if (trabalho_id !== "") {
+                // dados.evento_id = evento_id;
+                dados.append("trabalho_id", trabalho_id);
+            }
+
             dados.append("acao", 'Trabalhos/cadastrar');
 
             $.ajax({
@@ -82,32 +97,32 @@ const trabalhos = () => {
                 async: true,
                 success: function (res) {
                     if (res) {
-                        // if (trabalho_id == "") {
+                        if (trabalho_id == "") {
                         $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                        // window.location.href = window.location.href + '?evento_id=' + res;
-                        // } else {
-                        //     $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                        //     window.location.href = window.location.href;
-                        // }
+                        window.location.href = window.location.href + '?trabalho_id=' + res;
+                        } else {
+                            $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                            window.location.href = window.location.href;
+                        }
                     }
-                    // else {
-                    //     if (trabalho_id == "") {
-                    //         $('#msg_erro').toast('show');
-                    //     } else {
-                    //         $('#msg_alterar_erro').toast('show');
-                    //         console.log('q isso??');
+                    else {
+                        if (trabalho_id == "") {
+                            $('#msg_erro').toast('show');
+                        } else {
+                            $('#msg_alterar_erro').toast('show');
+                            console.log('q isso??');
 
-                    //     }
-                    // }
+                        }
+                    }
 
                 },
                 error: function (request, status, str_error) {
                     console.log(request, status, str_error)
                 }
             });
-        }else{
+        } else {
             console.log("Tem coisa errada");
-            
+
         }
     })
 };
@@ -129,34 +144,34 @@ const addCampoAutores = () => {
                 let form_group_autores = $('#form_group_autores');
                 // form_group_autores.append('<input type="text" class="form-control mt-2" name="autores">');
                 let input = "<div class='input-group mt-3' name='autores'>";
-                    input += "<div class='input-group-prepend'>";
-                          input += "<div class='input-group-text'>";
-                             input += "<input type='checkbox' id='apresentadores' name='apresentadores' aria-label='Checkbox for following text inpu'>";
-                          input += "</div>";
-                    input += "</div>";
-                    input += "<input type='text' class='form-control' id='autores' name='autores' placeholder=''>";
+                input += "<div class='input-group-prepend'>";
+                input += "<div class='input-group-text'>";
+                input += "<input type='checkbox' id='apresentadores' name='apresentadores' aria-label='Checkbox for following text inpu'>";
+                input += "</div>";
+                input += "</div>";
+                input += "<input type='text' class='form-control' id='autores' name='autores' placeholder=''>";
                 input += '</div>';
                 form_group_autores.append(input);
             } else {
-    // Enviar um toast falando que o limite de autores é 6
+                // Enviar um toast falando que o limite de autores é 6
 
-}
+            }
 
         } else {
-    // Chamar alert
-    console.log('Selecione o tipo de trabalho');
-}
+            // Chamar alert
+            console.log('Selecione o tipo de trabalho');
+        }
 
     });
 
-// Função para remover input para autor, deixando apenas o primeiro
-$('#delAutores').on('click', function (event) {
-    event.preventDefault();
+    // Função para remover input para autor, deixando apenas o primeiro
+    $('#delAutores').on('click', function (event) {
+        event.preventDefault();
 
-    let form_group_autores = $('#form_group_autores');
-    form_group_autores.children("div[name=autores]:last:not(#autores)").remove();
+        let form_group_autores = $('#form_group_autores');
+        form_group_autores.children("div[name=autores]:last:not(#autores)").remove();
 
-})
+    })
 };
 
 
@@ -219,6 +234,26 @@ const validaApresentadores = (apresentadores) => {
     return false;
 
 };
+
+const downloadArquivo = () => {
+
+    $('button[name=download_arquivo]').click(function (e) {
+        e.preventDefault();
+
+        let caminho_arquivo = $(this).attr('data-path');
+
+        if (caminho_arquivo !== '') {
+            console.log(caminho_arquivo);
+
+            window.open('api.php?acao=Eventos/downloadArquivo&caminho_arquivo=' + caminho_arquivo, '_blank')
+        }
+
+    });
+
+
+
+};
+
 
 construct();
 
