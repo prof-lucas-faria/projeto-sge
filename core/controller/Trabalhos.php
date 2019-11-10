@@ -3,7 +3,7 @@
 namespace core\controller;
 
 use core\model\Trabalho;
-
+use core\controller\Usuarios_Trabalhos;
 
 class Trabalhos {
 
@@ -27,6 +27,41 @@ class Trabalhos {
         return $this->$atributo;
     }
 
+    public function cadastrar($dados)
+    {
+        print_r($dados);
+
+        $dados['titulo'] = ucwords(strtolower($dados['titulo']));
+        $dados['status'] = 'Submetido';
+        $dados['arquivo_identificado'] = 'Teste';
+        $dados['arquivo_nao_identificado'] = 'Teste';
+
+        $usuario['autores'] = $dados['autores'];
+        unset($dados['autores']);
+        $usuario['apresentadores'] = $dados['apresentadores'];
+        unset($dados['apresentadores']);
+
+
+
+
+        $trabalho = new Trabalho();
+        if (isset($dados['trabalho_id']) && !empty($dados['trabalho_id'])) {
+            $resultado = $trabalho->alterar($dados);
+        }else{
+            $resultado = $trabalho->adicionar($dados);
+        }
+
+        $usuario['trabalho_id'] = $resultado;
+
+        $usuarios_trabalhos = new Usuarios_Trabalhos();
+        $usuarios_trabalhos->adicionar($usuario);
+
+        if ($resultado > 0) {
+            return $resultado;
+        } else {
+            return false;
+        }
+    }
 
     public function listarTrabalhos($dados) 
     {
