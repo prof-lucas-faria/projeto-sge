@@ -17,13 +17,13 @@ class Arquivos
     {
         // print_r($arquivo);
         if (pathinfo($arquivo['name'], PATHINFO_EXTENSION) != null) {
-           // Gera um novo nome para o arquivo
+            // Gera um novo nome para o arquivo
             $extensao = "." . pathinfo($arquivo['name'], PATHINFO_EXTENSION);
             $novoNome =  uniqid();
             $arquivo_nome = $novoNome . $extensao;
             // Concatena o diretório com o nome do arquivo
             $diretorio_nome = $diretorio . "/" . $arquivo_nome;
-        }else{
+        } else {
             $diretorio_nome = null;
             return null;
         }
@@ -72,15 +72,55 @@ class Arquivos
         return $diretorioSalvo;
     }
 
+    public function uploadTrabalho($arquivo, $evento_id, $tipo_id, $identificado)
+    {
+        // Estrutura de pastas
+        // Arquivos/evento_id/trabalhos/tipo_id/
 
-    public function startDownload($diretorio_nome){
+        $identificado = ($identificado== true) ? 'identificado' : 'nao_identificado';
+
+        if (!file_exists(self::PATH_ARQUIVOS . "/" . $evento_id . "/")) {
+            mkdir(self::PATH_ARQUIVOS . "/" . $evento_id . "/", 0777);
+        }
+
+
+        // Verifica a existência de uma pasta para os Modelos
+        if (!file_exists(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos")) {
+            mkdir(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos", 0777);
+        }
+
+        // Verifica a existência de uma pasta para os Tipos
+        if (!file_exists(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos" .  "/" . $tipo_id)) {
+            mkdir(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos" .  "/" . $tipo_id);
+        }
+
+        // Verifica a existência de uma pasta para os Tipos
+        if (!file_exists(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos" .  "/" . $tipo_id . "/" . $identificado)) {
+            mkdir(self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "trabalhos" .  "/" . $tipo_id . "/" . $identificado);
+        }
+
+        // Define o diretório para a submissão dos arquivos 
+        // $diretorio = self::PATH_ARQUIVOS . "/" . $evento_id . "/" . "modelos" .  "/" . $tipo_id;
+        $diretorio = "/" . $evento_id . "/" . "trabalhos" .  "/" . $tipo_id . "/" . $identificado;
+
+        // Substitui as \ por /, caso existam 
+        $diretorio = str_replace("\\", '/', $diretorio);
+
+        // Manda para o método de salvar arquivo
+        $diretorioSalvo = $this->uploadArquivo($arquivo, $diretorio);
+
+        return $diretorioSalvo;
+    }
+
+    public function startDownload($diretorio_nome)
+    {
         $diretorio_nome = self::PATH_ARQUIVOS . $diretorio_nome;
 
         if (file_exists($diretorio_nome)) {
 
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($diretorio_nome).'"' );
+            header('Content-Disposition: attachment; filename="' . basename($diretorio_nome) . '"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
@@ -89,10 +129,8 @@ class Arquivos
             flush();
             readfile($diretorio_nome);
             exit;
-
-        }else{
+        } else {
             throw new Exception('Arquivo não encontrado', 1);
-            
         }
     }
 }

@@ -4,6 +4,7 @@ namespace core\controller;
 
 use core\model\Trabalho;
 use core\controller\Usuarios_Trabalhos;
+use core\sistema\Arquivos;
 
 class Trabalhos {
 
@@ -33,8 +34,10 @@ class Trabalhos {
 
         $dados['titulo'] = ucwords(strtolower($dados['titulo']));
         $dados['status'] = 'Submetido';
-        $dados['arquivo_identificado'] = 'Teste';
-        $dados['arquivo_nao_identificado'] = 'Teste';
+
+        $arquivos = new Arquivos();
+        $dados['arquivo_identificado'] = $arquivos->uploadTrabalho($dados['arquivo_identificado'], $dados['evento_id'], $dados['tipo_id'], true);
+        $dados['arquivo_nao_identificado'] = $arquivos->uploadTrabalho($dados['arquivo_nao_identificado'], $dados['evento_id'], $dados['tipo_id'], false);
 
         $usuario['autores'] = $dados['autores'];
         unset($dados['autores']);
