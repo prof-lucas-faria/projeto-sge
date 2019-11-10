@@ -103,9 +103,9 @@ use core\controller\Eventos;
                             if (Autenticacao::verificarLogin()) { ?>
                                 <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
                                 <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
-                                <div class="dropdown-divider"></div>
 
                                 <?php if (Autenticacao::usuarioAdministrador()) { ?>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="usuarios.php">Administradores</a>
                                 <?php }
                             } else { ?>
