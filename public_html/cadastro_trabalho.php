@@ -7,7 +7,7 @@ use core\sistema\Footer;
 use core\controller\Usuarios;
 use core\model\Usuario;
 use core\sistema\Autenticacao;
-
+use core\controller\Eventos_Tipos;
 
 if (!Autenticacao::getCookieUsuario()) {
     header('Location: login.php');
@@ -15,6 +15,8 @@ if (!Autenticacao::getCookieUsuario()) {
     $usuario_id = Autenticacao::getCookieUsuario();
     echo $usuario_id;
 }
+
+$evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 
 $usuarios = new Usuarios();
 $usuario = $usuarios->listarUsuarioID($usuario_id);
@@ -25,6 +27,13 @@ $usuario = $usuarios->listarUsuarioID($usuario_id);
 // echo '<pre>';
 // print_r($a);
 // echo '</pre>';
+
+$eventos_tipos = new Eventos_Tipos();
+$tipos = $eventos_tipos->listarEventosTipos($evento_id);
+
+echo '<pre>';
+print_r($tipos);
+echo '</pre>';
 
 ?>
 
@@ -47,6 +56,9 @@ $usuario = $usuarios->listarUsuarioID($usuario_id);
                                         <option value="1">Resumo Expandido</option>
                                         <option value="2">Artigo Completo</option>
                                     </select>
+
+
+                                    
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="area_tematica">Área Temática:</label>
