@@ -78,7 +78,7 @@ class Avaliacoes {
         if ($evento_id != null) {
 
             $dados['evento_id'] = $evento_id;
-            $campos = " a." . Avaliador::COL_AVALIADOR_ID;
+            $campos = "a." . Avaliador::avaliador_id;
 
         } else {
 

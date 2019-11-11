@@ -3,9 +3,27 @@ require_once '../vendor/autoload.php';
 require_once '../config.php';
 use core\controller\Eventos;
 use core\sistema\Autenticacao;
+use core\controller\Avaliacoes;
+use core\sistema\Util;
 use core\sistema\Footer;
 require_once 'header.php';
+
+
+$evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
+$usuario_id = $_COOKIE['usuario'];
+
+$dados = [
+    'evento_id' => $evento_id
+];
+
+$avaliacao = new Avaliacoes();
+//print_r($avaliacao->listarAvaliacoes());
+//print_r ($avaliacao->listarAvaliacao(2)); //dando erro
+
+echo $evento_id;
+echo($usuario_id);
 ?>
+
 
 <main role='main'>
     <div class="container center-block mt-5 mb-5">
@@ -29,15 +47,16 @@ require_once 'header.php';
                                 <thead class="thead-dark">
                                 <tr>
                                     <th class="col-md-4 text-center">Titulo</th>
-                                    <th class="col-md-2 text-center">Ações</th>
-                                    <th class="col-md-2 text-center">Verificação</th>
+                                    <th class="col-md-4 text-center">Ações</th>
+                                    <th class="col-md-4 text-center">Verificação</th>
                                 </tr>
                                 </thead>
                                 <tbody class="">
                                     <tr>
-                                        <td class="text-center" colspan="4">Nenhum inscrito!</td>
+                                        <th class="text-center" >Nenhum inscrito!</td>
+                                        <th class="text-center" ></td>
                                     </tr>
-                            </tbody>
+                                </tbody>
                             </table>
 
                         </div>
