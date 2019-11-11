@@ -7,7 +7,6 @@ use core\sistema\Footer;
 require_once 'header.php';
 ?>
 
-
 <main role='main'>
     <div class="container center-block mt-5 mb-5">
         <div class="card shadow-sm mb-4 p-4">
