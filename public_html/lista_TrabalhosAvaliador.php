@@ -90,7 +90,7 @@ require_once 'header.php';
 
 </main>
 <?php
-//$footer = new Footer();
+$footer = new Footer();
 //$footer->setJS('assets/js/lista_presenca.js');
 require_once 'footer.php';
 ?>
