@@ -6,22 +6,33 @@ use core\sistema\Autenticacao;
 use core\controller\Avaliacoes;
 use core\sistema\Util;
 use core\sistema\Footer;
+use core\controller\Permissoes;
 require_once 'header.php';
 
 
+$permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 $usuario_id = $_COOKIE['usuario'];
+$usuarioPermissao=($permissao->listarPermissaoEventos($usuario_id));
 
-$dados = [
-    'evento_id' => $evento_id
-];
 
-$avaliacao = new Avaliacoes();
+
+if($usuarioPermissao != null && $usuarioPermissao[0] == 3){
+    echo 'foi';
+    $avaliacao = new Avaliacoes();
+    print_r($avaliacao->listarAvaliacoes()[0]);
+}
+
+//$dados = [
+//    'evento_id' => $evento_id
+//];
+
+//$avaliacao = new Avaliacoes();
 //print_r($avaliacao->listarAvaliacoes());
 //print_r ($avaliacao->listarAvaliacao(2)); //dando erro
 
-echo $evento_id;
-echo($usuario_id);
+//echo $evento_id;
+//echo($usuario_id);
 ?>
 
 
