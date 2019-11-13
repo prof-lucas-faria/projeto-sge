@@ -12,6 +12,7 @@ class Avaliacao extends CRUD {
     const COL_AVALIADOR_ID = "avaliador_id";
     const COL_CORRECAO = "correcao";
     const COL_PARECER = "parecer";
+    const COL_PRAZO = "prazo";
 
     /**
      * @param $dados
@@ -70,21 +71,38 @@ class Avaliacao extends CRUD {
     public function listar($campos = null, $busca = [], $ordem = null, $limite = null) {
 
         $campos = $campos != null ? $campos : "*";
-        $ordem = $ordem != null ? $ordem : self::COL_TRABALHO_ID;
+        $ordem = $ordem != null ? $ordem : "";
 
         $where_condicao = "1 = 1";
         $where_valor = [];
+        $tabela = self::TABELA;
 
-        if ($busca != null) {
-            $where_condicao = self::COL_TRABALHO_ID . " = ? AND " . self::COL_AVALIADOR_ID;
-            $where_valor[] = $dados[self::COL_TRABALHO_ID];
-            $where_valor[] = $dados[self::COL_AVALIADOR_ID];
+        if (isset($busca[self::COL_AVALIADOR_ID])) {
+         
+            $where_condicao .= " AND " . self::COL_AVALIADOR_ID . " = ?";
+            $where_valor[] = $busca[self::COL_AVALIADOR_ID];
+
+        }
+        if (isset($busca[Evento::COL_EVENTO_ID])) {
+            
+            $tabela .= ' a 
+            INNER JOIN ' . Trabalho::TABELA . ' t 
+            ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID;
+            
+            $where_condicao .= " AND t." . Evento::COL_EVENTO_ID . " = ?";
+            $where_valor[] = $busca[Evento::COL_EVENTO_ID];
+            
+        }
+        if (isset($busca[Trabalho::COL_STATUS])) {
+            
+            $where_condicao .= " AND t." . Trabalho::COL_STATUS . " = ?";
+            $where_valor[] = $busca[Trabalho::COL_STATUS];
 
         }
 
         try {
 
-            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
+            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
             // echo $this->pegarUltimoSQL();
 
         } catch (Exception $e) {

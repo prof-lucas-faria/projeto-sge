@@ -28,39 +28,32 @@ class Trabalhos {
     }
 
 
-    public function listarTrabalhos($dados) 
+    public function listarTrabalhos($evento_id, $avaliador_id) 
     {
         $trabalho = new Trabalho();
-        // print_r($dados);
 
-        if ($dados['avaliador_id'] == null) {
+        $dados = [];
+        $campos = null;
 
-            // $dados = $dados;
+        if ($evento_id != null) {
+
+            $dados['evento_id'] = $evento_id;
             $campos = " t." . Trabalho::COL_TRABALHO_ID .
                     ", t." . Trabalho::COL_TITULO .
                     ", te.descricao, t." . Trabalho::COL_STATUS;
             
-            if ($dados['avaliador_id'] != null) {
+            if ($avaliador_id != null) {
 
-                // $dados['avaliador_id'] = $avaliador_id;
+                $dados['avaliador_id'] = $avaliador_id;
                 $campos = " t." . Trabalho::COL_TRABALHO_ID;
     
             }
 
-        } else {
-
-            $dados = [];
-            $campos = null;
-            
         }
 
         $lista = $trabalho->listar($campos, $dados, null, null);
 
-        if (count($lista) > 0) {
-            $this->__set("lista_trabalhos", $lista);
-        }
-
-        return $this->lista_trabalhos;
+        return $lista;
     }
     
 }

@@ -5,7 +5,6 @@ namespace core\model;
 use core\CRUD;
 use Exception;
 
-
 class Trabalho extends CRUD {
     const TABELA = "trabalho";
     const COL_TRABALHO_ID = "trabalho_id";
