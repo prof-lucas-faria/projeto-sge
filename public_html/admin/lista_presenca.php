@@ -1,7 +1,7 @@
 <?php
 
-require_once '../vendor/autoload.php';
-require_once '../config.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\controller\Eventos;
 use core\controller\Atividades;
@@ -9,8 +9,14 @@ use core\controller\Presencas;
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 
-if (!Autenticacao::verificarLogin() || !Autenticacao::usuarioAdministrador()) {
-    header('Location: login.php');
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
 }
 
 require_once 'header.php';

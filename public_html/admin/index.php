@@ -1,12 +1,25 @@
 <?php
 
-require_once 'header.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\controller\Eventos;
 use core\controller\Permissoes;
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
+
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
+}
+
+require_once 'header.php';
 
 $pg = isset($_GET['pg']) ? $_GET['pg'] : null;
 

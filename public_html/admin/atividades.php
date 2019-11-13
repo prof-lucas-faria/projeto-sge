@@ -10,8 +10,14 @@ use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
 
-if (!Autenticacao::verificarLogin()) {
-    header('Location: login.php');
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
 }
 
 require_once 'header.php';

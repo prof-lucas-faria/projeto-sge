@@ -84,15 +84,6 @@ use core\controller\Eventos;
                                    data-toggle="modal" data-target="#confirmModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
-
-                                <?php
-                                if (isset($evento->data_inicio_sub)) {
-                                ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                <?php
-                                }
-                                ?>
                             </div>
                         </li>
 
@@ -113,8 +104,8 @@ use core\controller\Eventos;
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>
-                                <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
-                                <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
+                                <a class="dropdown-item" href="../alterar_senha.php">Alterar Senha</a>
+                                <a class="dropdown-item" href="../cadastro.php">Editar Dados</a>
 
                             <?php } ?>
                         </div>
