@@ -18,8 +18,12 @@ $usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario']
 if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
     echo 'foi';
     $avaliacao = new Avaliacoes();
-   // print_r($avaliacao->listarAvaliacao($evento_id));
-//}else{
+ 
+    print_r($avaliacao->listarAvaliacoes());//lista todas avaliações 
+    //ana luiza montando classe pra listar as avaliações
+
+
+    //}else{
 //    echo "você não tem permissão";
 }
 //echo $evento_id;
