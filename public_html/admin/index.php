@@ -114,27 +114,12 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                    style="min-height:15ch; max-height: 15ch;"><?= (strlen($evento->descricao) <= 150) ? $evento->descricao : substr($evento->descricao, 0, 150) . "<a href='evento.php?evento_id={$evento->evento_id}'> Mostrar Mais</a>" ?></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="evento.php?evento_id=<?= $evento->evento_id ?>"
+                                        <a href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>"
                                            class="btn btn-sm btn btn-outline-secondary">Visualizar</a>
-
-                                        <?php $cont = 0;
-                                        if (isset($dados2['lista_eventos']) && count((array)$dados2['lista_eventos'][0]) > 0) {
-                                            foreach ($dados2['lista_eventos'] as $j => $evento2) {
-                                                if ($evento->evento_id == $evento2->evento_id) $cont++; ?>
-                                            <?php }
-                                        }
-                                        if ($cont == 1) { ?>
-                                            <a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
-                                               class="btn btn-sm btn-outline-success">
-                                                Atividades Inscritas
-                                            </a>
-                                        <?php } else { ?>
-                                            <a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
-                                               class="btn btn-sm btn-outline-success <?= $d ?>" name="inscrever"
-                                               data-toggle="modal" data-target="#">
-                                                Inscrever-se
-                                            </a>
-                                        <?php } ?>
+                                        <a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
+                                           class="btn btn-sm btn-outline-success">
+                                            Atividades
+                                        </a>
                                     </div>
                                     <small
                                         class="text-muted"><?= Util::formataDataBR($evento->evento_inicio) ?></small>

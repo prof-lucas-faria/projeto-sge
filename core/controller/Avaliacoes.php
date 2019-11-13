@@ -4,6 +4,7 @@ namespace core\controller;
 
 use core\sistema\Util;
 use core\model\Avaliacao;
+use core\model\Avaliador;
 
 class Avaliacoes {
     

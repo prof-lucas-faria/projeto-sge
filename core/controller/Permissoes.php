@@ -51,7 +51,7 @@ class Permissoes {
 
         $retorno = [];
 
-        $eventos = $user_permissao->checkPermissao($usuario_id, null, ['campos' => Permissao::COL_EVENTO_ID]);
+        $eventos = $user_permissao->checkPermissao($usuario_id, null, ['campos' => Permissao::COL_PERMISSAO]);
 
         if (count((array)$eventos) > 0) {
             foreach ($eventos as $evento_id) {

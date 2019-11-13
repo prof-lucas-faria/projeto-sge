@@ -29,12 +29,12 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
 // $distribuicao = $avaliadores->distribuirTrabalhos($avaliador, $trabalho, $evento_id);
 
 // if (count($distribuicao) == count((array)$avaliador)) {
-    
+
 //     // print_r($distribuicao);
 //     // $avaliacoes->cadastrar($distribuicao);
 
 // } else {
-    
+
 //     echo "Sobraram:". count($distribuicao)."<pre>";
 //     print_r($distribuicao);
 //     echo "</pre>";
@@ -44,7 +44,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
 //     echo "<br>2. Avaliadores podem avaliadar mais de uma vez um único trabalho? ";
 //     echo "<br>3. Adicionar mais avaliadores e redistribuir trabalhos? ";
 //     echo "<br>OBS.: Os trabalhos só estarão disponíveis para correção depois que todos forem alocados.<br><br>";
-    
+
 // }
 
 ?>
@@ -87,7 +87,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                             Período de submissões ainda não terminou. Cadastre os avaliadores no sistema
                             antes do período de submissões encerrar, para poder distribuição dos trabalhos logo após.
                         </p>
-                        <a href="cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-primary">Cadastrar</a>
+                        <a href="admin/cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-primary">Cadastrar</a>
                     <?php
                     }
                     ?>
@@ -133,9 +133,9 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                 </thead>
                 <tbody>
                     <?php
-                    if (count((array)$trabalho) > 0) {                        
+                    if (count((array)$trabalho) > 0) {
                         foreach ($trabalho as $key => $trab) {
-                        ?>    
+                        ?>
                             <tr>
                                 <td class="align-middle"> <?= $trab->trabalho_id ?></td>
                                 <td> <?= $trab->titulo ?> </td>
@@ -145,13 +145,13 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                     <?php
                         }
                     } else {
-                    ?>                    
+                    ?>
                         <tr>
                             <td class="text-center" colspan="4">Ainda não há nenhum trabalho submetido!</td>
                         </tr>
                     <?php
                     }
-                    ?>        
+                    ?>
                 </tbody>
             </table>
         </div>
