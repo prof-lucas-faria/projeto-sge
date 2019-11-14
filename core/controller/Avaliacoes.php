@@ -5,6 +5,7 @@ namespace core\controller;
 use core\sistema\Util;
 use core\model\Avaliacao;
 use core\model\Trabalho;
+use core\model\Avaliador;
 
 class Avaliacoes {
     
@@ -84,7 +85,11 @@ class Avaliacoes {
         if ($evento_id != null) {
             
             $dados['evento_id'] = $evento_id;
+<<<<<<< HEAD
             $campos = " DISTINCT(prazo) ";
+=======
+            $campos = "a." . Avaliador::avaliador_id;
+>>>>>>> 899f21c13a9b88948cd3b39e2ec7358920e32edc
 
         } else {
 

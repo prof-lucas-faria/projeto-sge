@@ -30,8 +30,6 @@ if (count($busca) > 0) $dados['busca'] = $busca;
 $trabalho = $trabalhos->listarTrabalhos($evento_id, null);
 $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
 // $trabalho = $trabalhos->listarTrabalhos($dados);
-
-
 ?>
 
 <main role="main">
@@ -138,9 +136,9 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                 </thead>
                 <tbody>
                     <?php
-                    if (count((array)$trabalho) > 0) {                        
+                    if (count((array)$trabalho) > 0) {
                         foreach ($trabalho as $key => $trab) {
-                        ?>    
+                        ?>
                             <tr>
                                 <td class="align-middle"> <?= $trab->trabalho_id ?></td>
                                 <td> <?= $trab->titulo ?> </td>
@@ -150,13 +148,13 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                     <?php
                         }
                     } else {
-                    ?>                    
+                    ?>
                         <tr>
                             <td class="text-center" colspan="4">Ainda não há nenhum trabalho submetido!</td>
                         </tr>
                     <?php
                     }
-                    ?>        
+                    ?>
                 </tbody>
             </table>
         </div>

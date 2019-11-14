@@ -117,14 +117,14 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					<div class="row mt-3" id="div1">
 						<div class="col-md-10 offset-1 align-self-center align-text-middle">
 							<!-- colocar badge dos temas do evento -->
-							
-							<?php 
+
+							<?php
 							$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
 							$i = 0;
 							foreach ($lista_tematicas as $key => $tematica) {
 							?>
 								<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tematica->descricao ?> </span>
-							<?php	
+							<?php
 								if ($i > 5) $i = 0;
 							}
 							?>
@@ -181,16 +181,16 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 					<div class="row mt-3" id="div2">
 						<div class="col-md-10 offset-1 align-self-center align-text-middle">
-							
-							<?php 
+
+							<?php
 							$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
 							$i = 0;
 
-							if ($lista_tipos != "") {							
+							if ($lista_tipos != "") {
 								foreach ($lista_tipos as $key => $tipo) {
 							?>
 									<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tipo->descricao ?> </span>
-							<?php	
+							<?php
 								if ($i > 5) $i = 0;
 								}
 							}
@@ -202,7 +202,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					<div class="row mt-2">
 						<div class="col-md-12">
 							<p><small class="text-muted">Submissões apenas pelo site.</small></p>
-							<a href="#" class="btn btn-lg btn-outline-dark">Submeter</a>
+							<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-lg btn-outline-dark">Submeter</a>
 						</div>
 					</div>
 				</div>
@@ -309,7 +309,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 </main>
 
 <script>
-	
+
 </script>
 
 <?php

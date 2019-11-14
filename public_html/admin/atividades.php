@@ -1,7 +1,7 @@
 <?php
 
-require_once '../vendor/autoload.php';
-require_once '../config.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\controller\Eventos;
 use core\controller\Atividades;
@@ -10,8 +10,14 @@ use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
 
-if (!Autenticacao::verificarLogin()) {
-    header('Location: login.php');
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
 }
 
 require_once 'header.php';
@@ -44,7 +50,7 @@ $x = 0;
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <h1 class="h3 mb-3 font-weight-normal text-center">Inscreva-se nas Atividades</h1>
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Gerenciar as Atividades</h1>
                 </div>
             </div>
 
@@ -78,12 +84,11 @@ $x = 0;
                                    data-presencas="<?= (is_array($atiInscritas)) ? implode("-", $atiInscritas) : "" ?>">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col"></th>
                                     <th scope="col">Horário</th>
                                     <th class="col-md-6" scope="col">Título</th>
                                     <th scope="col">Responsável</th>
                                     <th scope="col">Local</th>
-                                    <th scope="col">Vagas</th>
+                                    <th scope="col">Opções</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -97,14 +102,6 @@ $x = 0;
                                         if (Util::dia($ativ->datahora_inicio) == Util::dia($dia->data)) { ?>
                                             <tr>
                                                 <!-- Colocar o 'atividade_id' da atividade no id e no for -->
-                                                <td class="align-middle">
-                                                    <input type="checkbox" value="<?= $ativ->atividade_id ?>"
-                                                           id="atividade<?= ++$x ?>" data-presenca=""
-                                                           data-horario_inicio="<?= Util::hora($ativ->datahora_inicio) . ":" . Util::min($ativ->datahora_inicio) ?>"
-                                                           data-horario_termino="<?= Util::hora($ativ->datahora_termino) . ":" . Util::min($ativ->datahora_termino) ?>"
-                                                           data-data_evento="<?= Util::dia($dia->data) . "/" . Util::mes($dia->data) ?>"
-                                                        <?= $vagas == 0 ? "disabled" : "" ?>>
-                                                </td>
                                                 <td class="align-middle" name="horario">
                                                     <?= Util::hora($ativ->datahora_inicio) . ":" . Util::min($ativ->datahora_inicio) ?>
                                                     às
@@ -117,7 +114,35 @@ $x = 0;
                                                 <td class="align-middle"><?= $ativ->local ?></td>
 
                                                 <!-- verificar se não está muito proximo de começar a atividade para não deixar Excluir e Editar -->
-                                                <td class="align-middle"><?= $vagas . "/" . $ativ->quantidade_vaga ?></td>
+                                                <?php (strtotime(date('Y/m/d H:m:s')) > strtotime($ativ->datahora_inicio)) ? $di = "disabled" : $di = ""; ?>
+
+                                                <td class="align-middle">
+                                                    <a class="btn btn-outline-info <?= $di ?>"
+                                                       href="cadastro_atividade.php?atividade_id=<?= $ativ->atividade_id; ?>&evento_id=<?= $ativ->evento_id; ?>"
+                                                       id="botao_alterar" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a class="btn btn-outline-danger <?= $di ?>" href="#"
+                                                       data-atividade_id="<?= $ativ->atividade_id ?>" name="excluir"
+                                                       data-toggle="modal" data-target="#confirmModal"
+                                                       title="Excluir">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                    <a class="btn btn-outline-success"
+                                                       href="lista_presenca.php?evento_id=<?= $evento->evento_id ?>&atividade_id=<?= $ativ->atividade_id ?>"
+                                                       id="" title="Inscritos">
+                                                        <i class="fas fa-users"></i>
+                                                    </a>
+                                                    <?php if ($ativ->inscritos == 1) { ?>
+                                                        <a id="download_lista"
+                                                           data-evento_id="<?= $evento->evento_id ?>"
+                                                           data-atividade_id="<?= $ativ->atividade_id ?>"
+                                                           class="btn btn-outline-primary lista_presenca"
+                                                           title="Baixar Lista de Presença">
+                                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                                        </a>
+                                                    <?php } ?>
+                                                </td>
                                             </tr>
                                         <?php }
                                     }
@@ -131,13 +156,6 @@ $x = 0;
                         </div>
                     <?php } ?>
                 </div>
-                    <div class="row mb-5">
-                        <div class="col-md-3 ml-md-auto">
-                            <button class="btn btn-outline-success btn-block" id="botao_atividade"
-                                    type="submit" <?= $d ?>>Salvar
-                            </button>
-                        </div>
-                    </div>
             </form>
         </div>
 

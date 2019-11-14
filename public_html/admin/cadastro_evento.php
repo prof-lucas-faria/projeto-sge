@@ -1,12 +1,26 @@
 <?php
 
-require_once 'header.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\controller\Eventos;
+use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\controller\Tematicas;
 use core\controller\Tipos;
 use core\controller\Eventos_Tipos;
+
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
+}
+
+require_once 'header.php';
 
 $eventos = new Eventos();
 $tematicas = new Tematicas();
@@ -92,9 +106,9 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                 <option value=""></option>
                                 <?php
 
-                                foreach ($lista_tematicas as $key => $tematica) { 
+                                foreach ($lista_tematicas as $key => $tematica) {
                                 ?>
-                                    
+
                                     <option value="<?= $tematica->tematica_id ?>" <?= in_array($tematica->tematica_id, $tematicas_evento) ? "selected" : "" ?>> <?= $tematica->descricao ?> </option>
                                 <?php
                                 }
@@ -114,7 +128,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                             <div class="form-group">
                                 <label>Tipos de Trabalhos:</label>
 
-                                <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple id="tipos">
+                                <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos">
                                     <option value=""></option>
                                     <?php
                                     foreach ($lista_tipos as $key => $tipo) { ?>
@@ -149,7 +163,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                                     <div class='custom-file'>
                                                         <input type='file' class='custom-file-input' name='modelo_escrita' id="<?= 'modelo_escrita' . $tipo->tipo_id ?>" lang='pt-br'>
                                                         <label class=<?= (isset($tipo->modelo_escrita)) ? 'custom-file-label-success' : 'custom-file-label'?> for="<?= 'modelo_escrita' . $tipo->tipo_id ?>">
-                                                            <?= (isset($tipo->modelo_escrita)) ? basename($tipo->modelo_escrita) : 'Selecione o arquivo'?>                                                            
+                                                            <?= (isset($tipo->modelo_escrita)) ? basename($tipo->modelo_escrita) : 'Selecione o arquivo'?>
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">

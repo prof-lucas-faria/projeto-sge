@@ -1,19 +1,26 @@
 <?php
 
-require_once 'header.php';
-
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\controller\Usuarios;
 use core\controller\Tematicas;
 
-if (!Autenticacao::getCookieUsuario() && !Autenticacao::usuarioAdministrador()) {
-    header('Location: login.php');
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
 }
 
 if (!isset($_GET['evento_id'])) {
     header('Location: index.php');
+    exit;
 }
+
+require_once 'header.php';
 
 $evento_id = $_GET['evento_id'];
 
@@ -22,7 +29,7 @@ $usuarios = new Usuarios();
 
 $lista_tematicas = $tematicas->listar($evento_id);
 $lista_usuarios = $usuarios->listarUsuarios();
- 
+
 // print_r(json_encode($lista_tematicas));
 ?>
 
@@ -44,13 +51,13 @@ $lista_usuarios = $usuarios->listarUsuarios();
                                 <label for="avaliador_id">Nome do Avaliador:</label>
                                 <input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade" required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label>Área de atuação:</label> <br>
                                 <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple>
                                     <option value=""></option>
                                     <?php
-                                    foreach ($lista_tematicas as $key => $tematica) { 
+                                    foreach ($lista_tematicas as $key => $tematica) {
                                     ?>
                                         <option value="<?= $tematica->tematica_id ?>"> <?= $tematica->descricao ?> </option>
                                     <?php

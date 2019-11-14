@@ -1,7 +1,7 @@
 <?php
 
-require_once '../vendor/autoload.php';
-require_once '../config.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\sistema\Autenticacao;
 use core\controller\Eventos;
@@ -20,9 +20,9 @@ use core\controller\Eventos;
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- CSS Autoral -->
-    <link rel="stylesheet" href="assets/css/index.css">
-    <link rel="stylesheet" href="assets/css/trabalhos.css">
-    <link rel="stylesheet" href="assets/css/chosen.css">
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="../assets/css/trabalhos.css">
+    <link rel="stylesheet" href="../assets/css/chosen.css">
 
     <!-- Biblioteca de ícones do Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -56,6 +56,8 @@ use core\controller\Eventos;
 
                         (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d_termino = "disabled" : $d_termino = "";
                         (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? $d_inicio = "disabled" : $d_inicio = "";
+
+
                     ?>
 
                         <li class="nav-item dropdown">
@@ -66,7 +68,7 @@ use core\controller\Eventos;
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="atividades.php?evento_id=<?= $evento->evento_id ?>">Gerenciar</a>
                                 <a class="dropdown-item <?= $d_termino ?>"
-                                   href="admin/cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Nova</a>
+                                   href="cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Nova</a>
                             </div>
                         </li>
 
@@ -77,23 +79,18 @@ use core\controller\Eventos;
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item <?= $d_inicio ?>"
-                                   href="admin/cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
+                                   href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
                                 <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
                                    data-toggle="modal" data-target="#confirmModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
-
-                                <?php
-                                if (isset($evento->data_inicio_sub)) {
-                                ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                <?php
-                                }
-                                ?>
+                                <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
                             </div>
                         </li>
 
+                    <?php } else if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="cadastro_evento.php">Novo Evento</a>
+                        </li>
                     <?php } ?>
 
                     <li class="nav-item dropdown">
@@ -102,20 +99,15 @@ use core\controller\Eventos;
                             Usuário
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
-                                <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
+                            <?php if (Autenticacao::verificarLogin() && Autenticacao::usuarioAdministrador()) { ?>
+                                    <a class="dropdown-item" href="usuarios.php">Administradores</a>
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>
-                                <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
-                                <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
+                                <a class="dropdown-item" href="../alterar_senha.php">Alterar Senha</a>
+                                <a class="dropdown-item" href="../cadastro.php">Editar Dados</a>
 
-                            <?php } else { ?>
-                                <a class="dropdown-item" href="cadastro.php">Cadastrar Usuário</a>
-                                <div class="dropdown-divider"></div>
-                                <a id="login" class="dropdown-item" href="login.php">Entrar</a>
                             <?php } ?>
-
                         </div>
                     </li>
                 </ul>
