@@ -68,6 +68,7 @@ class Avaliador extends CRUD {
 
         $where_condicao = "1 = 1";
         $where_valor = [];
+        $tabela = self::TABELA;
 
         if (count((array)$busca) > 0) {
             $tabela = self::TABELA . " a 
@@ -81,8 +82,6 @@ class Avaliador extends CRUD {
                 $where_valor[] = $busca[Permissao::COL_EVENTO_ID];
             }
 
-        } else {
-            $tabela = self::TABELA;
         }
 
         try {

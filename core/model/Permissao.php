@@ -104,4 +104,28 @@ class Permissao extends CRUD {
 
         return $retorno;
     }
+    //samuel abaixo
+    public function checkPermissaoEvento($usuario_id, $evento_id,  $params = []) {
+
+        $campos = isset($params['campos']) ? $params['campos'] : "*";
+
+        $where_condicao = self::COL_USUARIO_ID . " = ?";
+        $where_valor = [$usuario_id];
+
+        if ($evento_id != null) {
+            $where_condicao .= " AND " . self::COL_EVENTO_ID . " = ?";
+            $where_valor[] = $evento_id;
+        }
+
+        try {
+
+            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor)[0];
+
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+            return [];
+        }
+
+        return $retorno;
+    }
 }
