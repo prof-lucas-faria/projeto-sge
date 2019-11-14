@@ -8,7 +8,7 @@ use core\model\Trabalho;
 use core\model\Avaliador;
 
 class Avaliacoes {
-    
+
     private $trabalho_id = null;
     private $avaliador_id = null;
     private $correcao = null;
@@ -26,7 +26,7 @@ class Avaliacoes {
 
     /**
      * Efetua o cadastro da avaliação somente com o trabalho e o avaliador
-     * 
+     *
      * @param $dados
      * @return bool
      */
@@ -35,32 +35,32 @@ class Avaliacoes {
         $avaliacao = new Avaliacao();
 
         foreach ($dados as $avaliador => $trabalhos) {
-            
+
             foreach ($trabalhos as $value) {
-                
+
                 $dados_avaliacao = [
                     Avaliacao::COL_TRABALHO_ID => $value,
                     Avaliacao::COL_AVALIADOR_ID => $avaliador,
                     Avaliacao::COL_PRAZO => $dados['prazo']
-                ]; 
-        
-                try {                
-    
+                ];
+
+                try {
+
                     $retorno = $avaliacao->adicionar($dados_avaliacao);
                     // $retorno = json_encode($dados_avaliacao);
-    
+
                 } catch (Exception $e) {
-    
+
                     echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
                     return false;
-        
+
                 }
-            }           
-            
+            }
+
         }
 
         return $retorno;
-        
+
     }
 
 
