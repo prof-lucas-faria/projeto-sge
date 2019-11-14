@@ -1,5 +1,8 @@
 <?php
 
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
+
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\controller\Usuarios;
@@ -49,7 +52,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
                         <div id="avaliadores">
                             <div class="form-group">
                                 <label for="avaliador_id">Nome do Avaliador:</label>
-                                <input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade" required>
+                                <input type="text" class="form-control avaliador_id" placeholder="Insira o nome do avaliador" required>
                             </div>
 
                             <div class="form-group">

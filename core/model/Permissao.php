@@ -21,9 +21,9 @@ class Permissao extends CRUD {
         $check = $this->checkPermissao($dados[self::COL_USUARIO_ID], $evento_id);
 
         if (count((array)$check) > 0) {
-            $this->alterar($dados);
+            return $this->alterar($dados);
         } else {
-            $this->adicionar($dados);
+            return $this->adicionar($dados);
         }
     }
 
