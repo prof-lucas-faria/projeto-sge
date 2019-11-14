@@ -69,59 +69,17 @@ class Trabalhos
             return false;
         }
     }
-    
-    // public function listarTrabalhos($dados) {
-    //     $trabalho = new Trabalho();
-    //     // print_r($dados);
 
-    //     if ($dados['avaliador_id'] == null) {
-    //         // $dados = $dados;
-    //         $campos = " t." . Trabalho::COL_TRABALHO_ID .
-    //             ", t." . Trabalho::COL_TITULO .
-    //             ", te.descricao, t." . Trabalho::COL_STATUS;
-
-    //         if ($dados['avaliador_id'] != null) {
-    //             // $dados['avaliador_id'] = $avaliador_id;
-    //             $campos = " t." . Trabalho::COL_TRABALHO_ID;
-    //         }
-
-    //     } else {
-
-    //         $dados = [];
-    //         $campos = null;
-
-    //     }
-
-    //     $lista = $trabalho->listar($campos, $dados, null, null);
-
-    //     if (count($lista) > 0) {
-    //         $this->__set("lista_trabalhos", $lista);
-    //     }
-
-    //     return $this->lista_trabalhos;
-    // }
-
-    public function listarTrabalhos($evento_id, $avaliador_id) 
+    /**
+     * Listar diversos trabalhos, caso entrem nas restrições dos dados de busca
+     *
+     * @return array
+     */
+    public function listarTrabalhos($dados = []) 
     {
         $trabalho = new Trabalho();
-
-        $dados = [];
-        $campos = null;
-
-        if ($evento_id != null) {
-
-            $dados['evento_id'] = $evento_id;
-            $campos = " t." . Trabalho::COL_TRABALHO_ID .
-                    ", t." . Trabalho::COL_TITULO .
-                    ", te.descricao, t." . Trabalho::COL_STATUS;
-            
-        }
-        
-        if ($avaliador_id != null) {
-            $dados['avaliador_id'] = $evento_id;
-        }
                 
-        $lista = $trabalho->listar($campos, $dados, null, null);
+        $lista = $trabalho->listar(null, $dados, null, null);
 
         return $lista;
     }

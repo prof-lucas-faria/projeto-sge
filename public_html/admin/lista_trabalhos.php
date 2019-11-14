@@ -13,23 +13,18 @@ if (!Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) {
 }
 
 $busca = [];
-$dados = [];
 
 if (isset($_GET['texto'])) $busca['texto'] = $_GET['texto'];
 if (isset($_GET['status'])) $busca['status'] = $_GET['status'];
+if (isset($_GET['evento_id'])) $busca['evento_id'] = $_GET['evento_id'];
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
 $trabalhos = new Trabalhos();
 $avaliacoes = new Avaliacoes();
 
-// $pg = isset($_GET['pg']) ? $_GET['pg'] : null;
+$trabalho = $trabalhos->listarTrabalhos($busca);
+$prazo = $avaliacoes->listarAvaliacao($evento_id);
 
-// if ($pg != null) $dados['pg'] = $pg;
-if (count($busca) > 0) $dados['busca'] = $busca;
-
-$trabalho = $trabalhos->listarTrabalhos($evento_id, null);
-$prazo = $avaliacoes->listarAvaliacao($evento_id, null);
-// $trabalho = $trabalhos->listarTrabalhos($dados);
 ?>
 
 <main role="main">
@@ -113,9 +108,9 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                             <span class="fa fa-search form-control-feedback"></span>
                             <select id="status" class="custom-select form-control">
                                 <option selected disabled>Selecione uma situação</option>
-                                <option value="1">Submetido</option>
-                                <option value="2">Em avaliação</option>
-                                <option value="3">Avaliado</option>
+                                <option value="Submetido">Submetido</option>
+                                <option value="Em avaliação">Em avaliação</option>
+                                <option value="Avaliado">Avaliado</option>
                             </select>
                         </div>
                     </div>
@@ -136,7 +131,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                 </thead>
                 <tbody>
                     <?php
-                    if (count((array)$trabalho) > 0) {
+                    if (count((array)$trabalho[0]) > 0) {
                         foreach ($trabalho as $key => $trab) {
                         ?>
                             <tr>
@@ -150,7 +145,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                     } else {
                     ?>
                         <tr>
-                            <td class="text-center" colspan="4">Ainda não há nenhum trabalho submetido!</td>
+                            <td class="text-center" colspan="4">Nenhum trabalho encontrado!</td>
                         </tr>
                     <?php
                     }
@@ -239,7 +234,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
 
 <?php
     $footer = new Footer();
-    $footer->setJS('assets/js/submissao.js');
+    $footer->setJS('assets/js/lista_trabalhos.js');
 
     require_once 'footer.php';
 ?>
