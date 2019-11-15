@@ -2,50 +2,28 @@
 
 require_once 'header.php';
 
-use core\controller\Avaliadores;
-use core\controller\Avaliacoes;
-use core\controller\Trabalhos;
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
 use core\sistema\Util;
+use core\controller\Trabalhos;
+use core\controller\Avaliacoes;
 
 if (!Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) {
     header('Location: login.php');
 }
 
+$busca = [];
+
+if (isset($_GET['texto'])) $busca['texto'] = $_GET['texto'];
+if (isset($_GET['status'])) $busca['status'] = $_GET['status'];
+if (isset($_GET['evento_id'])) $busca['evento_id'] = $_GET['evento_id'];
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
-$avaliadores = new Avaliadores();
-$avaliacoes = new Avaliacoes();
 $trabalhos = new Trabalhos();
+$avaliacoes = new Avaliacoes();
 
-// $avaliador = $avaliadores->listarAvaliadores($evento_id);
-$dados = [
-    'evento_id' => $evento_id,
-    'avaliador_id' => null
-];
-
-$trabalho = ($trabalhos->listarTrabalhos($dados));
-// $distribuicao = $avaliadores->distribuirTrabalhos($avaliador, $trabalho, $evento_id);
-
-// if (count($distribuicao) == count((array)$avaliador)) {
-
-//     // print_r($distribuicao);
-//     // $avaliacoes->cadastrar($distribuicao);
-
-// } else {
-
-//     echo "Sobraram:". count($distribuicao)."<pre>";
-//     print_r($distribuicao);
-//     echo "</pre>";
-
-//     echo "<br>Soubrou trabalhos que não podem ser avaliados pelos atuais avaliadores, segundo critérios pré-determinados. O que fazer?";
-//     echo "<br>1. Avaliadores podem avaliadar trabalhos em que são autores? ";
-//     echo "<br>2. Avaliadores podem avaliadar mais de uma vez um único trabalho? ";
-//     echo "<br>3. Adicionar mais avaliadores e redistribuir trabalhos? ";
-//     echo "<br>OBS.: Os trabalhos só estarão disponíveis para correção depois que todos forem alocados.<br><br>";
-
-// }
+$trabalho = $trabalhos->listarTrabalhos($busca);
+$prazo = $avaliacoes->listarAvaliacao($evento_id);
 
 ?>
 
@@ -71,23 +49,43 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                     <h5 class='card-title'>Atenção!</h5>
 
                     <?php
-                    if ( strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) ) {
+                    if (isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) {
                     ?>
-                        <p class="card-text">
+                        <p class="card-text" id="texto_card">
+                            Todos os trabalhos foram avaliados! Podes conferir ou imprimir a lista dos trabalhos 
+                            aprovados.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary" id="aprovadsos">Lista de Aprovados</a>
+                    <?php
+                    } elseif ( isset($prazo[0]->prazo) ) {
+                        // depois que os trabalhos foram distribuidos e antes de redistribuir
+                    ?>
+                        <p class="card-text" id="texto_card">
+                            Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar 
+                            e/ou verifique se já existem divergencia em avaliações e redistribua-as!
+                        </p>
+
+                        <button class="btn btn-outline-primary" id="verificar">Verificar</button>
+                    <?php
+                    } elseif ( strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) ) { 
+                        // depois que a data de submissão encerra e antes de distribuir os trabalhos
+                    ?>
+                        <p class="card-text" id="texto_card">
                             Período de submissões já terminou. Se todos os avaliadores foram cadastrados
                             no sistema, podes fazer a distribuição dos trabalhos.
                         </p>
 
-                        <a href="#" class="btn btn-primary" id="distribuir" data-evento_id="<?= $evento_id ?>">Distribuir</a>
+                        <a href="#" class="btn btn-outline-primary" id="botao" data-toggle="modal" data-target="#distribuirModal">Distribuir</a>
                     <?php
-                    } else {
+                    } else { 
+                        // antes da data de submissão encerrar
                     ?>
 
                         <p class="card-text">
                             Período de submissões ainda não terminou. Cadastre os avaliadores no sistema
                             antes do período de submissões encerrar, para poder distribuição dos trabalhos logo após.
                         </p>
-                        <a href="admin/cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-primary">Cadastrar</a>
+                        <a href="cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-outline-primary">Cadastrar</a>
                     <?php
                     }
                     ?>
@@ -98,7 +96,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
             <form id="pesquisar" class=" mt-5">
                 <div class="form-row">
                     <div class="form-group col-md-8">
-                        <label for="periodo">Título ou área temática do trabalho:</label>
+                        <label for="texto">Título ou área temática do trabalho:</label>
                         <div class="form-group has-search">
                             <span class="fa fa-search form-control-feedback"></span>
                             <input id="texto" type="text" class="form-control" placeholder="Buscar">
@@ -106,13 +104,13 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                     </div>
                     <div class="form-group col-md-3">
                         <div class="form-group has-search">
-                            <label for="periodo">Situação:</label>
+                            <label for="status">Situação:</label>
                             <span class="fa fa-search form-control-feedback"></span>
-                            <select id="periodo" class="custom-select form-control">
+                            <select id="status" class="custom-select form-control">
                                 <option selected disabled>Selecione uma situação</option>
-                                <option value="1">Submetido</option>
-                                <option value="2">Em avaliação</option>
-                                <option value="3">Avaliado</option>
+                                <option value="Submetido">Submetido</option>
+                                <option value="Em avaliação">Em avaliação</option>
+                                <option value="Avaliado">Avaliado</option>
                             </select>
                         </div>
                     </div>
@@ -133,7 +131,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                 </thead>
                 <tbody>
                     <?php
-                    if (count((array)$trabalho) > 0) {
+                    if (count((array)$trabalho[0]) > 0) {
                         foreach ($trabalho as $key => $trab) {
                         ?>
                             <tr>
@@ -147,7 +145,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                     } else {
                     ?>
                         <tr>
-                            <td class="text-center" colspan="4">Ainda não há nenhum trabalho submetido!</td>
+                            <td class="text-center" colspan="4">Nenhum trabalho encontrado!</td>
                         </tr>
                     <?php
                     }
@@ -157,7 +155,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
         </div>
 
 
-        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="distribuirModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -168,12 +166,16 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                         </button>
                     </div>
                     <div class="modal-body">
-                        Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> essa
-                        atividade?
+                        <form id="formulario">
+                            <div class="form-group">
+                                <label for="prazo">Insira um prazo final para as avaliações:</label>
+                                <input type="date" class="form-control col-8" id="prazo" size="30px" required>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer p-2">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
-                        <a id="botao_excluir" href="#" class="btn btn-outline-danger" data-atividade_id="">Sim</a>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                        <a id="distribuir" href="#" class="btn btn-outline-success" data-evento_id="<?= $evento_id ?>">Distribuir</a>
                     </div>
                 </div>
             </div>
@@ -190,7 +192,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                 </button>
             </div>
             <div class="toast-body">
-                Pronto, as atividades foram cadastradas com sucesso.
+                Pronto, os trabalhos foram distribuidos com sucesso.
             </div>
             <div class="card-footer text-muted bg-success p-1"></div>
         </div>
@@ -206,9 +208,9 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                 </button>
             </div>
             <div class="toast-body">
-                Desculpe, não conseguimos efetuar suas inscrições.
+                Desculpe, não conseguimos efetuar as distribuições de trabalhos.
             </div>
-            <div class="card-footer text-muted bg-warning p-1"></div>
+            <div class="card-footer text-muted bg-danger p-1"></div>
         </div>
         <!-- Toast -->
         <!-- Toast Alerta -->
@@ -222,23 +224,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
                 </button>
             </div>
             <div class="toast-body">
-                Desculpe, não é possível realizar a inscrição, alguns horários estão colidindo.
-            </div>
-            <div class="card-footer text-muted bg-warning p-1"></div>
-        </div>
-        <!-- Toast -->
-        <!-- Toast Erro Exclusao -->
-        <div class="toast" id="msg_exclusao_erro" role="alert" aria-live="assertive" aria-atomic="true"
-             data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Houve um erro!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Desculpe, não conseguimos excluir o evento, tente novamente.
+                Desculpe, não é possível realizar a distribuição, verifique os dados inseridos.
             </div>
             <div class="card-footer text-muted bg-warning p-1"></div>
         </div>
@@ -248,7 +234,7 @@ $trabalho = ($trabalhos->listarTrabalhos($dados));
 
 <?php
     $footer = new Footer();
-    $footer->setJS('assets/js/submissao.js');
+    $footer->setJS('assets/js/lista_trabalhos.js');
 
     require_once 'footer.php';
 ?>

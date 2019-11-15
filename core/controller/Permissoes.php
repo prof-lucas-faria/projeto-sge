@@ -51,7 +51,23 @@ class Permissoes {
 
         $retorno = [];
 
-        $eventos = $user_permissao->checkPermissao($usuario_id, null, ['campos' => Permissao::COL_PERMISSAO]);
+        $eventos = $user_permissao->checkPermissaoEvento($usuario_id, null, ['campos' => Permissao::COL_PERMISSAO]);
+
+        if (count((array)$eventos) > 0) {
+            foreach ($eventos as $evento_id) {
+                if (!empty($evento_id))
+                    $retorno[] = $evento_id;
+            }
+        }
+
+        return $retorno;
+    }
+    public function listarPermissaoEventosUsuario($usuario_id,$evento_id) {
+        $user_permissao = new Permissao();
+
+        $retorno = [];
+
+        $eventos = $user_permissao->checkPermissaoEvento($usuario_id, $evento_id, null);
 
         if (count((array)$eventos) > 0) {
             foreach ($eventos as $evento_id) {

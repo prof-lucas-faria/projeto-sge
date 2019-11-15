@@ -271,4 +271,8 @@ class Certificado {
 
         return true;
     }
+
+    public function gerarCertificadoAvaliador($dados) {
+
+    }
 }

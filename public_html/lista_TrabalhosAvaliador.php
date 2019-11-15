@@ -12,14 +12,18 @@ require_once 'header.php';
 
 $permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
-$usuarioPermissao=($permissao->listarPermissaoEventos($_COOKIE['usuario']));//verificação se usuario tem permissão no evento
+$usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id));//verificação se usuario tem permissão no evento
 //mostrar no print_r o valor da permissao e do evento
 
-if($usuarioPermissao != null && $usuarioPermissao[0] == 3){
+if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
     echo 'foi';
     $avaliacao = new Avaliacoes();
-   // print_r($avaliacao->listarAvaliacao($evento_id));
-//}else{
+ 
+    print_r($avaliacao->listarAvaliacoes());//lista todas avaliações 
+    //ana luiza montando classe pra listar as avaliações
+
+
+    //}else{
 //    echo "você não tem permissão";
 }
 //echo $evento_id;

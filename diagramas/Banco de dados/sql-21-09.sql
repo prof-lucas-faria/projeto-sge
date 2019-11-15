@@ -252,6 +252,7 @@ CREATE TABLE IF NOT EXISTS `sge`.`avaliacao` (
   `avaliador_id` INT NOT NULL,
   `correcao` VARCHAR(100) NULL,
   `parecer` VARCHAR(100) NULL,
+  `prazo` DATE NULL,
   PRIMARY KEY (`trabalho_id`, `avaliador_id`),
   INDEX `fk_trabalho_has_avaliador_avaliador1_idx` (`avaliador_id` ASC),
   INDEX `fk_trabalho_has_avaliador_trabalho1_idx` (`trabalho_id` ASC),
