@@ -87,10 +87,10 @@ use core\controller\Eventos;
 
                                 <?php
                                 if (isset($evento->data_inicio_sub)) {
-                                    ?>
+                                ?>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                    <?php
+                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                <?php
                                 }
                                 ?>
                             </div>

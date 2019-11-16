@@ -63,18 +63,26 @@ class Trabalho extends CRUD {
 
         $where_condicao = "1 = 1";
         $where_valor = [];
+        $tabela = self::TABELA . " t 
+                    INNER JOIN " . Tematica::TABELA . " te 
+                        ON t." . self::COL_TEMATICA_ID . " = te." . Tematica::COL_TEMATICA_ID;
 
         if (count((array)$busca) > 0) {
             
-            if (isset($busca[self::COL_EVENTO_ID]) && !empty($busca[self::COL_EVENTO_ID])) {
-                $tabela = self::TABELA . " t 
-                    INNER JOIN " . Evento::TABELA . " e 
-                        ON t." . self::COL_EVENTO_ID . " = e." . Evento::COL_EVENTO_ID .
-                    " INNER JOIN " . Tematica::TABELA . " te 
-                        ON t." . self::COL_TEMATICA_ID . " = te." . Tematica::COL_TEMATICA_ID;
-                
+            if (isset($busca[self::COL_EVENTO_ID]) && !empty($busca[self::COL_EVENTO_ID])) {                
                 $where_condicao .= " AND t." . self::COL_EVENTO_ID . " = ?";
                 $where_valor[] = $busca[self::COL_EVENTO_ID];
+            }
+
+            if (isset($busca['texto']) && !empty($busca['texto'])) {
+                $where_condicao .= " AND (t." . self::COL_TITULO . " LIKE ? OR te." . Tematica::COL_DESCRICAO . " LIKE ?)";
+                $where_valor[] = "%{$busca['texto']}%";
+                $where_valor[] = "%{$busca['texto']}%";
+            }
+
+            if (isset($busca[self::COL_STATUS]) && !empty($busca[self::COL_STATUS])) {
+                $where_condicao .= " AND t." . self::COL_STATUS . " = ?";
+                $where_valor[] = $busca[self::COL_STATUS];       
             }
             
             if (isset($busca[Avaliador::COL_AVALIADOR_ID]) && !empty($busca[Avaliador::COL_AVALIADOR_ID])) {
@@ -90,10 +98,8 @@ class Trabalho extends CRUD {
                 $where_valor[] = $busca[Avaliador::COL_AVALIADOR_ID];
             }
 
-        } else {
-            $tabela = self::TABELA;
-        }
-
+        } 
+        
         // echo $tabela . "<br>" . $where_condicao . "<br>" . $where_valor;
 
         $retorno = [];

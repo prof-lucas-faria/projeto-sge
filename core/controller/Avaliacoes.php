@@ -79,19 +79,13 @@ class Avaliacoes {
      *
      * @return array
      */
-    public function listarAvaliacao($evento_id) {
+    public function listarAvaliacao($dados = []) {
         $avaliacao = new Avaliacao();
 
-        if ($evento_id != null) {
+        $campos = null;
 
-            $dados['evento_id'] = $evento_id;
-            $campos = "a." . Avaliador::COL_AVALIADOR_ID;
-
-        } else {
-
-            $dados = [];
-            $campos = null;
-
+        if (isset($dados['evento_id']) && !empty($dados['evento_id'])) {            
+            $campos = " DISTINCT(prazo) ";
         }
 
         $lista = $avaliacao->listar($campos, $dados, null, null);
@@ -109,11 +103,9 @@ class Avaliacoes {
      *
      * @return array
      */
-    public function avaliacoesAvaliador($evento_id, $avaliador_id) {
+    public function avaliacoesAvaliador($dados = []) {
         $avaliacao = new Avaliacao();
 
-        !is_null($evento_id) ? $dados['evento_id'] = $evento_id : $evento_id = null;
-        $dados['avaliador_id'] = $avaliador_id;
         $campos = " t." . Avaliacao::COL_TRABALHO_ID;
 
         $lista = $avaliacao->listar($campos, $dados, null, null);

@@ -120,22 +120,20 @@ class Avaliadores {
 
 
     /**
-     * Listar avaliadores
+     * Listar avaliadores, caso tenha $evento_id são somente avaliadores de determinado evento
      *
      * @return array
      */
     public function listarAvaliadores($evento_id) {
         $avaliador = new Avaliador();
 
+        $dados = [];
+        $campos = null;
+
         if ($evento_id != null) {
 
-            $dados = $evento_id;
-            $campos = " a." . Avaliador::COL_AVALIADOR_ID;
-
-        } else {
-
-            $dados = [];
-            $campos = null;
+            $dados['evento_id'] = $evento_id;
+            // $campos = " a." . Avaliador::COL_AVALIADOR_ID;
 
         }
 
@@ -148,28 +146,35 @@ class Avaliadores {
         return $this->lista_avaliadores;
     }
 
-
-    public function distribuirTrabalhos($dados) {
+    /**
+     * Distribui os trabalhos de acordo com os a disponibilidade de seus avaliadores, que precisam:
+     * 1. Estar cadastrados no mesmo evento que o trabalho
+     * 2. Ser da mesma área temática que o trabalho
+     * 3. Não ser um dos autores do trabalho
+     * 4. Não avaliar mais de uma vez o mesmo trabalho
+     *
+     * @return array
+     */
+    public function distribuirTrabalhos($dados = []) {
 
         $trabalhos = new Trabalhos();
         $avaliacoes = new Avaliacoes();
-
-        $evento_id = $dados['evento_id'];
-
+        
+        // verifica se já não passsado uma lista de trabalhos para avaliar (redistribuir)
         if (isset($dados['trabalhos'])) {
             $trabalho = $dados['trabalhos'];
         } else {
-            $trabalho = $trabalhos->listarTrabalhos($evento_id, null);
+            $trabalho = $trabalhos->listarTrabalhos($dados['evento_id']);
         }
 
-        $avaliador = $this->listarAvaliadores($evento_id);
+        $avaliador = $this->listarAvaliadores($dados['evento_id']);
 
         if (count((array)$avaliador[0]) > 0 && count((array)$trabalho) > 0) {
 
-            if (isset($dados_trabalho)) {
+            if (isset($dados['trabalhos'])) {
                 $dados_trabalho = $trabalho;
             } else {
-                // trabalhos existentes no evento
+                // dobrando o array de trabalhos pois cada um deles devem ser avaliados pelo menos duas vezes
                 foreach ($trabalho as $value) {
                     $dados_trabalho[] = $value->trabalho_id;
                     $dados_trabalho[] = $value->trabalho_id;
@@ -179,11 +184,16 @@ class Avaliadores {
             $media = round(count($dados_trabalho) / count((array)$avaliador));
 
             foreach ($avaliador as $value) {
+        
+                $busca = [
+                    'evento_id' => $dados['evento_id'],
+                    'avaliador_id' => $value->avaliador_id
+                ];
 
-                $distribuicao = $trabalhos->listarTrabalhos($evento_id, $value->avaliador_id);
-                $avaliacao = $avaliacoes->avaliacoesAvaliador($evento_id, $value->avaliador_id);
-                // print_r($avaliacao);
-
+                $distribuicao = $trabalhos->listarTrabalhos($busca);
+                $avaliacao = $avaliacoes->avaliacoesAvaliador($busca);
+                // print_r($distribuicao);
+        
                 // trabalhos que são possiveis do avaliador x avaliar
                 foreach ($distribuicao as $x) {
                     $dados_avaliador[$value->avaliador_id][] = $x->trabalho_id;
@@ -198,25 +208,28 @@ class Avaliadores {
                         $dados_avaliacao[$value->avaliador_id][] = "";
                     }
                 }
-
-
-                if (count($dados_avaliador[$value->avaliador_id]) <= $media) {
-
+        
+                if (count($dados_avaliador[$value->avaliador_id]) <= $media && count($dados_trabalho) > 0) {
+        
                     foreach ($dados_avaliador[$value->avaliador_id] as $x) {
+        
+                        if (!in_array($x, $dados_avaliacao[$value->avaliador_id])) {
 
-                        $lista[$value->avaliador_id][] = $x;
+                            $lista[$value->avaliador_id][] = $x;
+                            
+                            $j = array_search($x, $dados_trabalho);
+                            unset($dados_trabalho[$j]); 
 
-                        $j = array_search($x, $dados_trabalho);
-                        unset($dados_trabalho[$j]);
-
+                        }
+        
                     }
 
                     unset($dados_avaliador[$value->avaliador_id]);
                 }
 
             }
-
-            /* Dados reais para teste
+        
+            /* Dados reais para teste (SIMTEC)
             $dados_avaliador = [
                 1 => [25,26,28,30,31,32,34,38,39,40,41,43,44,45,46,47,48],
                 2 => [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],

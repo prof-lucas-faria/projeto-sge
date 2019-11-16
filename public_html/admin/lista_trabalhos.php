@@ -1,7 +1,6 @@
 <?php
 
-require_once '../../vendor/autoload.php';
-require_once '../../config.php';
+require_once 'header.php';
 
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
@@ -9,34 +8,23 @@ use core\sistema\Util;
 use core\controller\Trabalhos;
 use core\controller\Avaliacoes;
 
-if (
-    !Autenticacao::usuarioAdministrador()
-    && !Autenticacao::usuarioOrganizador()
-    && !Autenticacao::usuarioAvaliador()
-    && !Autenticacao::usuarioAssitente()
-) {
-    header('Location: ../login.php?redirect=' . URL);
-    exit;
+if (!Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) {
+    header('Location: login.php');
 }
 
 $busca = [];
-$dados = [];
 
 if (isset($_GET['texto'])) $busca['texto'] = $_GET['texto'];
 if (isset($_GET['status'])) $busca['status'] = $_GET['status'];
+if (isset($_GET['evento_id'])) $busca['evento_id'] = $_GET['evento_id'];
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
 $trabalhos = new Trabalhos();
 $avaliacoes = new Avaliacoes();
 
-// $pg = isset($_GET['pg']) ? $_GET['pg'] : null;
+$trabalho = $trabalhos->listarTrabalhos($busca);
+$prazo = $avaliacoes->listarAvaliacao($evento_id);
 
-// if ($pg != null) $dados['pg'] = $pg;
-if (count($busca) > 0) $dados['busca'] = $busca;
-
-$trabalho = $trabalhos->listarTrabalhos($evento_id, null);
-$prazo = $avaliacoes->listarAvaliacao($evento_id, null);
-// $trabalho = $trabalhos->listarTrabalhos($dados);
 ?>
 
 <main role="main">
@@ -64,7 +52,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                     if (isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) {
                     ?>
                         <p class="card-text" id="texto_card">
-                            Todos os trabalhos foram avaliados! Podes conferir ou imprimir a lista dos trabalhos
+                            Todos os trabalhos foram avaliados! Podes conferir ou imprimir a lista dos trabalhos 
                             aprovados.
                         </p>
                         <a href="#" class="btn btn-outline-primary" id="aprovadsos">Lista de Aprovados</a>
@@ -73,13 +61,13 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                         // depois que os trabalhos foram distribuidos e antes de redistribuir
                     ?>
                         <p class="card-text" id="texto_card">
-                            Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar
+                            Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar 
                             e/ou verifique se já existem divergencia em avaliações e redistribua-as!
                         </p>
 
                         <button class="btn btn-outline-primary" id="verificar">Verificar</button>
                     <?php
-                    } elseif ( strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) ) {
+                    } elseif ( strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) ) { 
                         // depois que a data de submissão encerra e antes de distribuir os trabalhos
                     ?>
                         <p class="card-text" id="texto_card">
@@ -89,7 +77,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
 
                         <a href="#" class="btn btn-outline-primary" id="botao" data-toggle="modal" data-target="#distribuirModal">Distribuir</a>
                     <?php
-                    } else {
+                    } else { 
                         // antes da data de submissão encerrar
                     ?>
 
@@ -120,9 +108,9 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                             <span class="fa fa-search form-control-feedback"></span>
                             <select id="status" class="custom-select form-control">
                                 <option selected disabled>Selecione uma situação</option>
-                                <option value="1">Submetido</option>
-                                <option value="2">Em avaliação</option>
-                                <option value="3">Avaliado</option>
+                                <option value="Submetido">Submetido</option>
+                                <option value="Em avaliação">Em avaliação</option>
+                                <option value="Avaliado">Avaliado</option>
                             </select>
                         </div>
                     </div>
@@ -143,7 +131,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                 </thead>
                 <tbody>
                     <?php
-                    if (count((array)$trabalho) > 0) {
+                    if (count((array)$trabalho[0]) > 0) {
                         foreach ($trabalho as $key => $trab) {
                         ?>
                             <tr>
@@ -157,7 +145,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                     } else {
                     ?>
                         <tr>
-                            <td class="text-center" colspan="4">Ainda não há nenhum trabalho submetido!</td>
+                            <td class="text-center" colspan="4">Nenhum trabalho encontrado!</td>
                         </tr>
                     <?php
                     }
@@ -246,7 +234,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
 
 <?php
     $footer = new Footer();
-    $footer->setJS('assets/js/submissao.js');
+    $footer->setJS('assets/js/lista_trabalhos.js');
 
     require_once 'footer.php';
 ?>

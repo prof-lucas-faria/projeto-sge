@@ -86,8 +86,8 @@ class Avaliacao extends CRUD {
         if (isset($busca[Evento::COL_EVENTO_ID])) {
             
             $tabela .= ' a 
-            INNER JOIN ' . Trabalho::TABELA . ' t 
-            ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID;
+                INNER JOIN ' . Trabalho::TABELA . ' t 
+                    ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID;
             
             $where_condicao .= " AND t." . Evento::COL_EVENTO_ID . " = ?";
             $where_valor[] = $busca[Evento::COL_EVENTO_ID];

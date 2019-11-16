@@ -1,17 +1,17 @@
 const url_origem = window.location.pathname.split('/');
-const home_url = `${window.location.origin}/${url_origem[1]}/${url_origem[2]}/${url_origem[3]}`;
+const home_url = `${window.location.origin}/${url_origem[1]}/${url_origem[2]}/${url_origem[3]}/${url_origem[4]}`;
 
 let construct = () => {
     eventos();
 };
 
 const eventos = () => {
+    const evento_id = $('#distribuir').attr('data-evento_id');
     
     $('#distribuir').on('click', function (e) {
         e.preventDefault();
         
-        let evento_id = $('#distribuir').attr('data-evento_id'),
-            prazo = $('#prazo').val();
+        let prazo = $('#prazo').val();
         
         if (prazo !== "" && evento_id !== "") {
             
@@ -19,7 +19,11 @@ const eventos = () => {
                     evento_id: evento_id,
                     prazo: prazo,
                     acao: "Avaliadores/distribuirTrabalhos"
-                }        
+                }  
+                
+            if (typeof divergentes !== 'undefined' && divergentes.length > 0) {
+                dados.trabalhos = divergentes;
+            }
             
             $.ajax({
                 url: baseUrl,
@@ -30,7 +34,7 @@ const eventos = () => {
                 success: function (res) {
                     if (res) {                    
                         $('#msg_sucesso').toast('show');
-                        // window.location.href = home_url + '?evento_id=' + evento_id;
+                        window.location.href = home_url + '?evento_id=' + evento_id;
                     } else {
                         $('#botao').text('Cadastrar');
                         $('.modal-body').text("Não foi possível alocar os trabalhos: " + res + " para serem avaliados, de acordo com as regras pré-definidas. Por favor cadastre mais avaliador!");
@@ -50,8 +54,6 @@ const eventos = () => {
     $('#verificar').on('click', function (e) {
         e.preventDefault();
         
-        let evento_id = $('#distribuir').attr('data-evento_id');
-        
         if (evento_id !== "") {
             
             let dados = {
@@ -69,7 +71,7 @@ const eventos = () => {
                 success: function (res) {
                     if (res) {        
                         res = JSON.parse(res);
-                        let divergentes = [];
+                        const divergentes = [];
                         
                         for (let i = 0; i < res.length-1; i++) { 
                             if (res[i].trabalho_id == res[(i+1)].trabalho_id && 
@@ -116,7 +118,7 @@ const eventos = () => {
             dados.status = e.target.selectedOptions[0].value;
         });
 
-        dados.evento_id = $('#distribuir').attr('data-evento_id');
+        dados.evento_id = evento_id;
         if (texto.val() !== "") dados.texto = texto.val();
         if (status[0].value !== "Selecione uma situação") {
             dados.status = status[0].value;
