@@ -19,6 +19,11 @@ if (!Autenticacao::getCookieUsuario()) {
     // echo $usuario_id;
 }
 
+if (!isset($_GET['evento_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 $trabalho_id = isset($_GET['trabalho_id']) ? $_GET['trabalho_id'] : null;
 
