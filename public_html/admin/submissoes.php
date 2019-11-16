@@ -97,11 +97,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id, null);
                             Período de submissões ainda não terminou. Cadastre os avaliadores no sistema
                             antes do período de submissões encerrar, para poder distribuição dos trabalhos logo após.
                         </p>
-<<<<<<< HEAD:public_html/admin/submissoes.php
-                        <a href="cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-primary">Cadastrar</a>
-=======
                         <a href="cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-outline-primary">Cadastrar</a>
->>>>>>> 935273b7048edc4476c55c72125685d1f7b6b91b:public_html/submissoes.php
                     <?php
                     }
                     ?>
