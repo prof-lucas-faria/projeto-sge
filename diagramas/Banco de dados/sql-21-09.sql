@@ -163,25 +163,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `sge`.`avaliador_has_submissao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sge`.`avaliador_has_submissao` (
-  `id_avaliador` INT NOT NULL,
-  `id_trabalho` INT NOT NULL,
-  `parecer` VARCHAR(1000) NULL,
-  `correcao` VARCHAR(100) NULL,
-  `sugestao` VARCHAR(1000) NULL,
-  PRIMARY KEY (`id_avaliador`, `id_trabalho`),
-  INDEX `fk_avaliador_has_submissao_submissao1_idx` (`id_trabalho` ASC),
-  CONSTRAINT `fk_avaliador_has_submissao_submissao1`
-    FOREIGN KEY (`id_trabalho`)
-    REFERENCES `sge`.`trabalho` (`trabalho_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `sge`.`permissao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`permissao` (
