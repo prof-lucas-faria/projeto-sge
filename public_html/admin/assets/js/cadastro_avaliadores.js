@@ -93,7 +93,7 @@ const eventos = () => {
                     async: true,
                     data: {
                         nome: request.term,
-                        acao: "Usuarios/listarAutores"
+                        acao: "Usuarios/listarNotAvaliadores"
                     },
                     dataType: "json",
                     success: function (data) {

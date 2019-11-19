@@ -59,6 +59,23 @@ use core\controller\Eventos;
 
 
                     ?>
+                        <?php
+                            if (isset($evento->data_inicio_sub)) {
+                        ?>
+                            <li class="nav-item dropdown <?= $d_termino ?>">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Trabalhos
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                    <a class="dropdown-item"
+                                    href="cadastro_avaliadores.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Avaliadores</a>
+                                </div>                                    
+                            </li>
+                        <?php
+                        }
+                        ?>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -84,15 +101,6 @@ use core\controller\Eventos;
                                    data-toggle="modal" data-target="#confirmModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
-
-                                <?php
-                                if (isset($evento->data_inicio_sub)) {
-                                ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                <?php
-                                }
-                                ?>
                             </div>
                         </li>
 

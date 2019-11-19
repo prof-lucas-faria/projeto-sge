@@ -191,5 +191,31 @@ class Usuarios {
         return json_encode($this->lista_usuarios);
     }
 
+    /**
+     * Listar usuários que ainda não são avaliadores
+     *
+     * @return array
+     */
+    public function listarNotAvaliadores($dados) {
+        $usuario = new Usuario();
+
+        $dados[Usuario::COL_USUARIO_ID] = Usuario::COL_USUARIO_ID;
+
+        $campos = "u." . Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(u.".
+                                                                    Usuario::COL_NOME .", ".
+                                                                    " ' - ', u." .
+                                                                    Usuario::COL_EMAIL .
+                                                                    ") as label";
+
+
+        $lista = $usuario->listar($campos, $dados, null, 10);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_usuarios", $lista);
+        }
+
+        return json_encode($this->lista_usuarios);
+    }
+
 
 }
