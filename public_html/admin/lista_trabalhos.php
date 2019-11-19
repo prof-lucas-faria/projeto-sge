@@ -234,7 +234,7 @@ $prazo = $avaliacoes->listarAvaliacao($evento_id);
 
 <?php
     $footer = new Footer();
-    $footer->setJS('assets/js/lista_trabalhos.js');
+    $footer->setJS('../admin/assets/js/lista_trabalhos.js');
 
     require_once 'footer.php';
 ?>

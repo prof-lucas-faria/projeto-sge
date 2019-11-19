@@ -142,7 +142,7 @@ $x = 0;
 
 $footer = new Footer();
 
-$footer->setJS('assets/js/lista_presenca.js');
+$footer->setJS('../admin/assets/js/lista_presenca.js');
 
 require_once 'footer.php';
 

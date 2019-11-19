@@ -72,4 +72,14 @@ class Usuarios_Trabalhos {
         }
      }
 
+     public function listarPeloAutor($usuario_id) {
+        if(!empty($usuario_id)){
+
+            $trabalho = new Usuario_Trabalho();
+
+            $dados = $trabalho->listarPeloAutor($usuario_id);
+            return $dados;
+        }
+    }
+
 }

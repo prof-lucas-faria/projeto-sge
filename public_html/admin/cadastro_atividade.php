@@ -202,7 +202,7 @@ $evento = $eventos->listarEvento($_GET['evento_id']);
 <?php
 
 $footer = new Footer();
-$footer->setJS('assets/js/cadastro_atividade.js');
+$footer->setJS('../admin/assets/js/cadastro_atividade.js');
 
 require_once 'footer.php';
 

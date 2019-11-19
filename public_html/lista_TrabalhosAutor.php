@@ -13,9 +13,13 @@ $trabalhos = [];
 
 if (isset($usuario_id)) {
     $trabalhos = $trabalhos_md->listarPeloAutor($usuario_id);
-    print_r ($trabalhos);
-    echo $usuario_id;
+    //print_r ($trabalhos);
+    //echo $usuario_id;
 }
+
+echo "<pre>";
+print_r($trabalhos);
+exit;
 
 ?>
 
@@ -32,8 +36,8 @@ if (isset($usuario_id)) {
                 <table class="table table-hover table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center" width="20%">Autor</th>
-                            <th scope="col" class="text-center" width="50%">Titulo</th>
+                            <!--<th scope="col" class="text-center" width="20%">Autor</th>-->
+                            <th scope="col" class="text-center" width="70%">Titulo</th>
                             <th scope="col" class="text-center" width="30%">Status</th>
 
                         </tr>
@@ -41,10 +45,10 @@ if (isset($usuario_id)) {
                     <tbody>
                         <?php
                             if(isset($usuario_id) && count($trabalhos) > 0 && $trabalhos[0] != null) {
-                                $status = 1;
+                                //$status = 1;
                                 foreach($trabalhos as $i => $v) {
                                 ?>
-                                    <td scope="row"><?= $v->nome; ?></td>
+                                <tr>
 
                                     <td scope="row"><?= $v->titulo; ?></td>
 
@@ -53,13 +57,11 @@ if (isset($usuario_id)) {
                                         <div class="bd-example text-center" >
                                             <span class="badge  
                                     <?php 
-                                        if(  $status == 1 ){
+                                        if(  $v->status == 'Submetido' ){
                                             echo 'badge-primary';
-                                        }else if( $status == 2){
-                                            echo 'badge-success';
-                                        }else if( $status == 3){
+                                        }else if( $v->status == 'Em Avaliação'){
                                             echo 'badge-danger';
-                                        }else if(    $status == 4){
+                                        }else if( $v->status == 'Avaliado'){
                                             echo 'badge-warning';         
                                         }
                                     ?>" style="font-size: 16px">
@@ -80,11 +82,11 @@ if (isset($usuario_id)) {
 
                                         </div>
                                     </td>
+                                    </tr>
                                 <?php
                                 }
                             } else {
                                 echo "<td scope='row' colspan=3 ><center>Você não possui nenhum trabalho submetido!</center></td>";
-
                             }
                         ?>
                     </tbody>

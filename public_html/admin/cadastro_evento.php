@@ -353,7 +353,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
 <?php
 
 $footer = new Footer();
-$footer->setJS('assets/js/cadastro_evento.js');
+$footer->setJS('../admin/assets/js/cadastro_evento.js');
 
 require_once 'footer.php';
 

@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../vendor/autoload.php';
-require_once '../../config.php';
+//require_once '../../config.php';
 
 use core\controller\Usuarios;
 use core\sistema\Autenticacao;
@@ -113,7 +113,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
 
 $footer = new Footer();
 
-$footer->setJS('assets/js/listagem_usuarios.js');
+$footer->setJS('../admin/assets/js/listagem_usuarios.js');
 
 require_once 'footer.php';
 

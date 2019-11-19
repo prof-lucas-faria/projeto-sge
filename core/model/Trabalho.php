@@ -139,17 +139,16 @@ class Trabalho extends CRUD {
         return $retorno;
     }
 
-    public function listarPeloAutor($autor_id){
-        $where_condicao = self::COL_AUTOR . " = ? ";
-        $where_valor[] = $autor_id;
+    public function listarPeloAutor($usuario_id){
+        $where_condicao = " ut." . Usuario_Trabalho::COL_USUARIO_ID . " = ? ";
+        $where_valor[] = $usuario_id;
 
-        $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ". 
-        " INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_AUTOR. " = ut.trabalho_id " ;
+        $tabelas = self::TABELA . " t INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_TRABALHO_ID. " = ut.trabalho_id ";
 
         $retorno = [];
 
         try {
-            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor, null, null, 1);
+            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor);
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }
