@@ -99,7 +99,7 @@ const trabalhos = () => {
                     if (res) {
                         if (trabalho_id == "") {
                         $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                        window.location.href = window.location.href + '?trabalho_id=' + res;
+                        window.location.href = window.location.href + '&trabalho_id=' + res;
                         } else {
                             $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
                             window.location.href = window.location.href;

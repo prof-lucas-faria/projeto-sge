@@ -139,6 +139,24 @@ class Trabalho extends CRUD {
         return $retorno;
     }
 
+    public function listarPeloAutor($autor_id){
+        $where_condicao = self::COL_AUTOR . " = ? ";
+        $where_valor[] = $autor_id;
+
+        $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ". 
+        " INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_AUTOR. " = ut.trabalho_id " ;
+
+        $retorno = [];
+
+        try {
+            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor, null, null, 1);
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+        }
+
+        return $retorno;
+    }
+
 }
 
 
