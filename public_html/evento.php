@@ -46,7 +46,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 			<h1 class="text-center font-weight-bold mb-4"><?= $evento->nome ?></h1>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="row justify-align-center ">
+					<div class="row justify-align-center">
 						<div class="col-md-10 offset-md-1">
 							<p class="text-justify">
 								<?= $evento->descricao ?>
@@ -55,34 +55,43 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-10 offset-md-1 align-self-center text-center mt-2 mb-3">
+					<?php
+					$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
+					$i = 0;
+					foreach ($lista_tematicas as $key => $tematica) {
+						?>
+						<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tematica->descricao ?> </span>
+					<?php
+						if ($i > 5) $i = 0;
+					}
+					?>
+				</div>
+			</div>
 		</div>
 
-
-
 		<!-- Apenas um teste 1 -->
-
-
-
-		<div class="container ">
+		<div class="container mt-4">
 			<div class="row">
+
 				<!-- Evento  -->
 				<div class="col-md-4">
-					<div class="card  border-0 h-100">
-						<h5 class="card-title text-center font-weight-bold mt-3 text-uppercase">Data</h5>
-						<div class="card-body text-center h-100">
-							<div class="col-md-12  text-primary">
-								<i class="fas fa-calendar-check"></i>
+					<div class="card shadow-sm border-0 h-100">
+						<h5 class="card-title text-center font-weight-bold mt-3 text-uppercase">Evento</h5>
+						<div class="card-body text-center h-100 p-1">
+							<div class="col-md-12 text-primary">
+								<i class="fas fa-calendar-check mr-2"></i>
 								<?= Util::formataDataExtenso($evento->evento_inicio) ?>
 							</div>
 
-
-							<div class="col-md-12 mt-1  text-primary">
-								<i class="fas fa-calendar-times"></i>
+							<div class="col-md-12 mt-1 text-primary">
+								<i class="fas fa-calendar-times mr-2"></i>
 								<?= Util::formataDataExtenso($evento->evento_termino) ?>
 							</div>
 
-							<div class="col-md-12 mt-1  text-primary">
-								<i class="fas fa-map-marker-alt"></i>
+							<div class="col-md-12 mt-1 text-primary">
+								<i class="fas fa-map-marker-alt mr-2"></i>
 								<?= $evento->local ?>
 							</div>
 
@@ -97,8 +106,8 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 				<!-- Inscrições -->
 				<div class="col-md-4">
-					<div class="card  border-0 h-100 ">
-						<h5 class="card-title text-center font-weight-bold mt-3 text-uppercase  ">Inscrições</h5>
+					<div class="card shadow-sm border-0 h-100 ">
+						<h5 class="card-title text-center font-weight-bold mt-3 text-uppercase"> Inscrições </h5>
 						<div class="card-body text-center text-primary">
 							<div class="col-md-12">
 								<i class="fas fa-calendar-check mr-2"></i>
@@ -106,7 +115,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							</div>
 
 							<div class="col-md-12">
-								<i class="fas fa-calendar-times mr-2"></i>
+								<i class="fas fa-calendar-times mt-2 mr-2"></i>
 								<?php
 								//colocar a data de prorrogação caso a data atual seja igual ou maior
 
@@ -117,22 +126,6 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 								}
 								?>
 							</div>
-							<div class="col-md-12 align-self-center align-text-middle mt-2">
-								<!-- colocar badge dos temas do evento -->
-
-								<?php
-								$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
-								$i = 0;
-								foreach ($lista_tematicas as $key => $tematica) {
-									?>
-									<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tematica->descricao ?> </span>
-								<?php
-									if ($i > 5) $i = 0;
-								}
-								?>
-
-							</div>
-
 
 							<?php
 							$cont = 0;
@@ -152,7 +145,6 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							}
 							?>
 
-
 						</div>
 
 						<div class="card-body col-md-12 text-center">
@@ -161,17 +153,14 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 						</div>
 					</div>
 				</div>
-
 				<!-- Inscrições -->
-
-
 
 				<?php
 				if (isset($evento->data_inicio_sub) && $evento->data_inicio_sub != null) {
-					?>
+				?>
 					<!-- Submissão -->
-					<div class="col-md-4 mt-2">
-						<div class="card  border-0 h-100">
+					<div class="col-md-4">
+						<div class="card shadow-sm border-0 h-100">
 							<h5 class="card-title text-center font-weight-bold mt-3 text-uppercase ">Submissões</h5>
 							<div class="card-body text-center text-primary h-100 ">
 								<div class="col-md-12">
@@ -180,23 +169,23 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 								</div>
 
 								<div class="col-md-12">
-									<i class="fas fa-calendar-times mr-2"></i>
+									<i class="fas fa-calendar-times mt-2 mr-2"></i>
 									<?= $evento->data_termino_sub != NULL ? Util::formataDataExtenso($evento->data_termino_sub) : "" ?>
 								</div>
 
 							</div>
 
 							<div class="card-body col-md-12 text-center ">
-								<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
+								<p><small class="text-muted">Submissões apenas pelo site.</small></p>
 								<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $a ?> <?= $d ?>">Envie seu Trabalho</a>
 							</div>
 						</div>
 					</div>
 					<!-- Submissão -->
+
 				<?php
 				} else {
-
-					?>
+				?>
 					<!-- Submissão Indisponível -->
 					<div class="col-md-4">
 						<div class="card  border-0 h-100">
@@ -212,17 +201,11 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							</div>
 						</div>
 					</div>
-
 					<!--  Submissão Indisponível -->
 				<?php
 				}
 				?>
-
-
-
-
 			</div>
-
 		</div>
 
 		<div class="card shadow-sm p-4 mt-4 mb-3" id="programacao">
@@ -307,43 +290,39 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 		</div>
 
 
-
-
 		<?php
 		if (isset($evento->data_inicio_sub) && $evento->data_inicio_sub != null) {
-			?>
+		?>
 			<!-- Tipos de Trabalhos -->
-
-			<div class="album py-3 mt-2 card mb-3">
-				<h2 class="text-center">Trabalhos</h2>
+			<div class="album p-4 mt-4 card mb-5">
+				<h2 class="text-center mt-2">Trabalhos</h2>
 
 				<div class="container">
 					<div class="row">
 						<div class="col-md-8 offset-2">
 							<div class="card border-0 text-center">
 								<div class="card-body">
-
 									<div class="row text-primary">
 										<div class="col-md-12">
-											<h4>
+											<h5>
 												<i class="fas fa-calendar-check mr-2"></i>
 												<?= $evento->data_inicio_sub != NULL ? Util::formataDataExtenso($evento->data_inicio_sub) : "" ?>
-											</h4>
+											</h5>
 										</div>
 									</div>
 
 									<div class="row mt-2 text-primary">
 										<div class="col-md-12">
-											<h4>
+											<h5>
 												<i class="fas fa-calendar-times mr-2"></i>
 												<?= $evento->data_termino_sub != NULL ? Util::formataDataExtenso($evento->data_termino_sub) : "" ?>
-											</h4>
+											</h5>
 										</div>
 									</div>
 
-									<h4>
-										<p class="card-text"><small class="text-muted">Submissões apenas pelo site.</small></p>
-									</h4>
+									<h5>
+										<p class="card-text"><small class="text-muted"></small></p>
+									</h5>
 								</div>
 							</div>
 						</div>
@@ -354,71 +333,59 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 				<div class="container">
 					<div class="row">
 
-
-
 						<?php
-							foreach ($lista_tipos as $key => $tipo) {
-								// print_r($tipo);
-								?>
-
+						foreach ($lista_tipos as $key => $tipo) {
+							// print_r($tipo);
+						?>
 							<div class="col-md-6">
-								<div class="card mt-2  border-0">
+								<div class="card mt-2 border-0">
 									<div class="card-body">
 										<h5 class="font-weight-bold text-center text-uppercase mb-3"><?= $tipo->descricao ?></h5>
 										<p class="card-text">As demais regras sobre o trabalho estarão contidas dentro do modelo de escrita. Os modelos estão disponíveis para download abaixo:</p>
-										<h5 class="display-5 text-center mb-3">Modelos</h5>
+										<h5 class="display-5 text-center mb-1">Modelos</h5>
 										<div class="d-flex justify-content-center align-items-center">
 											<button class="btn btn-sm btn-outline-dark col-md-6 mr-2" name='download_modelo' data-path=<?= (isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""' . 'disabled=' . '"disabled"' ?>> <i class="fas fa-download mr-1"></i>Escrita</button>
 											<button class="btn btn-sm btn-outline-dark col-md-6" name='download_modelo' id="download_apresentacao" data-path=<?= (isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fas fa-download  mr-2"></i>Apresentação</button>
 										</div>
-										<div class="text-center mt-4">
-											<!-- <button class=" btn-secondary  mr-2">Submeter</button> -->
+										<!-- <div class="text-center mt-4">
+											<button class=" btn-secondary  mr-2">Submeter</button>
 											<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn col-md-7 btn-outline-dark mr-2 <?= $a ?> <?= $d ?>">Envie seu Trabalho</a>
-
-										</div>
-
+										</div> -->
 									</div>
 								</div>
 							</div>
-
 						<?php
-							}
-							?>
+						}
+						?>
 
 					</div>
 				</div>
 			</div>
-
+		<?php
+		}
+		?>	
 	</div>
-<?php
-}
-?>
 
+	<!-- Toast Erro Exclusao -->
+	<div class="toast" id="msg_exclusao_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
+		<div class="toast-header">
+			<strong class="mr-auto">Houve um erro!</strong>
+			<small>Agora</small>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			Desculpe, não conseguimos excluir o evento, tente novamente.
+		</div>
+		<div class="card-footer text-muted bg-warning p-1"></div>
+	</div>
+	<!-- Toast -->
 
-<!-- Toast Erro Exclusao -->
-<div class="toast" id="msg_exclusao_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-	<div class="toast-header">
-		<strong class="mr-auto">Houve um erro!</strong>
-		<small>Agora</small>
-		<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div class="toast-body">
-		Desculpe, não conseguimos excluir o evento, tente novamente.
-	</div>
-	<div class="card-footer text-muted bg-warning p-1"></div>
-</div>
-<!-- Toast -->
-</div>
 </main>
 
-<script>
-
-</script>
-
 <?php
-$footer = new Footer();
-$footer->setJS('assets/js/evento.js');
-require_once 'footer.php';
+	$footer = new Footer();
+	$footer->setJS('assets/js/evento.js');
+	require_once 'footer.php';
 ?>

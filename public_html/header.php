@@ -79,7 +79,7 @@ use core\controller\Eventos;
                                 <a class="dropdown-item <?= $d_inicio ?>"
                                    href="admin/cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
                                 <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
-                                   data-toggle="modal" data-target="#confirmModal">Excluir</a>
+                                   data-toggle="modal" data-target="#excluirModal">Excluir</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
 
@@ -96,9 +96,9 @@ use core\controller\Eventos;
                             </div>
                         </li>
 
-                    <?php } ?>
-
-                
+                    <?php 
+                    } 
+                    ?>                
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -133,7 +133,7 @@ use core\controller\Eventos;
                 <?php } ?>
             </div>
 
-            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="excluirModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

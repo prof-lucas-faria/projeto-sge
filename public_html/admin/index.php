@@ -191,7 +191,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
     <nav>
         <ul class="pagination justify-content-center">
             <li class="page-item <?= ($pg == null || $pg < 2) ? "disabled" : "" ?>">
-                <a class="page-link" href="<?= ($pg == null || $pg <= 2) ? "index.php" : "index.php?pg=" . --$pg ?>">Anterior</a>
+                <a class="page-link" href="<?= ($pg == null || $pg <= 2) ? "index.php" : "index.php?pg=" . ($pg-1) ?>">Anterior</a>
             </li>
 
             <?php for ($i = 1; $i <= $dados['total_paginas']; $i++) { ?>
@@ -203,7 +203,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
             <?php } ?>
 
             <li class="page-item <?= ($pg == $dados['total_paginas']) ? "disabled" : "" ?>">
-                <a class="page-link" href="index.php?pg=<?= ($pg == null) ? '2' : ++$pg ?>">Próximo</a>
+                <a class="page-link" href="index.php?pg=<?= ($pg == null) ? '2' : ($pg+1) ?>">Próximo</a>
             </li>
         </ul>
     </nav>
