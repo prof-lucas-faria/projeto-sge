@@ -138,7 +138,8 @@ class Trabalho extends CRUD {
         $where_condicao = self::COL_AUTOR . " = ? ";
         $where_valor[] = $autor_id;
 
-        $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ";
+        $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ". 
+        " INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_AUTOR. " = ut.trabalho_id " ;
 
         $retorno = [];
 

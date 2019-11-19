@@ -84,7 +84,7 @@ use core\controller\Eventos;
                                 <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
 
                                 <?php
-                                if (isset($evento->data_inicio_sub)) {
+                                if (isset($evento->data_inicio_sub)){ 
                                 ?>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
@@ -96,32 +96,7 @@ use core\controller\Eventos;
 
                     <?php } ?>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Listar
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
-                                <!--<a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>-->
-                            <?php }
-
-                            if (Autenticacao::verificarLogin()) { ?>
-                                <a class="dropdown-item" href="listagem_trabalhos_submetidos.php">Trabalhos por Autor</a>
-                                <!--<a class="dropdown-item" href="cadastro.php">Editar Dados</a>-->
-
-                                <?php if (Autenticacao::usuarioAdministrador()) { ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="usuarios.php">Administradores</a>
-                                <?php }
-                            } else { ?>
-                                <a class="dropdown-item" href="cadastro.php">Cadastrar Usuário</a>
-                                <div class="dropdown-divider"></div>
-                                <a id="login" class="dropdown-item" href="login.php">Entrar</a>
-                            <?php } ?>
-
-                        </div>
-                    </li>
+                
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

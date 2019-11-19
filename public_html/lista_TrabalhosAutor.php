@@ -13,6 +13,8 @@ $trabalhos = [];
 
 if (isset($usuario_id)) {
     $trabalhos = $trabalhos_md->listarPeloAutor($usuario_id);
+    print_r ($trabalhos);
+    echo $usuario_id;
 }
 
 ?>
@@ -38,7 +40,7 @@ if (isset($usuario_id)) {
                     </thead>
                     <tbody>
                         <?php
-                            if(isset($usuario_id) && count($trabalhos) > 0) {
+                            if(isset($usuario_id) && count($trabalhos) > 0 && $trabalhos[0] != null) {
                                 $status = 1;
                                 foreach($trabalhos as $i => $v) {
                                 ?>
@@ -80,6 +82,9 @@ if (isset($usuario_id)) {
                                     </td>
                                 <?php
                                 }
+                            } else {
+                                echo "<td scope='row' colspan=3 ><center>Você não possui nenhum trabalho submetido!</center></td>";
+
                             }
                         ?>
                     </tbody>
