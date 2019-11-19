@@ -108,9 +108,10 @@ use core\controller\Eventos;
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
                                 <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
+                                
                             <?php }
-
                             if (Autenticacao::verificarLogin()) { ?>
+                                <a class="dropdown-item" href="lista_TrabalhosAutor.php">Meus Trabalhos</a>
                                 <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
                                 <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
 
@@ -122,6 +123,8 @@ use core\controller\Eventos;
 
                         </div>
                     </li>
+
+                    
                 </ul>
 
                 <?php if (Autenticacao::verificarLogin()) { ?>

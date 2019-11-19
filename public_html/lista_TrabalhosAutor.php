@@ -1,5 +1,7 @@
 <?php
 
+use core\sistema\Footer;
+
 require_once 'header.php';
 
 //$status = $_GET['status'];//apagar depois
@@ -17,9 +19,9 @@ if (isset($usuario_id)) {
     //echo $usuario_id;
 }
 
-echo "<pre>";
-print_r($trabalhos);
-exit;
+//echo "<pre>";
+//print_r($trabalhos);
+//exit;
 
 ?>
 
@@ -59,30 +61,17 @@ exit;
                                     <?php 
                                         if(  $v->status == 'Submetido' ){
                                             echo 'badge-primary';
-                                        }else if( $v->status == 'Em Avaliação'){
+                                        }else if( $v->status == 'Em avaliação'){
                                             echo 'badge-danger';
                                         }else if( $v->status == 'Avaliado'){
                                             echo 'badge-warning';         
                                         }
                                     ?>" style="font-size: 16px">
-
-
-                                    <?php
-                                        if(  $status == 1 ){
-                                            echo 'Submetido';
-                                        }else if( $status == 2){
-                                            echo 'Aprovado';
-                                        }else if( $status == 3){
-                                            echo 'Recusado';
-                                        }else if(    $status == 4){
-                                            echo 'Em correção';         
-                                        }
-                                    ?>
-                                    </span>
-
-                                        </div>
+                                        <?php
+                                        echo $v->status;
+                                        ?></span></div>
                                     </td>
-                                    </tr>
+                                </tr>
                                 <?php
                                 }
                             } else {
@@ -94,7 +83,10 @@ exit;
             </div>
         </div>
     </div>
-
+<?php
+$footer = new Footer();
+ require_once 'footer.php';
+?>
 </main>
 
 
