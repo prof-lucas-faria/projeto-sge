@@ -89,7 +89,7 @@ use core\controller\Eventos;
                                 if (isset($evento->data_inicio_sub)) {
                                 ?>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
                                 <?php
                                 }
                                 ?>
@@ -113,8 +113,8 @@ use core\controller\Eventos;
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>
-                                <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
-                                <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
+                                <a class="dropdown-item" href="../alterar_senha.php">Alterar Senha</a>
+                                <a class="dropdown-item" href="../cadastro.php">Editar Dados</a>
 
                             <?php } ?>
                         </div>

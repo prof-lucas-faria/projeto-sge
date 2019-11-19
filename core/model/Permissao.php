@@ -21,9 +21,9 @@ class Permissao extends CRUD {
         $check = $this->checkPermissao($dados[self::COL_USUARIO_ID], $evento_id);
 
         if (count((array)$check) > 0) {
-            $this->alterar($dados);
+            return $this->alterar($dados);
         } else {
-            $this->adicionar($dados);
+            return $this->adicionar($dados);
         }
     }
 
@@ -82,6 +82,30 @@ class Permissao extends CRUD {
     }
 
     public function checkPermissao($usuario_id, $evento_id = null,  $params = []) {
+
+        $campos = isset($params['campos']) ? $params['campos'] : "*";
+
+        $where_condicao = self::COL_USUARIO_ID . " = ?";
+        $where_valor = [$usuario_id];
+
+        if ($evento_id != null) {
+            $where_condicao .= " AND " . self::COL_EVENTO_ID . " = ?";
+            $where_valor[] = $evento_id;
+        }
+
+        try {
+
+            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor)[0];
+
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+            return [];
+        }
+
+        return $retorno;
+    }
+    //samuel abaixo
+    public function checkPermissaoEvento($usuario_id, $evento_id,  $params = []) {
 
         $campos = isset($params['campos']) ? $params['campos'] : "*";
 

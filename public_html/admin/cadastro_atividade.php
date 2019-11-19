@@ -1,13 +1,25 @@
 <?php
 
 require_once '../../vendor/autoload.php';
-require_once 'header.php';
 
+require_once '../../config.php';
 
 use core\controller\Eventos;
 use core\controller\Atividades;
+use core\sistema\Autenticacao;
 use core\sistema\Footer;
 
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
+}
+
+require_once 'header.php';
 
 $atividade_id = isset($_GET['atividade_id']) ? $_GET['atividade_id'] : null;
 

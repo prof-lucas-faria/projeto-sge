@@ -18,9 +18,9 @@ class Avaliador extends CRUD {
     public function adicionar($dados) {
 
         try {
-            
+
             $retorno = $this->create(self::TABELA, $dados);
-            
+
         } catch (Exception $e) {
 
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
@@ -68,21 +68,17 @@ class Avaliador extends CRUD {
 
         $where_condicao = "1 = 1";
         $where_valor = [];
+        $tabela = self::TABELA;
 
-        if (count((array)$busca) > 0) {
+        if (isset($busca[Permissao::COL_EVENTO_ID]) && !empty($busca[Permissao::COL_EVENTO_ID])) {
             $tabela = self::TABELA . " a 
                 INNER JOIN " . Usuario::TABELA . " u 
                     ON a." . self::COL_USUARIO_ID . " = u." . Usuario::COL_USUARIO_ID . " 
                 INNER JOIN " . Permissao::TABELA . " p 
                     ON u." . Usuario::COL_USUARIO_ID . " = p." . Permissao::COL_USUARIO_ID;
 
-            if (isset($busca[Permissao::COL_EVENTO_ID]) && !empty($busca[Permissao::COL_EVENTO_ID])) {
-                $where_condicao .= " AND p." . Permissao::COL_EVENTO_ID . " = ?";
-                $where_valor[] = $busca[Permissao::COL_EVENTO_ID];
-            }
-
-        } else {
-            $tabela = self::TABELA;
+            $where_condicao .= " AND p." . Permissao::COL_EVENTO_ID . " = ?";
+            $where_valor[] = $busca[Permissao::COL_EVENTO_ID];
         }
 
         try {
@@ -91,7 +87,7 @@ class Avaliador extends CRUD {
             // echo $this->pegarUltimoSQL();
 
         } catch (Exception $e) {
-            
+
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
 
         }

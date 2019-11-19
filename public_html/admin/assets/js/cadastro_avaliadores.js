@@ -9,8 +9,8 @@ const eventos = () => {
         e.preventDefault();
 
         let dados = {avaliadores: []};
-            evento_id = $('#formulario').attr('data-evento_id'),
-            flag = false;
+            const evento_id = $('#formulario').attr('data-evento_id');
+            let flag = false;
 
         $('#formulario').find('.avaliador_id').each(function(i) {
             dados.avaliadores.push({
@@ -20,8 +20,8 @@ const eventos = () => {
         });
 
         $('#formulario').find(".tematica").each(function(i) {
-            dados.avaliadores[i].tematica = $(this).val();  
-            
+            dados.avaliadores[i].tematica = $(this).val();
+
             if (dados.avaliadores[i].tematica.length < 1) {
                 $('#msg_alerta').toast('show');
                 flag = false;
@@ -31,8 +31,6 @@ const eventos = () => {
         });
 
         if (flag) {
-            // console.log(dados);
-            
             dados.acao = "Avaliadores/cadastrar";
 
             $.ajax({
@@ -58,19 +56,19 @@ const eventos = () => {
     $('#addAvaliadores').on('click', function (event) {
         event.preventDefault();
 
-        let tematica = $('#formulario').attr('data-lista'), 
-            texto = '<div class="avaliadores mt-4"><hr><div class="form-group mt-2"><label for="avaliador_id">Nome do Avaliador:</label><input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade" required></div><div class="form-group"><label>Área de atuação:</label><br> <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple><option value=""></option><option value="">', 
+        let tematica = $('#formulario').attr('data-lista'),
+            texto = '<div class="avaliadores mt-4"><hr><div class="form-group mt-2"><label for="avaliador_id">Nome do Avaliador:</label><input type="text" class="form-control avaliador_id" placeholder="Insira o título da atividade" required></div><div class="form-group"><label>Área de atuação:</label><br> <select data-placeholder="Escolha as áreas de atuação" class="custom-select tematica" multiple><option value=""></option><option value="">',
             form = $('#aqui');
-            
+
         let a = JSON.parse(tematica);
-        
+
         $.each(a, (i, v) => {
             texto += '<option value="' + v.tematica_id + '">' + v.descricao + '</option>';
         });
 
         texto += '</option></select></div></div>';
         form.append(texto);
-        
+
         $(".custom-select").chosen();
 
     });
@@ -82,12 +80,12 @@ const eventos = () => {
         form.children("div:last:not(#avaliadores)").remove();
 
     });
- 
+
     $(document).on('focus','.avaliador_id', function () {
-        focus_input = $(this);
-    
+        const focus_input = $(this);
+
         $(focus_input).autocomplete({
-            // Solicitar os dados 
+            // Solicitar os dados
             source: function (request, response) {
                 $.ajax({
                     url: baseUrl,
@@ -111,7 +109,7 @@ const eventos = () => {
             },
             minLength: 3
         });
-            
+
     });
 };
 

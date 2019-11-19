@@ -83,6 +83,7 @@ use core\controller\Eventos;
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
 
+
                                 <?php
                                 if (isset($evento->data_inicio_sub)){ 
                                 ?>
@@ -91,6 +92,7 @@ use core\controller\Eventos;
                                 <?php
                                 }
                                 ?>
+
                             </div>
                         </li>
 

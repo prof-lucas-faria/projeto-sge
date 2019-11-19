@@ -7,7 +7,12 @@ const eventos = () => {
         e.preventDefault();
 
         let cpf = $('#cpf').val(),
-            senha = $('#senha').val();
+            senha = $('#senha').val(),
+            redirect = window.location.search;
+
+        if (redirect !== '') {
+            redirect = redirect.split('?redirect=')[1];
+        }
 
         if (cpf !== "" && senha !== "") {
 
@@ -28,7 +33,11 @@ const eventos = () => {
                 success: function (res) {
                     if (res && res === '1') {
                         $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                        window.location.href = `${base}/${url[1]}/`;
+                        if (redirect !== '') {
+                            window.location.href = `${window.location.protocol}${redirect}`;
+                        } else {
+                            window.location.href = `${base}/${url[1]}/`;
+                        }
                     } else {
                         alert('Usuário/senha inválidos!');
                         $('#msg_erro').toast('show');
