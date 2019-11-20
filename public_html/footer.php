@@ -29,6 +29,7 @@
 <?php
 
 $footer->setJS('assets/js/index.js');
+$footer->setJS('assets/js/mensagem.js');
 
 $footer_js = $footer->getJS();
 
