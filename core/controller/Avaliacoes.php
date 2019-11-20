@@ -75,18 +75,34 @@ class Avaliacoes {
 
 
     /**
-     * Listar avaliação
+     * Listar avaliações
      *
      * @return array
      */
     public function listarAvaliacao($dados = []) {
         $avaliacao = new Avaliacao();
 
-        $campos = null;
+        $lista = $avaliacao->listar(null, $dados, null, null);
 
-        if (isset($dados['evento_id']) && !empty($dados['evento_id'])) {            
-            $campos = " DISTINCT(prazo) ";
+        if (count($lista) > 0) {
+            $this->__set("lista_avaliacao", $lista);
         }
+
+        return $this->lista_avaliacao;
+    }
+
+
+    /**
+     * Listar os diferentes prazos da avaliação de trabalhos de um certo evento
+     * Existe dois prazoz diferentes quando houve redistribuição de trabalhos que possuiam avaliações divergentes
+     * 
+     * @param $dados (evento_id)
+     * @return array
+     */
+    public function listarPrazos($dados = []) {
+        $avaliacao = new Avaliacao();
+    
+        $campos = " DISTINCT(prazo) ";
 
         $lista = $avaliacao->listar($campos, $dados, null, null);
 
@@ -120,7 +136,8 @@ class Avaliacoes {
 
 
     /**
-     * Listar de trabalhos que já foram avaliados
+     * Listar de trabalhos que já foram avaliados     
+     * 
      * @return array
      */
     public function trabalhosAvaliados($dados) {

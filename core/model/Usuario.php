@@ -106,6 +106,12 @@ class Usuario extends CRUD {
                 $where_valor[] = $busca[self::COL_CPF];
             }
 
+            if (isset($busca[Avaliador::COL_USUARIO_ID]) && !empty($busca[Avaliador::COL_USUARIO_ID])) {
+                $tabela .= " LEFT JOIN " . Avaliador::TABELA . " a 
+                                ON u." . self::COL_USUARIO_ID . " = a. " . Avaliador::COL_USUARIO_ID;
+                $where_condicao .= " AND a." . $busca[Avaliador::COL_USUARIO_ID] . " IS NULL";
+            }
+
         }
 
         $retorno = [];
@@ -113,6 +119,7 @@ class Usuario extends CRUD {
         try {
 
             $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
+            
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }

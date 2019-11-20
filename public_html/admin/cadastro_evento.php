@@ -34,7 +34,7 @@ $evento = "";
 
 $lista_tematicas = $tematicas->listar($evento_id);
 
-if (count((array)$lista_tematicas[0]) > 0) {
+if (count((array) $lista_tematicas[0]) > 0) {
     foreach ($lista_tematicas as $value) {
         $tematicas_evento[] = $value->tematica_id;
     }
@@ -107,7 +107,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                 <?php
 
                                 foreach ($lista_tematicas as $key => $tematica) {
-                                ?>
+                                    ?>
 
                                     <option value="<?= $tematica->tematica_id ?>" <?= in_array($tematica->tematica_id, $tematicas_evento) ? "selected" : "" ?>> <?= $tematica->descricao ?> </option>
                                 <?php
@@ -128,7 +128,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                             <div class="form-group">
                                 <label>Tipos de Trabalhos:</label>
 
-                                <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos">
+                                <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos" required>
                                     <option value=""></option>
                                     <?php
                                     foreach ($lista_tipos as $key => $tipo) { ?>
@@ -152,7 +152,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
 
 
                             <?php
-                            if ($lista_eventos_tipos != null ) {
+                            if ($lista_eventos_tipos != null) {
                                 foreach ($lista_eventos_tipos as $tipo) { ?>
                                     <div name='tipos_trabalhos' id="<?= 'tipo' . $tipo->tipo_id ?>">
                                         <h1 class='h5 mt-2 mb-2 font-weight-normal'> <?= $tipo->descricao ?> </h1>
@@ -162,12 +162,12 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                                 <div class="input-group">
                                                     <div class='custom-file'>
                                                         <input type='file' class='custom-file-input' name='modelo_escrita' id="<?= 'modelo_escrita' . $tipo->tipo_id ?>" lang='pt-br'>
-                                                        <label class=<?= (isset($tipo->modelo_escrita)) ? 'custom-file-label-success' : 'custom-file-label'?> for="<?= 'modelo_escrita' . $tipo->tipo_id ?>">
-                                                            <?= (isset($tipo->modelo_escrita)) ? basename($tipo->modelo_escrita) : 'Selecione o arquivo'?>
+                                                        <label class=<?= (isset($tipo->modelo_escrita)) ? 'custom-file-label-success' : 'custom-file-label' ?> for="<?= 'modelo_escrita' . $tipo->tipo_id ?>">
+                                                            <?= (isset($tipo->modelo_escrita)) ? basename($tipo->modelo_escrita) : 'Selecione o arquivo' ?>
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_escrita" data-path=<?=(isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""'. 'disabled='.'"disabled"'?>><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_escrita" data-path=<?= (isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
                                                     </div>
                                                 </div>
 
@@ -177,12 +177,12 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                                 <div class="input-group">
                                                     <div class='custom-file'>
                                                         <input type='file' class='custom-file-input' name='modelo_apresentacao' id="<?= 'modelo_apresentacao' . $tipo->tipo_id ?>" lang='pt-br'>
-                                                        <label class=<?= (isset($tipo->modelo_apresentacao)) ? 'custom-file-label-success' : 'custom-file-label'?> for="<?= 'modelo_apresentacao' . $tipo->tipo_id ?>">
-                                                            <?= (isset($tipo->modelo_apresentacao)) ? basename($tipo->modelo_apresentacao) : 'Selecione o arquivo'?>
+                                                        <label class=<?= (isset($tipo->modelo_apresentacao)) ? 'custom-file-label-success' : 'custom-file-label' ?> for="<?= 'modelo_apresentacao' . $tipo->tipo_id ?>">
+                                                            <?= (isset($tipo->modelo_apresentacao)) ? basename($tipo->modelo_apresentacao) : 'Selecione o arquivo' ?>
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                    <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_apresentacao" data-path=<?=(isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""'. 'disabled='.'"disabled"'?> ><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_apresentacao" data-path=<?= (isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -264,89 +264,15 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
 
                     </form>
                 </div>
+
             </div>
         </div>
-        <!-- Toast Sucesso -->
-        <div class="toast" id="msg_sucesso" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Deu tudo certo!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Pronto, o evento foi cadastrado com sucesso.
-            </div>
-            <div class="card-footer text-muted bg-success p-1"></div>
+    </div>
+
+    <div  aria-live="polite" aria-atomic="true" style="position: relative;">
+        <div id="mensagens" style="position: fixed; top:4rem; right:2rem;">
+        
         </div>
-        <!-- Toast -->
-
-        <!-- Toast Erro -->
-        <div class="toast" id="msg_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Houve um erro!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Desculpe, não conseguimos efetuar seu cadastro.
-            </div>
-            <div class="card-footer text-muted bg-warning p-1"></div>
-        </div>
-        <!-- Toast -->
-
-        <!-- Toast Alerta -->
-        <div class="toast" id="msg_alerta" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Houve um erro!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Por favor, confira todos os dados informados.
-            </div>
-            <div class="card-footer text-muted bg-warning p-1"></div>
-        </div>
-        <!-- Toast -->
-
-        <!-- Toast Alterar Sucesso -->
-        <div class="toast" id="msg_alterar_sucesso" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Deu tudo certo!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Pronto, o evento foi alterado com sucesso.
-            </div>
-            <div class="card-footer text-muted bg-success p-1"></div>
-        </div>
-        <!-- Toast -->
-
-        <!-- Toast Alterar Erro -->
-        <div class="toast" id="msg_alterar_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="position: absolute; top: 4rem; right: 1rem;">
-            <div class="toast-header">
-                <strong class="mr-auto">Houve um erro!</strong>
-                <small>Agora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Desculpe, não conseguimos efetuar seu cadastro.
-            </div>
-            <div class="card-footer text-muted bg-warning p-1"></div>
-        </div>
-        <!-- Toast -->
-
-
     </div>
 </main>
 

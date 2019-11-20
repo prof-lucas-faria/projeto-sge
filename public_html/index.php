@@ -103,7 +103,8 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
             <?php if (count((array)$dados['lista_eventos'][0]) > 0) {
                 foreach ($dados['lista_eventos'] as $i => $evento) {
-                    (strtotime(date('Y/m/d')) > strtotime($evento->data_prorrogacao)) ? $d = "disabled" : $d = ""; ?>
+                    (strtotime(date('Y/m/d')) > strtotime($evento->data_prorrogacao)) ? $d = "disabled" : $d = "";
+            ?>
 
                     <div class="col-md-4" style="">
                         <div class="card mb-4 box-shadow">
@@ -131,7 +132,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                         <?php } else { ?>
                                             <a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
                                                class="btn btn-sm btn-outline-success <?= $d ?>" name="inscrever"
-                                               data-toggle="modal" data-target="#">
+                                               data-toggle="modal" data-target="#inscreverModal">
                                                 Inscrever-se
                                             </a>
                                         <?php } ?>
@@ -159,7 +160,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                         </div>
                     </div>
 
-                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="inscreverModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -193,7 +194,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
     <nav>
         <ul class="pagination justify-content-center">
             <li class="page-item <?= ($pg == null || $pg < 2) ? "disabled" : "" ?>">
-                <a class="page-link" href="<?= ($pg == null || $pg <= 2) ? "index.php" : "index.php?pg=" . --$pg ?>">Anterior</a>
+                <a class="page-link" href="<?= ($pg == null || $pg <= 2) ? "index.php" : "index.php?pg=" . ($pg-1) ?>">Anterior</a>
             </li>
 
             <?php for ($i = 1; $i <= $dados['total_paginas']; $i++) { ?>
@@ -205,7 +206,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
             <?php } ?>
 
             <li class="page-item <?= ($pg == $dados['total_paginas']) ? "disabled" : "" ?>">
-                <a class="page-link" href="index.php?pg=<?= ($pg == null) ? '2' : ++$pg ?>">Próximo</a>
+                <a class="page-link" href="index.php?pg=<?= ($pg == null) ? '2' : ($pg+1) ?>">Próximo</a>
             </li>
         </ul>
     </nav>
@@ -213,8 +214,9 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 <?php
 
-$footer = new Footer();
+    $footer = new Footer();
 
-$footer->setJS('assets/js/listagem_eventos.js');
+    $footer->setJS('assets/js/listagem_eventos.js');
+    require_once 'footer.php';
 
-require_once 'footer.php';
+?>

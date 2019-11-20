@@ -92,4 +92,14 @@ class Trabalhos
         $dados = $dados[0];
         return $dados;
     }
+
+    public function listarPeloAutor($autor_id) {
+        if(!empty($autor_id)){
+
+            $trabalho = new Trabalho();
+
+            $dados = $trabalho->listarPeloAutor($autor_id);
+            return $dados;
+        }
+    }
 }
