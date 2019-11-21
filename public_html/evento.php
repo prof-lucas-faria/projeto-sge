@@ -137,11 +137,11 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							}
 
 							if ($cont == 1) {
-								$a = "disabled";
-								$b = "";
+								$a = "Atividades Inscritas";
+								$b = "Acompanhar submissões";
 							} else {
-								$a = "";
-								$b = "disabled";
+								$a = "Inscrever-se";
+								$b = "Envie seu Trabalho";
 							}
 							?>
 
@@ -149,7 +149,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 						<div class="card-body col-md-12 text-center">
 							<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
-							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $a ?> <?= $d ?>">Inscrever-se</a>
+							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"> <?= $a ?> </a>
 						</div>
 					</div>
 				</div>
@@ -177,7 +177,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 							<div class="card-body col-md-12 text-center ">
 								<p><small class="text-muted">Submissões apenas pelo site.</small></p>
-								<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $a ?> <?= $d ?>">Envie seu Trabalho</a>
+								<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a>
 							</div>
 						</div>
 					</div>
@@ -347,10 +347,6 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 											<button class="btn btn-sm btn-outline-dark col-md-6 mr-2" name='download_modelo' data-path=<?= (isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""' . 'disabled=' . '"disabled"' ?>> <i class="fas fa-download mr-1"></i>Escrita</button>
 											<button class="btn btn-sm btn-outline-dark col-md-6" name='download_modelo' id="download_apresentacao" data-path=<?= (isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fas fa-download  mr-2"></i>Apresentação</button>
 										</div>
-										<!-- <div class="text-center mt-4">
-											<button class=" btn-secondary  mr-2">Submeter</button>
-											<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn col-md-7 btn-outline-dark mr-2 <?= $a ?> <?= $d ?>">Envie seu Trabalho</a>
-										</div> -->
 									</div>
 								</div>
 							</div>

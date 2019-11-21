@@ -44,61 +44,7 @@ use core\controller\Eventos;
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-
-                    <?php
-                    if (Autenticacao::usuarioAdministrador() && isset($_GET['evento_id'])) {
-                        $evento_id = $_GET['evento_id'];
-
-                        $evento = new Eventos();
-
-                        $evento = $evento->listarEvento($evento_id);
-
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d_termino = "disabled" : $d_termino = "";
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? $d_inicio = "disabled" : $d_inicio = "";
-                    ?>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Atividade
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="atividades.php?evento_id=<?= $evento->evento_id ?>">Gerenciar</a>
-                                <a class="dropdown-item <?= $d_termino ?>"
-                                   href="admin/cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Nova</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Evento
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item <?= $d_inicio ?>"
-                                   href="admin/cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
-                                <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
-                                   data-toggle="modal" data-target="#excluirModal">Excluir</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
-
-
-                                <?php
-                                if (isset($evento->data_inicio_sub)){ 
-                                ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                <?php
-                                }
-                                ?>
-
-                            </div>
-                        </li>
-
-                    <?php 
-                    } 
-                    ?>                
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">         
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -124,11 +70,13 @@ use core\controller\Eventos;
                     </li>
                 </ul>
 
-                <div class="nav-item">
-                    <a class="nav-link" href="admin" title="Administrador" id="admin">
-                        <i class="fas fa-lock"></i>
-                    </a>
-                </div>
+                <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
+                    <div class="nav-item">
+                        <a class="nav-link" href="admin" title="Administrador" id="admin">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                    </div>
+                <?php } ?>
 
                 <?php if (Autenticacao::verificarLogin()) { ?>
                     <div class="nav-item">

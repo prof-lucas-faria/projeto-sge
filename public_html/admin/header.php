@@ -117,7 +117,7 @@ use core\controller\Eventos;
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php if (Autenticacao::verificarLogin() && Autenticacao::usuarioAdministrador()) { ?>
-                                    <a class="dropdown-item" href="usuarios.php">Administradores</a>
+                                    <a class="dropdown-item" href="usuarios.php">Organizadores</a>
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>
@@ -128,6 +128,12 @@ use core\controller\Eventos;
                         </div>
                     </li>
                 </ul>
+
+                <div class="nav-item">
+                    <a class="nav-link" href="../" title="Usuário Padrão" id="user">
+                        <i class="fas fa-lock-open"></i>
+                    </a>
+                </div>
 
                 <?php if (Autenticacao::verificarLogin()) { ?>
                     <li class="nav-item">
