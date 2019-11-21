@@ -122,7 +122,7 @@ class Avaliacoes {
     public function avaliacoesAvaliador($dados = []) {
         $avaliacao = new Avaliacao();
 
-        $campos = " t." . Avaliacao::COL_TRABALHO_ID;
+        $campos = "*";
 
         $lista = $avaliacao->listar($campos, $dados, null, null);
 
