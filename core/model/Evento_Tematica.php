@@ -19,9 +19,9 @@ class Evento_Tematica extends CRUD {
         $retorno = 0;
 
         try {
-            for ($i = 0; $i < count((array)$dados["lista_tematica"]); $i++) {
+            $this->deletarRelacao($dados[self::COL_EVENTO_ID]);
 
-                $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados["lista_tematica"][$i]);
+            for ($i = 0; $i < count((array)$dados["lista_tematica"]); $i++) {
 
                 $value[self::COL_EVENTO_ID] = $dados[self::COL_EVENTO_ID];
                 $value['tematica_id'] = $dados["lista_tematica"][$i];
@@ -45,10 +45,10 @@ class Evento_Tematica extends CRUD {
      * @param $tematica_id
      * @return bool|mixed
      */
-    public function deletarRelacao($evento_id, $tematica_id) {
+    public function deletarRelacao($evento_id) {
 
-        $where_condicao = self::COL_EVENTO_ID . " = ? AND " . self::COL_TEMATICA_ID . " = ?";
-        $where_valor = [$evento_id, $tematica_id];
+        $where_condicao = self::COL_EVENTO_ID . " = ?";
+        $where_valor = [$evento_id];
 
         try {
 

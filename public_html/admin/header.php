@@ -127,21 +127,21 @@ use core\controller\Eventos;
                             <?php } ?>
                         </div>
                     </li>
-                </ul>
 
-                <div class="nav-item">
-                    <a class="nav-link" href="../" title="Usuário Padrão" id="user">
-                        <i class="fas fa-lock-open"></i>
-                    </a>
-                </div>
-
-                <?php if (Autenticacao::verificarLogin()) { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" title="Sair" id="logout">
-                            <i class="fas fa-sign-out-alt"></i>
+                        <a class="nav-link" href="../" title="Usuário Padrão" id="user">
+                            <i class="fas fa-lock-open"></i>
                         </a>
                     </li>
-                <?php } ?>
+
+                    <?php if (Autenticacao::verificarLogin()) { ?>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="#" title="Sair" id="logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>
             </div>
 
             <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

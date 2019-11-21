@@ -76,6 +76,7 @@ $x = 0;
                             <table class="table table-hover" id="tabela" data-presencas="<?= (is_array($atiInscritas)) ? implode("-", $atiInscritas) : "" ?>">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col"></th>
                                         <th scope="col">Horário</th>
                                         <th scope="col" class="col-md-6">Título</th>
                                         <th scope="col">Responsável</th>
