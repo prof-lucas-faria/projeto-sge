@@ -32,7 +32,7 @@ class Usuarios_Trabalhos {
         // print_r($dados);
 
         $usuario_trabalho = new Usuario_Trabalho();
-
+        $usuario_trabalho->deletarRelacao($dados['trabalho_id']);
         for ($i=0; $i < count((array) $dados['autores']); $i++) { 
 
             $value['trabalho_id'] = $dados['trabalho_id'];

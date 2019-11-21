@@ -207,28 +207,32 @@ $listaAutores = $usuarios_trabalhos->listarNomeId($trabalho_id);
                         </div>
 
                         <div class=" form-row">
-                                <div class="col-md-7"></div>
-                                <div class="col-md-1" id="btn_atividade">
-                                </div>
-                                <div class="col-md-2">
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
-                                        Cadastrar
-                                    </button>
-                                </div>
+                            <div class="col-md-7"></div>
+                            <div class="col-md-1" id="btn_atividade">
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
+                                    Cadastrar
+                                </button>
                             </div>
                         </div>
                 </div>
             </div>
-<!-- </main> -->
+        </div>
+        <!-- </main> -->
+        <div aria-live="polite" aria-atomic="true" style="position: relative;">
+            <div id="mensagens" style="position: fixed; top:4rem; right:2rem;">
 
-<?php
+            </div>
+        </div>
+        <?php
 
-$footer = new Footer();
-$footer->setJS('assets/js/cadastro_trabalho.js');
+        $footer = new Footer();
+        $footer->setJS('assets/js/cadastro_trabalho.js');
 
-require_once 'footer.php';
+        require_once 'footer.php';
 
 
-?>
+        ?>
