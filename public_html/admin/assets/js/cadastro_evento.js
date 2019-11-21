@@ -396,7 +396,9 @@ const validaDatas = () => {
     // Validação da data de inscrições e data do evento
     if (date_evento_inicio <= date_evento_termino &&
         date_data_inicio < date_data_termino &&
-        date_data_termino <= date_data_prorrogacao) {
+        date_data_termino <= date_data_prorrogacao && 
+        date_data_inicio <= date_evento_inicio 
+        ) {
 
     } else {
         // $('#msg_alerta').toast('show');

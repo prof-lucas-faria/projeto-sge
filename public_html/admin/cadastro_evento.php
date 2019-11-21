@@ -128,7 +128,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                             <div class="form-group">
                                 <label>Tipos de Trabalhos:</label>
 
-                                <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos" required>
+                                <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos">
                                     <option value=""></option>
                                     <?php
                                     foreach ($lista_tipos as $key => $tipo) { ?>
