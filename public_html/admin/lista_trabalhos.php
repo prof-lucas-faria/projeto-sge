@@ -25,6 +25,9 @@ $avaliacoes = new Avaliacoes();
 $trabalho = $trabalhos->listarTrabalhos($busca);
 $prazo = $avaliacoes->listarAvaliacao($evento_id);
 
+//echo "<pre>";
+//print_r($trabalho);
+//exit;
 ?>
 
 <main role="main">

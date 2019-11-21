@@ -278,6 +278,11 @@ class Avaliadores {
                     if (!isset($lista[$key])) $lista[$key] = [];
 
                     foreach ($dados_trabalho as $i => $x) {
+
+                        // TODO
+                        $trab = new Trabalho();
+                        $trab->alterarStatus(['status' => 'Em avaliação', 'trabalho_id' => $x['trabalho_id']]);
+
                         if (!in_array($x, $lista[$key]) &&
                             !in_array($x, $dados_avaliacao[$key]) &&
                             in_array($x, $dados_avaliador[$key]) &&
@@ -291,6 +296,8 @@ class Avaliadores {
                     }
                 }
             }
+
+           
 
             if (count($dados_trabalho) > 0) {
                 return json_encode($dados_trabalho);

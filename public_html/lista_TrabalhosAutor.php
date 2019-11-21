@@ -19,9 +19,9 @@ if (isset($usuario_id)) {
     //echo $usuario_id;
 }
 
-//echo "<pre>";
-//print_r($trabalhos);
-//exit;
+// echo "<pre>";
+// print_r($trabalhos);
+// exit;
 
 ?>
 
@@ -85,7 +85,7 @@ if (isset($usuario_id)) {
     </div>
 <?php
 $footer = new Footer();
- require_once 'footer.php';
+require_once 'footer.php';
 ?>
 </main>
 
