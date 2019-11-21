@@ -124,12 +124,18 @@ use core\controller\Eventos;
                     </li>
                 </ul>
 
+                <div class="nav-item">
+                    <a class="nav-link" href="admin" title="Administrador" id="admin">
+                        <i class="fas fa-lock"></i>
+                    </a>
+                </div>
+
                 <?php if (Autenticacao::verificarLogin()) { ?>
-                    <li class="nav-item">
+                    <div class="nav-item">
                         <a class="nav-link" href="#" title="Sair" id="logout">
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
-                    </li>
+                    </div>
                 <?php } ?>
             </div>
 

@@ -16,18 +16,16 @@ $usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario']
 //mostrar no print_r o valor da permissao e do evento
 
 if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
-    echo 'foi';
     $avaliacao = new Avaliacoes();
- 
-    print_r($avaliacao->listarAvaliacoes());//lista todas avaliações 
-    //ana luiza montando classe pra listar as avaliações
-
-
-    //}else{
-//    echo "você não tem permissão";
+    $dados = [
+        'evento_id' => $evento_id,
+        'avaliador_id' => $_COOKIE['usuario']
+    ];
+    $trabalhos=($avaliacao->avaliacoesAvaliador($dados));//lista todas avaliações 
+    //print_r($trabalhos);
+}else{
+    echo "você não tem permissão";
 }
-//echo $evento_id;
-//echo($usuario_id);
 ?>
 
 
@@ -41,7 +39,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <h4 class="h4 mb-3 font-weight-normal text-center">Lista de Trabalhos</h4>
+                    <h4 class="h4 mb-3 font-weight-normal text-center">Avaliação de Trabahos</h4>
                 </div>
             </div>
 
@@ -57,21 +55,27 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                                     <th class="col-md-4 text-center">Verificação</th>
                                 </tr>
                                 </thead>
-                                <tbody class="">
+                                <tbody>
                                     <tr>
-                                        <th class="text-center" >Nenhum inscrito!</td>
-                                        <th class="text-center" ></td>
+                                        <?php if ($trabalhos[0]==null){echo " <td class='text-center'>Nenhum trabalho para ser avaliado!";}else{?></td>
+                                        <th class="text-center" ><?php
+                                                                    echo $trabalhos[0]->titulo 
+                                                                 ?></th>   <?php
+                                                                    }
+                                                                  ?>
+                                        <th>+</th>
+                                        <th><?php if($trabalhos[0]->parecer == null){echo "-"; } ?></th>
                                     </tr>
                                 </tbody>
                             </table>
 
                         </div>
-                        <div class="row mb-5">
+                        <!-- <div class="row mb-5">
                             <div class="col-md-3 ml-md-auto">
                                 <button class="btn btn-outline-success btn-block" id="botao_atualizar" type="submit">
                                     Atualizar
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                 </div>
