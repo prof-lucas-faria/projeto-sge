@@ -24,7 +24,7 @@ if (isset($usuario_id)) {
         <div class="card shadow-sm mb-4 p-4">
             <div class="row">
                 <div class="col">
-                    <h1 class="display-5 mb-3 font-weight-bold text-center">Cadastre-se</h1>
+                    <h1 class="display-5 mb-4 font-weight-bold text-center"><?= isset($usuario_id) ? "Informações Pessoais" : "Cadastre-se" ?> </h1>
                 </div>
             </div>
             <div class="row justify-content-md-center">
@@ -33,7 +33,7 @@ if (isset($usuario_id)) {
                         <div class="form-row">
                             <div class="form-group col-md-7">
                                 <label for="nome">Nome:</label>
-                                <input type="text" class="form-control" id="nome" value="<?php if ($usuario_id) {
+                                <input type="numeric" class="form-control" id="nome" value="<?php if ($usuario_id) {
                                     echo $usuario->nome;
                                 } ?>" placeholder="Insira seu nome completo"
                                        required autofocus>
@@ -44,7 +44,7 @@ if (isset($usuario_id)) {
                                        pattern="\d{3}\.\d{3}.\d{3}-\d{2}" title="Exemplo: xxx.xxx.xxx-xx"
                                        value="<?php if ($usuario_id) {
                                            echo $usuario->cpf;
-                                       } ?>" required>
+                                       } ?>" <?= isset($usuario_id) ? "disabled" : "" ?> required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -53,7 +53,7 @@ if (isset($usuario_id)) {
                                 <input type="date" class="form-control" id="data_nascimento"
                                        value="<?php if ($usuario_id) {
                                            echo $usuario->data_nascimento;
-                                       } ?>" required>
+                                       } ?>" <?= isset($usuario_id) ? "disabled" : "" ?> required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="nacionalidade">Nacionalidade</label>

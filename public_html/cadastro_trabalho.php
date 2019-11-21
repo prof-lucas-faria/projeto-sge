@@ -64,7 +64,7 @@ $listaAutores = $usuarios_trabalhos->listarNomeId($trabalho_id);
         <div class="card shadow-sm mb-4 p-4">
             <div class="row">
                 <div class="col">
-                    <h1 class="display-5 mb-3 font-weight-bold text-center">Submeta seu Trabalho</h1>
+                    <h1 class="display-5 mb-4 font-weight-bold text-center">Submeta seu Trabalho</h1>
                 </div>
             </div>
             <div class="row justify-content-md-center">

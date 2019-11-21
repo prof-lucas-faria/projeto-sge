@@ -35,7 +35,7 @@ use core\controller\Eventos;
 <body class="bg-light">
 <header>
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a href="index.php" class="navbar-brand">SGE</a>
 
@@ -43,62 +43,9 @@ use core\controller\Eventos;
                     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-
-                    <?php
-                    if (Autenticacao::usuarioAdministrador() && isset($_GET['evento_id'])) {
-                        $evento_id = $_GET['evento_id'];
-
-                        $evento = new Eventos();
-
-                        $evento = $evento->listarEvento($evento_id);
-
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d_termino = "disabled" : $d_termino = "";
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? $d_inicio = "disabled" : $d_inicio = "";
-                    ?>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Atividade
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="atividades.php?evento_id=<?= $evento->evento_id ?>">Gerenciar</a>
-                                <a class="dropdown-item <?= $d_termino ?>"
-                                   href="admin/cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Nova</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Evento
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item <?= $d_inicio ?>"
-                                   href="admin/cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
-                                <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
-                                   data-toggle="modal" data-target="#excluirModal">Excluir</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="admin/cadastro_evento.php">Cadastrar Novo</a>
-
-
-                                <?php
-                                if (isset($evento->data_inicio_sub)){ 
-                                ?>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="submissoes.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                <?php
-                                }
-                                ?>
-
-                            </div>
-                        </li>
-
-                    <?php 
-                    } 
-                    ?>                
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">         
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -122,44 +69,23 @@ use core\controller\Eventos;
 
                         </div>
                     </li>
-                </ul>
 
-                <div class="nav-item">
-                    <a class="nav-link" href="admin" title="Administrador" id="admin">
-                        <i class="fas fa-lock"></i>
-                    </a>
-                </div>
-
-                <?php if (Autenticacao::verificarLogin()) { ?>
-                    <div class="nav-item">
-                        <a class="nav-link" href="#" title="Sair" id="logout">
-                            <i class="fas fa-sign-out-alt"></i>
+                    <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin" title="Administrador" id="admin">
+                            <i class="fas fa-lock"></i>
                         </a>
-                    </div>
-                <?php } ?>
-            </div>
+                    </li>
+                    <?php } ?>
 
-            <div class="modal fade" id="excluirModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span>
-                            esse evento?
-                        </div>
-                        <div class="modal-footer p-2">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
-                            <a id="botao_excluir" href="" class="btn btn-outline-danger"
-                               data-evento_id="<?= $evento->evento_id ?>">Sim</a>
-                        </div>
-                    </div>
-                </div>
+                    <?php if (Autenticacao::verificarLogin()) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" title="Sair" id="logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>                
             </div>
 
             <!-- <div class="dropdown dropleft">
@@ -174,7 +100,7 @@ use core\controller\Eventos;
                         <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
                     <?php }
 
-            if (Autenticacao::verificarLogin()) { ?>
+                if (Autenticacao::verificarLogin()) { ?>
                         <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
                         <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
 
@@ -199,5 +125,27 @@ use core\controller\Eventos;
         </div>
     </nav>
     <!-- NAVBAR -->
+
+    <div class="modal fade" id="excluirModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span>
+                    esse evento?
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
+                    <a id="botao_excluir" href="" class="btn btn-outline-danger"
+                        data-evento_id="<?= $evento->evento_id ?>">Sim</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 

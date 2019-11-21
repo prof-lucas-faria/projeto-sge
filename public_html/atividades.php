@@ -36,7 +36,7 @@ $x = 0;
     <!--	<div class="jumbotron mt-n5" style="height: 250px; border-radius:0px; background:url(assets/imagens/grande2.jpg) no-repeat 0 0"></div>-->
 
     <div class="container mt-5 mb-5">
-        <div class="card shadow-sm mb-4 p-4">
+        <div class="card shadow-sm p-4">
             <div class="row">
                 <div class="col-md-12 mb-3">
                     <h1 class="display-5 text-center font-weight-bold"><?= $evento->nome ?></h1>
@@ -72,19 +72,17 @@ $x = 0;
                   data-count="<?= count($atividade["lista_atividades"]) ?>">
                 <div class="tab-content mb-2" id="myTabContent">
                     <?php foreach ($atividade["total_dias"] as $i => $dia) { ?>
-                        <div class="tab-pane fade <?= $i == 0 ? "show active" : "" ?>" id="dia<?= $i ?>" role="tabpanel"
-                             aria-labelledby="dia<?= $i ?>-tab">
-                            <table class="table table-hover" id="tabela"
-                                   data-presencas="<?= (is_array($atiInscritas)) ? implode("-", $atiInscritas) : "" ?>">
+                        <div class="tab-pane fade <?= $i == 0 ? "show active" : "" ?>" id="dia<?= $i ?>" role="tabpanel" aria-labelledby="dia<?= $i ?>-tab">
+                            <table class="table table-hover" id="tabela" data-presencas="<?= (is_array($atiInscritas)) ? implode("-", $atiInscritas) : "" ?>">
                                 <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Horário</th>
-                                    <th class="col-md-6" scope="col">Título</th>
-                                    <th scope="col">Responsável</th>
-                                    <th scope="col">Local</th>
-                                    <th scope="col">Vagas</th>
-                                </tr>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Horário</th>
+                                        <th scope="col" class="col-md-6">Título</th>
+                                        <th scope="col">Responsável</th>
+                                        <th scope="col">Local</th>
+                                        <th scope="col">Vagas</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php if (count((array)$atividade["lista_atividades"][0]) > 0) {
@@ -97,7 +95,7 @@ $x = 0;
                                         if (Util::dia($ativ->datahora_inicio) == Util::dia($dia->data)) { ?>
                                             <tr>
                                                 <!-- Colocar o 'atividade_id' da atividade no id e no for -->
-                                                <td class="align-middle">
+                                                <td class="align-middle ">
                                                     <input type="checkbox" value="<?= $ativ->atividade_id ?>"
                                                            id="atividade<?= ++$x ?>" data-presenca=""
                                                            data-horario_inicio="<?= Util::hora($ativ->datahora_inicio) . ":" . Util::min($ativ->datahora_inicio) ?>"
@@ -105,14 +103,17 @@ $x = 0;
                                                            data-data_evento="<?= Util::dia($dia->data) . "/" . Util::mes($dia->data) ?>"
                                                         <?= $vagas == 0 ? "disabled" : "" ?>>
                                                 </td>
+
                                                 <td class="align-middle" name="horario">
                                                     <?= Util::hora($ativ->datahora_inicio) . ":" . Util::min($ativ->datahora_inicio) ?>
                                                     às
                                                     <?= Util::hora($ativ->datahora_termino) . ":" . Util::min($ativ->datahora_termino) ?>
                                                 </td>
-                                                <td class="align-middle"><label class="mb-0"
-                                                                                for="atividade<?= $x++ ?>"><?= $ativ->titulo ?></label>
+
+                                                <td class="align-middle">
+                                                    <label class="mb-0" for="atividade<?= $x++ ?>"><?= $ativ->titulo ?></label>
                                                 </td>
+
                                                 <td class="align-middle"><?= $ativ->responsavel ?></td>
                                                 <td class="align-middle"><?= $ativ->local ?></td>
 
@@ -131,13 +132,13 @@ $x = 0;
                         </div>
                     <?php } ?>
                 </div>
-                    <div class="row mb-5">
-                        <div class="col-md-3 ml-md-auto">
-                            <button class="btn btn-outline-success btn-block" id="botao_atividade"
-                                    type="submit" <?= $d ?>>Salvar
-                            </button>
-                        </div>
+                <div class="row mb-3 mt-4">
+                    <div class="col-md-3 ml-md-auto">
+                        <button class="btn btn-outline-success btn-block" id="botao_atividade"
+                                type="submit" <?= $d ?>>Salvar
+                        </button>
                     </div>
+                </div>
             </form>
         </div>
 

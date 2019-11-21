@@ -48,9 +48,9 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 ?>
 
-<div class="container">
+<div class="container mt-3 mb-3">
     <div class="row">
-        <div class="col-sm ">
+        <div class="col-sm">
             <h1 class="display-4">
                 <p class="text-center">
                     <?= ($me != "") ? "Eventos inscritos" : "Encontre aqui seu evento!" ?>
@@ -91,7 +91,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                 </div>
             </div>
             <div class="form-group col-md-1 align-self-center">
-                <button id="filtrar" class="btn btn-block btn-outline-dark">Filtrar</button>
+                <button id="filtrar" class="btn btn-outline-dark btn-block">Filtrar</button>
             </div>
         </div>
     </form>

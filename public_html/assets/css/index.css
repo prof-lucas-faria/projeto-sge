@@ -76,8 +76,6 @@ main h3.sem-resultado {
 }
 
 #filtrar {
-    display: flex;
-    align-self: center;
     margin-top: 15px;
     height: 38px;
 }
