@@ -177,10 +177,21 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 							<div class="card-body col-md-12 text-center ">
 								<p><small class="text-muted">Submissões apenas pelo site.</small></p>
-								<!-- <a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a> -->
-								<a id="download_listaAprovados" href="#" data-evento_id="<?= $evento->evento_id ?>" class="btn btn-outline-dark listaAprovados mt-1" title="Baixar Lista de Trabalhos Aprovados">
-									<i class="fa fa-download" aria-hidden="true"></i>
-								</a>
+								<?php
+
+									if ((strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub))) {
+										?>
+									<button id="download_listaAprovados" data-evento_id="<?= $evento->evento_id ?>" class="btn btn-outline-dark listaAprovados mt-1" title="Baixar Lista de Trabalhos Aprovados">
+										Trabalhos Aprovados
+									</button>
+								<?php
+									} else {
+										?>
+									<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a>
+								<?php
+									}
+									?>
+
 							</div>
 						</div>
 					</div>

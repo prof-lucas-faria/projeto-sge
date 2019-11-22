@@ -290,7 +290,7 @@ class Certificado
         
         // titulo, nome
 
-
+        print_r($listaAprovados);
         $dados = [
             // 'participantes' => $participantes,
             'evento' => $dados_evento->nome,
@@ -356,7 +356,7 @@ class Certificado
         $pdf->WriteHTML($style, 1);
         $pdf->WriteHTML($html);
 
-        // $pdf->Output('Lista de Trabalhos Aprovados.pdf', 'D');
+        $pdf->Output('Lista de Trabalhos Aprovados.pdf', 'D');
 
         return true;
     }

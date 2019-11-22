@@ -159,7 +159,7 @@ class Eventos {
 
         $dados = $evento->selecionarEvento($evento_id);
 
-        $dados = $dados[0];
+        // $dados = $dados[0];
         return $dados;
     }
 
