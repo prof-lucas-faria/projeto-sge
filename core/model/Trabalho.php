@@ -158,22 +158,35 @@ class Trabalho extends CRUD {
     }
 
     public function listarAprovados($evento_id){
-        $where_condicao = self::COL_EVENTO_ID . " = ? AND parecer = 'Aprovado' AND primeiro_autor = 1";
+        $where_condicao = self::COL_EVENTO_ID . " = ? 
+                    AND " . Avaliacao::COL_PARECER . " = ? 
+                    AND ". Usuario_Trabalho::COL_PRIMEIRO_AUTOR . " = ? ";
         $where_valor[] = $evento_id;
+        $where_valor[] = "Aprovado";
+        $where_valor[] = 1;
 
-        // $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ". 
-        // " INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_AUTOR. " = ut.trabalho_id " ;
+        $campos = self::COL_TITULO . ", 
+                u." . Usuario::COL_NOME . ", 
+                t." . Trabalho::COL_TRABALHO_ID . 
+                ", COUNT(t." . Trabalho::COL_TRABALHO_ID . ") AS QTDE ";
 
-        $tabelas = "avaliacao a
-        inner join trabalho t on a.". self::COL_TRABALHO_ID ." = t.". self::COL_TRABALHO_ID ."
-        inner join usuario_has_trabalho ut on a.". self::COL_TRABALHO_ID ." = ut.". self::COL_TRABALHO_ID ." inner join usuario u on ut.usuario_id = u.usuario_id";
+        $tabelas = Avaliacao::TABELA . " a
+                INNER JOIN " . self::TABELA . " t 
+                    ON a." . Avaliacao::COL_TRABALHO_ID ." = t." . self::COL_TRABALHO_ID . "
+                INNER JOIN " . Usuario_Trabalho::TABELA ." ut 
+                    ON a." . Avaliacao::COL_TRABALHO_ID ." = ut." . Usuario_Trabalho::COL_TRABALHO_ID . " 
+                INNER JOIN " . Usuario::TABELA . " u 
+                    ON ut." . Usuario_Trabalho::COL_USUARIO_ID . " = u." . Usuario::COL_USUARIO_ID;
 
-        $groupby = "group by t.". self::COL_TRABALHO_ID ." having(qtde >= 2)";
+        $groupby = self::COL_TITULO . ", 
+                    u." . Usuario::COL_NOME . ", 
+                    t." . Trabalho::COL_TRABALHO_ID .
+                    " HAVING(QTDE >= 2)";
         $retorno = [];
 
         try {
-            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor, $groupby, null, null);
-            echo $this->pegarUltimoSQL();
+            $retorno = $this->read($tabelas, $campos, $where_condicao, $where_valor, $groupby, null, null);
+            // echo $this->pegarUltimoSQL();
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }

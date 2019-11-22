@@ -286,10 +286,9 @@ class Certificado
 
         $listaAprovados = $trabalhos->listarAprovados($params['evento_id']);
         $dados_evento = $evento->selecionarEvento($params['evento_id']);
-        print_r($dados_evento);
+        // print_r($dados_evento);
         
-
-        // titulo, nomeAutor
+        // titulo, nome
 
 
         $dados = [
@@ -327,7 +326,7 @@ class Certificado
             $html .= "        <tr>";
             $html .= "            <td class='center'>{$cont}</td>";
             $html .= "            <td>{$valor->titulo}</td>";
-            $html .= "            <td colspan='2'>{$valor->primeiro_autor}</td>";
+            $html .= "            <td colspan='2'>{$valor->nome}</td>";
             $html .= "        </tr>";
             $cont++;
         }
