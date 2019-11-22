@@ -157,7 +157,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 				<?php
 				if (isset($evento->data_inicio_sub) && $evento->data_inicio_sub != null) {
-				?>
+					?>
 					<!-- Submissão -->
 					<div class="col-md-4">
 						<div class="card shadow-sm border-0 h-100">
@@ -177,7 +177,10 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 							<div class="card-body col-md-12 text-center ">
 								<p><small class="text-muted">Submissões apenas pelo site.</small></p>
-								<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a>
+								<!-- <a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a> -->
+								<a id="download_listaAprovados" href="#" data-evento_id="<?= $evento->evento_id ?>" class="btn btn-outline-dark listaAprovados mt-1" title="Baixar Lista de Trabalhos Aprovados">
+									<i class="fa fa-download" aria-hidden="true"></i>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -185,7 +188,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 				<?php
 				} else {
-				?>
+					?>
 					<!-- Submissão Indisponível -->
 					<div class="col-md-4">
 						<div class="card  border-0 h-100">
@@ -292,7 +295,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 		<?php
 		if (isset($evento->data_inicio_sub) && $evento->data_inicio_sub != null) {
-		?>
+			?>
 			<!-- Tipos de Trabalhos -->
 			<div class="album p-4 mt-4 card mb-5">
 				<h2 class="text-center mt-2">Trabalhos</h2>
@@ -334,9 +337,9 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					<div class="row">
 
 						<?php
-						foreach ($lista_tipos as $key => $tipo) {
-							// print_r($tipo);
-						?>
+							foreach ($lista_tipos as $key => $tipo) {
+								// print_r($tipo);
+								?>
 							<div class="col-md-6">
 								<div class="card mt-2 border-0">
 									<div class="card-body">
@@ -351,15 +354,15 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 								</div>
 							</div>
 						<?php
-						}
-						?>
+							}
+							?>
 
 					</div>
 				</div>
 			</div>
 		<?php
 		}
-		?>	
+		?>
 	</div>
 
 	<!-- Toast Erro Exclusao -->
@@ -381,7 +384,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 </main>
 
 <?php
-	$footer = new Footer();
-	$footer->setJS('assets/js/evento.js');
-	require_once 'footer.php';
+$footer = new Footer();
+$footer->setJS('assets/js/evento.js');
+require_once 'footer.php';
 ?>

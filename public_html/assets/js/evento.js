@@ -1,17 +1,17 @@
 let construct = () => {
     eventos();
     gerarCertificado();
-    downloadArquivo();
+    downloadTrabalhosAprovados();
 };
 
 
 const eventos = () => {
-    $(document).ready(function() {
-		let height = $(document).find("#div1").height();
-		console.log(height);
-		
-		$("#div2").height(height);
-    });	
+    $(document).ready(function () {
+        let height = $(document).find("#div1").height();
+        console.log(height);
+
+        $("#div2").height(height);
+    });
 
     $('#botao_excluir').on('click', function (event) {
         event.preventDefault();
@@ -70,8 +70,20 @@ const downloadArquivo = () => {
 
     });
 
+};
 
+const downloadTrabalhosAprovados = () => {
+    $('#download_listaAprovados').on('click', function () {
+        let evento_id = $('#download_listaAprovados').attr('data-evento_id');
 
+        let dados = {
+            evento_id: evento_id
+        };
+        console.log('ntror');
+
+        window.open('api.php?acao=Certificado/gerarListaAprovados&evento_id=' + evento_id, '_blank');
+
+    });
 };
 
 construct();

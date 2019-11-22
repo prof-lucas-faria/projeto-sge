@@ -157,6 +157,30 @@ class Trabalho extends CRUD {
         return $retorno;
     }
 
+    public function listarAprovados($evento_id){
+        $where_condicao = self::COL_EVENTO_ID . " = ? AND parecer = 'Aprovado' AND primeiro_autor = 1";
+        $where_valor[] = $evento_id;
+
+        // $tabelas = self::TABELA . " t INNER JOIN " . Usuario::TABELA . " u ON u.usuario_id = t.autor ". 
+        // " INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_AUTOR. " = ut.trabalho_id " ;
+
+        $tabelas = "avaliacao a
+        inner join trabalho t on a.". self::COL_TRABALHO_ID ." = t.". self::COL_TRABALHO_ID ."
+        inner join usuario_has_trabalho ut on a.". self::COL_TRABALHO_ID ." = ut.". self::COL_TRABALHO_ID ." inner join usuario u on ut.usuario_id = u.usuario_id";
+
+        $groupby = "group by t.". self::COL_TRABALHO_ID ." having(qtde >= 2)";
+        $retorno = [];
+
+        try {
+            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor, $groupby, null, null);
+            echo $this->pegarUltimoSQL();
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+        }
+
+        return $retorno;
+    }
+
 }
 
 

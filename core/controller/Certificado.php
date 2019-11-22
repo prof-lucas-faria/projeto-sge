@@ -9,15 +9,18 @@ use core\model\Usuario;
 use core\sistema\Util;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
+use core\model\Trabalho;
 
-class Certificado {
+class Certificado
+{
 
     /**
      * @param $dados
      * @return bool
      * @throws MpdfException
      */
-    public function gerarCertificado($dados) {
+    public function gerarCertificado($dados)
+    {
         $usuario = new Usuario();
         $evento = new Evento();
         $atividade = new Atividades();
@@ -43,7 +46,7 @@ class Certificado {
         if (count($dados_presenca) > 0) {
             foreach ($dados_presenca as $valor) {
                 if ($valor['presenca'] == 1) {
-                    $carga_horaria += (int)$valor['carga_horaria'];
+                    $carga_horaria += (int) $valor['carga_horaria'];
                 }
             }
         }
@@ -176,7 +179,8 @@ class Certificado {
      * @return bool
      * @throws MpdfException
      */
-    public function gerarListaPresenca($params) {
+    public function gerarListaPresenca($params)
+    {
         $evento = new Evento();
         $atividade = new Atividade();
         $presenca = new Presencas();
@@ -272,7 +276,89 @@ class Certificado {
         return true;
     }
 
-    public function gerarCertificadoAvaliador($dados) {
+    public function gerarCertificadoAvaliador($dados)
+    { }
 
+    public function gerarListaAprovados($params)
+    {
+        $evento = new Evento();
+        $trabalhos = new Trabalho();
+
+        $listaAprovados = $trabalhos->listarAprovados($params['evento_id']);
+        $dados_evento = $evento->selecionarEvento($params['evento_id']);
+        print_r($dados_evento);
+        
+
+        // titulo, nomeAutor
+
+
+        $dados = [
+            // 'participantes' => $participantes,
+            'evento' => $dados_evento->nome,
+            'trabalhos' => $listaAprovados,
+        ];
+
+        $html = "<!DOCTYPE html>";
+        $html .= "<html lang='pt-br'>";
+        $html .= "<head>";
+        $html .= "    <meta charset='UTF-8'>";
+        $html .= "    <title>Lista de Aprovados</title>";
+        $html .= "</head>";
+        $html .= "<body>";
+        $html .= "    <p class='center bold '>Ministério da Educação</p>";
+        $html .= "    <p class='center bold '>Secretaria de Educação Profissional e Tecnológica</p>";
+        $html .= "    <p class='center bold '>Instituto Federal de Educação, Ciência e Tecnologia Goiano</p>";
+              
+        $html .= "<table class='mt25 mb25 collapse fs14' border='0'> ";
+        $html .= "        <tr class=''>";
+        $html .= "            <td colspan='4' class='center '><b>{$dados['evento']}</b></td>";
+        $html .= "        </tr>";
+        $html .= "</table>";
+
+        $html .= "    <table class='mb25 collapse fs16'>";
+        $html .= "        <tr>";
+        $html .= "            <td class='w40 center '><b>#</b></td>";
+        $html .= "            <td class='w500 center '><b>Trabalho</b></td>";
+        $html .= "            <td class='w500 center '><b>Primeiro Autor</b></td>";
+        $html .= "        </tr>";
+
+        $cont = 1;
+        foreach ($dados['trabalhos'] as $i => $valor) {
+            $html .= "        <tr>";
+            $html .= "            <td class='center'>{$cont}</td>";
+            $html .= "            <td>{$valor->titulo}</td>";
+            $html .= "            <td colspan='2'>{$valor->primeiro_autor}</td>";
+            $html .= "        </tr>";
+            $cont++;
+        }
+
+        $html .= "    </table>";
+        $html .= "</body>";
+        $html .= "</html>";
+
+        $config = [
+            'mode' => '',
+            'format' => 'A4',
+            // 'default_font_size' => 12,
+            // 'default_font' => 'dejavusans',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'orientation' => 'P',
+        ];
+
+        $pdf = new Mpdf($config);
+
+        $style = file_get_contents(ROOT . 'public_html/assets/css/lista.css');
+
+        $pdf->WriteHTML($style, 1);
+        $pdf->WriteHTML($html);
+
+        // $pdf->Output('Lista de Trabalhos Aprovados.pdf', 'D');
+
+        return true;
     }
 }
