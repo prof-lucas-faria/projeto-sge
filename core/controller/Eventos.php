@@ -25,6 +25,8 @@ class Eventos {
     private $evento_inicio = null;
     private $evento_termino = null;
     private $data_prorrogacao = null;
+    private $data_inicio_sub = null;
+    private $data_termino_sub = null;
     private $local = null;
     private $lista_eventos = [];
     private $total_paginas = null;

@@ -72,11 +72,8 @@ use core\controller\Eventos;
                         </div>
                     </li>
 
-                    
-                </ul>
-
                     <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
-                    <li class="nav-item">
+                    <li class="nav-item mr-2">
                         <a class="nav-link" href="admin" title="Administrador" id="admin">
                             <i class="fas fa-lock"></i>
                         </a>
@@ -91,7 +88,7 @@ use core\controller\Eventos;
                             </a>
                         </li>
                     <?php } ?>
-                </ul>                
+                </ul>
             </div>
 
             <!-- <div class="dropdown dropleft">

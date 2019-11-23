@@ -151,4 +151,32 @@ class Avaliacoes {
         return json_encode($lista);
     }
 
+    /**
+     * Saber o parecer final de um derterminado trabalho     
+     * 
+     * @return array
+     */
+    public function parecerTrabalho($trabalho_id) {
+
+        $avaliacao = new Avaliacao();
+
+        if(!empty($trabalho_id)){
+
+            $dados = [
+                'trabalho_id' => $trabalho_id,
+                'parecer' => 'ok'
+            ];
+
+            $campos = " case
+                            when SUM(parecer = 'Aprovado') > 1 AND COUNT(correcao) > 0 then 'Aprovado com ressalva'
+                            when SUM(parecer = 'Aprovado') > 1 then 'Aprovado'        
+                            when SUM(parecer = 'Reprovado') > 1 then 'Reprovado'
+                            else NULL
+                        end as parecer ";
+
+            $dados = $avaliacao->listar($campos, $dados, null, null);
+
+            return $dados;
+        }
+    }
 }
