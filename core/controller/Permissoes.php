@@ -62,6 +62,7 @@ class Permissoes {
 
         return $retorno;
     }
+    //samuel
     public function listarPermissaoEventosUsuario($usuario_id,$evento_id) {
         $user_permissao = new Permissao();
 

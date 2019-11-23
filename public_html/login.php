@@ -14,13 +14,13 @@ require 'header.php';
 ?>
 
     <main role='main'>
-        <div class="container center-block container-login mt-5 mb5">
+        <div class="container center-block container-login mt-4">
             <div class="card shadow-sm mb-4 p-4">
                 <div class="row ">
                     <div class="col"></div>
                     <div class="col-md-6">
                         <form class="form-signin" action="" method="post">
-                            <h1 class="display-5 mb-3 font-weight-bold text-center">Logue-se</h1>
+                            <h1 class="display-5 mb-4 font-weight-bold text-center">Logue-se</h1>
                             <div class="form-group">
                                 <label for="cpf" class="sr-only">CPF</label>
                                 <input type="text" id="cpf" name="cpf" class="form-control" placeholder="CPF" required

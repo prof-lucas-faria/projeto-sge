@@ -66,7 +66,7 @@ $evento = $eventos->listarEvento($_GET['evento_id']);
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="carga_horaria">Carga Horária:</label>
-                                <input type="text" class="form-control" id="carga_horaria"
+                                <input type="numeric" class="form-control" id="carga_horaria"
                                        value="<?= (isset($atividade->carga_horaria)) ? $atividade->carga_horaria : "" ?>"
                                        placeholder="Carga horaria da atividade" required autofocus>
                             </div>

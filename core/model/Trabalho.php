@@ -158,10 +158,10 @@ class Trabalho extends CRUD {
 
     public function alterarStatus($dados){
 
-        // $dados = [
+        $dados = [
         //     'status' => 'Em avaliação',
         //     'trabalho_id' => '3'
-        // ];
+         ];
 
         if (!isset($dados[self::COL_TRABALHO_ID])) {
             throw new Exception("É necessário informar o ID do trabalho para atualizar");

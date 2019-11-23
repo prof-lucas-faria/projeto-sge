@@ -44,7 +44,7 @@ const eventos = () => {
             data_prorrogacao !== "" &&
             local !== "" &&
             tematica != ""
-            // && validaDatas()
+            && validaDatas()
         ) {
             let dados = new FormData();
             dados.append("nome", nome);
@@ -64,6 +64,16 @@ const eventos = () => {
                     dados.append("data_termino_sub", data_termino_sub);
                 } else {
                     // É necessário informar previamente a data final para a submissão, mesmo que ela seja alterada
+
+                    let data = {
+                        titulo: 'Ops, faltam informações!',
+                        subtitulo: 'Agora',
+                        conteudo: 'Por favor, informe as datas de submissão.',
+                        tipo: 'alerta',
+                        tempo: 4000
+                    };
+                    mensagem(data);
+                    console.log('É necessário informar o periodo de submissao');
                     return false;
                 }
             }
@@ -129,21 +139,55 @@ const eventos = () => {
                 success: function (res) {
                     if (res) {
                         if (evento_id == "") {
-                            $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                            // $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+
+                            let data = {
+                                titulo: 'Deu tudo certo!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Pronto, o evento foi cadastrado com sucesso.',
+                                tipo: 'sucesso',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+
                             window.location.href = window.location.href + '?evento_id=' + res;
                             urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
                         } else {
-                            $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                            window.location.href = window.location.href;
+                            let data = {
+                                titulo: 'Deu tudo certo!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Pronto, o evento foi alterado com sucesso.',
+                                tipo: 'sucesso',
+                                tempo: 4000
+                            };
+                            mensagem(data);
                         }
                     } else {
 
                         if (evento_id == "") {
-                            $('#msg_erro').toast('show');
+                            // $('#msg_erro').toast('show');
+                            let data = {
+                                titulo: 'Houve um erro!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Desculpe, não conseguimos efetuar o cadastro.',
+                                tipo: 'erro',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+
+
                         } else {
-                            $('#msg_alterar_erro').toast('show');
-                            console.log('q isso??');
+                            // $('#msg_alterar_erro').toast('show');
+                            let data = {
+                                titulo: 'Houve um erro!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Desculpe, não conseguimos efetuar a alteração.',
+                                tipo: 'sucesso',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+
 
                         }
                     }
@@ -152,6 +196,18 @@ const eventos = () => {
                     console.log(request, status, str_error)
                 }
             });
+        } else {
+
+
+            let data = {
+                titulo: 'Ops, faltam informações!',
+                subtitulo: 'Agora',
+                conteudo: 'Por favor, preencha todos os campos.',
+                tipo: 'alerta',
+                tempo: 4000
+            };
+            mensagem(data);
+
         }
     });
 };
@@ -330,21 +386,62 @@ const getTipos = () => {
 
 const validaDatas = () => {
 
-    let date_evento_inicio = new Date(evento_inicio),
-        date_evento_termino = new Date(evento_termino),
-        date_data_inicio = new Date(data_inicio),
-        date_data_termino = new Date(data_termino),
-        date_data_prorrogacao = new Date(data_prorrogacao);
+    let date_evento_inicio = new Date(evento_inicio.value),
+        date_evento_termino = new Date(evento_termino.value),
+        date_data_inicio = new Date(data_inicio.value),
+        date_data_termino = new Date(data_termino.value),
+        date_data_prorrogacao = new Date(data_prorrogacao.value);
 
+
+    // Validação da data de inscrições e data do evento
     if (date_evento_inicio <= date_evento_termino &&
         date_data_inicio < date_data_termino &&
-        date_data_termino <= date_data_prorrogacao) {
+        date_data_termino <= date_data_prorrogacao && 
+        date_data_inicio <= date_evento_inicio 
+        ) {
 
-        return true;
     } else {
-        $('#msg_alerta').toast('show');
+        // $('#msg_alerta').toast('show');
+        console.log(evento_inicio.value);
+
+        console.log(date_evento_inicio + date_evento_termino + date_data_inicio + date_data_termino + date_data_prorrogacao);
+
+        let data = {
+            titulo: 'Ops, existe um erro!',
+            subtitulo: 'Agora',
+            conteudo: 'Por favor, confira as datas do evento.',
+            tipo: 'alerta',
+            tempo: 4000
+        };
+        mensagem(data);
+        console.log('Datas Erradas');
+
         return false;
     }
+
+    // Caso existam submissões, valida as datas
+    if (submissoes.checked) {
+        console.log(submissoes);
+
+        let date_data_inicio_sub = new Date(data_inicio_sub.value);
+        let date_data_termino_sub = new Date(data_termino_sub.value);
+
+        if (!(date_data_inicio_sub <= date_data_termino_sub)) {
+
+            let data = {
+                titulo: 'Ops, existe um erro!',
+                subtitulo: 'Agora',
+                conteudo: 'Por favor, confira as datas de submissão.',
+                tipo: 'alerta',
+                tempo: 4000
+            };
+            mensagem(data);
+            console.log('Datas de Submissão Erradas');
+            return false;
+        }
+    }
+
+    return true
 };
 
 const downloadArquivo = () => {

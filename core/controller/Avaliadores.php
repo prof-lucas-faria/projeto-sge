@@ -156,6 +156,8 @@ class Avaliadores {
      * @return array
      */
     public function distribuirTrabalhos($dados = []) {
+        
+        
 
         $trabalhos = new Trabalhos();
         $avaliacoes = new Avaliacoes();

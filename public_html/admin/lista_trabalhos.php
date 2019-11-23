@@ -23,7 +23,7 @@ $trabalhos = new Trabalhos();
 $avaliacoes = new Avaliacoes();
 
 $trabalho = $trabalhos->listarTrabalhos($busca);
-$prazo = $avaliacoes->listarAvaliacao($evento_id);
+$prazo = $avaliacoes->listarPrazos($evento_id);
 
 //echo "<pre>";
 //print_r($trabalho);

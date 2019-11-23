@@ -7,10 +7,8 @@ let construct = () => {
 
 const eventos = () => {
     const evento_id = $('#distribuir').attr('data-evento_id');
-    
     $('#distribuir').on('click', function (e) {
         e.preventDefault();
-        
         let prazo = $('#prazo').val();
         
         if (prazo !== "" && evento_id !== "") {
@@ -32,7 +30,9 @@ const eventos = () => {
                 dataType: "text",
                 async: true,
                 success: function (res) {
-                    if (res) {                    
+        //console.log(res);
+                    
+                    if (res) {   
                         $('#msg_sucesso').toast('show');
                         window.location.href = home_url + '?evento_id=' + evento_id;
                     } else {

@@ -31,7 +31,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
 
             <?php if (count($lista_usuarios) > 0) { ?>
 
-                <h2 class="display-5 mb-3 font-weight-bold text-center">Lista de usuários</h2>
+                <h2 class="display-5 mb-4 font-weight-bold text-center">Lista de usuários</h2>
 
                 <table class="table table-hover table-bordered">
                     <thead class="thead-dark">
@@ -39,7 +39,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
                         <th scope="col" width="10%">ID</th>
                         <th scope="col" width="40%">Nome</th>
                         <th scope="col" width="35%">E-mail</th>
-                        <th scope="col" width="15%">Organizador</th>
+                        <th scope="col" width="10%">Organizador</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,7 +50,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
                             <td><?= $usuario->usuario_id ?></td>
                             <td><?= $usuario->nome ?></td>
                             <td><?= $usuario->email ?></td>
-                            <td class="check_permissao">
+                            <td class="check_permissao text-center">
                                 <input type="checkbox" id="<?= $usuario->usuario_id ?>"
                                        value="<?= $usuario->permissao ?>"
                                     <?= $usuario->permissao == 1 ? 'checked' : '' ?>>
@@ -63,7 +63,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
                 </table>
 
                 <div class="row d-flex justify-content-end pr-3 pl-3">
-                    <button id="atualiza_permissao" class="btn btn-outline-success">Atualizar</button>
+                    <button id="atualiza_permissao" class="btn btn-outline-success col-2">Atualizar</button>
                 </div>
 
             <?php } else { ?>
