@@ -81,7 +81,8 @@ class Eventos {
         $tematica['evento_id'] = $resultado;
         // print_r($tematica);
         $tipos['evento_id'] = $resultado;
-        $tipos['data_inicio_sub'] = $dados['data_inicio_sub'];
+        
+        // isset($dados['data_inicio_sub']) ? $tipos['data_inicio_sub'] = $dados['data_inicio_sub'] : "";
 
         $evento_tematica = new Evento_Tematica();
         $evento_tematica->adicionar($tematica);
