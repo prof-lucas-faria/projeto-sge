@@ -70,7 +70,7 @@ if (isset($usuario_id)) {
 
                                                 if (strtotime(date('Y/m/d')) > strtotime($prazo)) {
                                                     $parecer = $avaliacoes->parecerTrabalho($v->trabalho_id);
-                                                    $v->status = $parecer->parecer;
+                                                    $v->status = $parecer[0]->parecer;
                                                 }
                                             }                                            
                                         } else {
