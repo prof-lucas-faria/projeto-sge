@@ -30,8 +30,6 @@ const eventos = () => {
                 dataType: "text",
                 async: true,
                 success: function (res) {
-        //console.log(res);
-                    
                     if (res) {   
                         $('#msg_sucesso').toast('show');
                         window.location.href = home_url + '?evento_id=' + evento_id;

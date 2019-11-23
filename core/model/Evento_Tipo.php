@@ -19,7 +19,7 @@ class Evento_Tipo extends CRUD {
 
         try {
 
-            $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados['tipo_id']);
+            // $this->deletarRelacao($dados[self::COL_EVENTO_ID], $dados['tipo_id']);
 
             $this->create(self::TABELA, $dados);
 
@@ -36,9 +36,9 @@ class Evento_Tipo extends CRUD {
      * @return bool|mixed
      *  */   
 
-    public function deletarRelacao($evento_id, $tipo_id){
-        $where_condicao = self::COL_EVENTO_ID . " = ? AND " . self::COL_TIPO_ID . " = ?";
-        $where_valor = [$evento_id, $tipo_id];
+    public function deletarRelacao($evento_id){
+        $where_condicao = self::COL_EVENTO_ID . " = ? ";
+        $where_valor = [$evento_id];
 
         try {
             $retorno = $this->delete(self::TABELA, $where_condicao, $where_valor);

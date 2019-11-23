@@ -156,34 +156,72 @@ class Trabalho extends CRUD {
         return $retorno;
     }
 
-    public function alterarStatus($dados){
 
-        $dados = [
+    //public function alterarStatus($dados){
+
+        //$dados = [
         //     'status' => 'Em avaliação',
         //     'trabalho_id' => '3'
-         ];
+        // ];
 
-        if (!isset($dados[self::COL_TRABALHO_ID])) {
-            throw new Exception("É necessário informar o ID do trabalho para atualizar");
-        }
+       // if (!isset($dados[self::COL_TRABALHO_ID])) {
+            //throw new Exception("É necessário informar o ID do trabalho para atualizar");
+       // }
 
-        $dados_trabalho = [
-            self::COL_STATUS => $dados[self::COL_STATUS]
-        ];
+        //$dados_trabalho = [
+         //   self::COL_STATUS => $dados[self::COL_STATUS]
+        //];
 
-        $where_condicao = self::COL_TRABALHO_ID . " = ?";
-        $where_valor[] = $dados[self::COL_TRABALHO_ID];
+        //$where_condicao = self::COL_TRABALHO_ID . " = ?";
+        //$where_valor[] = $dados[self::COL_TRABALHO_ID];
         
+        //try {
+
+        //    $this->update(self::TABELA, $dados_trabalho, $where_condicao, $where_valor);
+
+        //} catch (Exception $e) {
+         //   echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+         //   return false;
+        //}
+
+        //return true;
+
+    public function listarAprovados($evento_id){
+        $where_condicao = self::COL_EVENTO_ID . " = ? 
+                    AND " . Avaliacao::COL_PARECER . " = ? 
+                    AND ". Usuario_Trabalho::COL_PRIMEIRO_AUTOR . " = ? ";
+        $where_valor[] = $evento_id;
+        $where_valor[] = "Aprovado";
+        $where_valor[] = 1;
+
+        $campos = self::COL_TITULO . ", 
+                u." . Usuario::COL_NOME . ", 
+                t." . Trabalho::COL_TRABALHO_ID . 
+                ", COUNT(t." . Trabalho::COL_TRABALHO_ID . ") AS QTDE ";
+
+        $tabelas = Avaliacao::TABELA . " a
+                INNER JOIN " . self::TABELA . " t 
+                    ON a." . Avaliacao::COL_TRABALHO_ID ." = t." . self::COL_TRABALHO_ID . "
+                INNER JOIN " . Usuario_Trabalho::TABELA ." ut 
+                    ON a." . Avaliacao::COL_TRABALHO_ID ." = ut." . Usuario_Trabalho::COL_TRABALHO_ID . " 
+                INNER JOIN " . Usuario::TABELA . " u 
+                    ON ut." . Usuario_Trabalho::COL_USUARIO_ID . " = u." . Usuario::COL_USUARIO_ID;
+
+        $groupby = self::COL_TITULO . ", 
+                    u." . Usuario::COL_NOME . ", 
+                    t." . Trabalho::COL_TRABALHO_ID .
+                    " HAVING(QTDE >= 2)";
+        $retorno = [];
+
         try {
-
-            $this->update(self::TABELA, $dados_trabalho, $where_condicao, $where_valor);
-
+            $retorno = $this->read($tabelas, $campos, $where_condicao, $where_valor, $groupby, null, null);
+            // echo $this->pegarUltimoSQL();
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
-            return false;
         }
 
-        return true;
+        return $retorno;
+
     }
 
 }

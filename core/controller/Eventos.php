@@ -8,6 +8,7 @@ use core\model\Evento_Tematica;
 use core\model\Permissao;
 use core\sistema\Autenticacao;
 use core\sistema\Arquivos;
+use DateTime;
 
 class Eventos {
 
@@ -78,6 +79,7 @@ class Eventos {
         $tematica['evento_id'] = $resultado;
         // print_r($tematica);
         $tipos['evento_id'] = $resultado;
+        $tipos['data_inicio_sub'] = $dados['data_inicio_sub'];
 
         $evento_tematica = new Evento_Tematica();
         $evento_tematica->adicionar($tematica);
@@ -157,7 +159,7 @@ class Eventos {
 
         $dados = $evento->selecionarEvento($evento_id);
 
-        $dados = $dados[0];
+        // $dados = $dados[0];
         return $dados;
     }
 

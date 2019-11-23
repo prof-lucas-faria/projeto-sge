@@ -18,7 +18,8 @@ class Usuario_Trabalho extends CRUD {
 
         try {
             
-            $this->deletarRelacao($dados[self::COL_USUARIO_ID], $dados[self::COL_TRABALHO_ID]);
+            // $this->deletarRelacao($dados[self::COL_USUARIO_ID], $dados[self::COL_TRABALHO_ID]);
+            // $this->deletarRelacao($dados[self::COL_USUARIO_ID], $dados[self::COL_TRABALHO_ID]);
             
             $this->create(self::TABELA, $dados);
 
@@ -28,9 +29,9 @@ class Usuario_Trabalho extends CRUD {
         }
     }
 
-    public function deletarRelacao($usuario_id, $trabalho_id){
-        $where_condicao = self::COL_USUARIO_ID . " = ? AND " . self::COL_TRABALHO_ID . " = ?";
-        $where_valor = [$usuario_id, $trabalho_id];
+    public function deletarRelacao($trabalho_id){
+        $where_condicao = self::COL_TRABALHO_ID . " = ?";
+        $where_valor = [$trabalho_id];
 
         try {
             $retorno = $this->delete(self::TABELA, $where_condicao, $where_valor);

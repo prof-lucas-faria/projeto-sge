@@ -199,6 +199,6 @@ class Evento extends CRUD {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }
 
-        return $retorno;
+        return $retorno[0];
     }
 }

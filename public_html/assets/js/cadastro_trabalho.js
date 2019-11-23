@@ -26,7 +26,7 @@ const trabalhos = () => {
         let arquivo_com_id = ($('#arquivo_com_id').get(0).files.length !== 0) ? $('#arquivo_com_id')[0].files[0] : $('#download_arquivo_identificado').attr('data-path');
 
         console.log(arquivo_com_id);
-   
+
         let autores = $(document).find('input[name=autores]');
         let a = [];
         autores.each(function (index, params) {
@@ -98,19 +98,54 @@ const trabalhos = () => {
                 success: function (res) {
                     if (res) {
                         if (trabalho_id == "") {
-                        $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                        window.location.href = window.location.href + '&trabalho_id=' + res;
+                            // $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                            let data = {
+                                titulo: 'Deu tudo certo!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Pronto, o trabalho foi cadastrado com sucesso.',
+                                tipo: 'sucesso',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+                            window.location.href = window.location.href + '&trabalho_id=' + res;
                         } else {
-                            $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
-                            window.location.href = window.location.href;
+                            // $('#msg_alterar_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                            let data = {
+                                titulo: 'Deu tudo certo!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Pronto, o evento foi alterado com sucesso.',
+                                tipo: 'sucesso',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+                            console.log('q?');
+
+                            // window.location.href = window.location.href;
                         }
                     }
                     else {
                         if (trabalho_id == "") {
-                            $('#msg_erro').toast('show');
+                            // $('#msg_erro').toast('show');
+                            let data = {
+                                titulo: 'Houve um erro!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Não foi possível cadastrar o trabalho.',
+                                tipo: 'erro',
+                                tempo: 4000
+                            };
+                            mensagem(data);
+
                         } else {
-                            $('#msg_alterar_erro').toast('show');
+                            // $('#msg_alterar_erro').toast('show');
                             console.log('q isso??');
+                            let data = {
+                                titulo: 'Houve um erro!',
+                                subtitulo: 'Agora',
+                                conteudo: 'Não foi possível alterar o trabalho.',
+                                tipo: 'erro',
+                                tempo: 4000
+                            };
+                            mensagem(data);
 
                         }
                     }
@@ -121,8 +156,15 @@ const trabalhos = () => {
                 }
             });
         } else {
-            console.log("Tem coisa errada");
-
+            console.log("Tem coisa faltando");
+            let data = {
+                titulo: 'Ops, faltam informações!',
+                subtitulo: 'Agora',
+                conteudo: 'Por favor, preencha todos os campos.',
+                tipo: 'alerta',
+                tempo: 4000
+            };
+            mensagem(data);
         }
     })
 };
@@ -154,12 +196,29 @@ const addCampoAutores = () => {
                 form_group_autores.append(input);
             } else {
                 // Enviar um toast falando que o limite de autores é 6
-
+                console.log('Selecione o tipo de trabalho');
+                let data = {
+                    titulo: 'Ops, trabalho lotado!',
+                    subtitulo: 'Agora',
+                    conteudo: 'O trabalho atingiu limite de autores.',
+                    tipo: 'alerta',
+                    tempo: 4000
+                };
+                mensagem(data);
             }
 
         } else {
             // Chamar alert
             console.log('Selecione o tipo de trabalho');
+            let data = {
+                titulo: 'Ops, muita calma aí!',
+                subtitulo: 'Agora',
+                conteudo: 'Selecione primeiro o tipo de trabalho.',
+                tipo: 'alerta',
+                tempo: 4000
+            };
+            mensagem(data);
+
         }
 
     });
@@ -231,6 +290,15 @@ const validaApresentadores = (apresentadores) => {
             return true;
         }
     }
+
+    let data = {
+        titulo: 'Quem irá apresentar?!',
+        subtitulo: 'Agora',
+        conteudo: 'Selecione algum autor para a apresentação.',
+        tipo: 'alerta',
+        tempo: 4000
+    };
+    mensagem(data);
     return false;
 
 };
