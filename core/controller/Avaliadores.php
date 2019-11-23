@@ -162,7 +162,7 @@ class Avaliadores {
         
         // verifica se já não passsado uma lista de trabalhos para avaliar (redistribuir)
         if (isset($dados['trabalhos'])) {
-            $trabalho = $dados['trabalhos'];
+            $trabalho = (array)$dados['trabalhos'];
         } else {
             $trabalho = $trabalhos->listarTrabalhos($dados['evento_id']);
         }
