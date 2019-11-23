@@ -55,9 +55,11 @@ use core\controller\Eventos;
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
                                 <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
+                                
+                                
                             <?php }
-
                             if (Autenticacao::verificarLogin()) { ?>
+                                <a class="dropdown-item" href="lista_TrabalhosAutor.php">Meus Trabalhos</a>
                                 <a class="dropdown-item" href="alterar_senha.php">Alterar Senha</a>
                                 <a class="dropdown-item" href="cadastro.php">Editar Dados</a>
 
@@ -70,6 +72,9 @@ use core\controller\Eventos;
                         </div>
                     </li>
 
+                    
+                </ul>
+
                     <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="admin" title="Administrador" id="admin">
@@ -81,6 +86,7 @@ use core\controller\Eventos;
                     <?php if (Autenticacao::verificarLogin()) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="#" title="Sair" id="logout">
+                            
                                 <i class="fas fa-sign-out-alt"></i>
                             </a>
                         </li>

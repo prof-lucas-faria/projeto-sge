@@ -145,7 +145,7 @@ $lista_usuarios = $usuarios->listarUsuarios();
 
 $footer = new Footer();
 
-$footer->setJS('assets/js/cadastro_avaliadores.js');
+$footer->setJS('../admin/assets/js/cadastro_avaliadores.js');
 
 require_once 'footer.php';
 

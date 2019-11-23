@@ -226,7 +226,7 @@ if (isset($usuario_id)) {
 <?php
 
 $footer = new Footer();
-$footer->setJS('assets/js/cadastro_usuario.js');
+$footer->setJS('admin/assets/js/cadastro_usuario.js');
 require_once 'footer.php';
 
 ?>

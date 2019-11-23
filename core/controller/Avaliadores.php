@@ -156,6 +156,8 @@ class Avaliadores {
      * @return array
      */
     public function distribuirTrabalhos($dados = []) {
+        
+        
 
         $trabalhos = new Trabalhos();
         $avaliacoes = new Avaliacoes();
@@ -278,6 +280,7 @@ class Avaliadores {
                     if (!isset($lista[$key])) $lista[$key] = [];
 
                     foreach ($dados_trabalho as $i => $x) {
+
                         if (!in_array($x, $lista[$key]) &&
                             !in_array($x, $dados_avaliacao[$key]) &&
                             in_array($x, $dados_avaliador[$key]) &&
@@ -291,6 +294,8 @@ class Avaliadores {
                     }
                 }
             }
+
+           
 
             if (count($dados_trabalho) > 0) {
                 return json_encode($dados_trabalho);

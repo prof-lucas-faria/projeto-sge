@@ -25,6 +25,9 @@ $avaliacoes = new Avaliacoes();
 $trabalho = $trabalhos->listarTrabalhos($busca);
 $prazo = $avaliacoes->listarPrazos($evento_id);
 
+//echo "<pre>";
+//print_r($trabalho);
+//exit;
 ?>
 
 <main role="main">
@@ -234,7 +237,7 @@ $prazo = $avaliacoes->listarPrazos($evento_id);
 
 <?php
     $footer = new Footer();
-    $footer->setJS('assets/js/lista_trabalhos.js');
+    $footer->setJS('../admin/assets/js/lista_trabalhos.js');
 
     require_once 'footer.php';
 ?>

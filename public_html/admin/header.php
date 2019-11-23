@@ -121,6 +121,7 @@ use core\controller\Eventos;
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>
+                                <a class="dropdown-item" href="../lista_TrabalhosAutor.php">Meus Trabalhos</a>
                                 <a class="dropdown-item" href="../alterar_senha.php">Alterar Senha</a>
                                 <a class="dropdown-item" href="../cadastro.php">Editar Dados</a>
 

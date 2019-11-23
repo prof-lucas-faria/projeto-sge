@@ -250,7 +250,7 @@ $x = 0;
 
 <?php
 $footer = new Footer();
-$footer->setJS('assets/js/atividades.js');
+$footer->setJS('../admin/assets/js/atividades.js');
 
 require_once 'footer.php';
 ?>

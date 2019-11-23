@@ -3,6 +3,7 @@
 namespace core\model;
 
 use core\CRUD;
+use core\controller\Usuarios_Trbalhos;
 use Exception;
 
 class Usuario_Trabalho extends CRUD {
@@ -84,4 +85,6 @@ class Usuario_Trabalho extends CRUD {
         }
         return $retorno;
     }
+
+
 }
