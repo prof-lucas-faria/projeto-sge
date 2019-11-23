@@ -143,12 +143,21 @@ class Trabalho extends CRUD {
         $where_condicao = " ut." . Usuario_Trabalho::COL_USUARIO_ID . " = ? ";
         $where_valor[] = $usuario_id;
 
-        $tabelas = self::TABELA . " t INNER JOIN usuario_has_trabalho ut  ON t.".self::COL_TRABALHO_ID. " = ut.trabalho_id ";
+        $campos = "t.*, 
+            ut." . Usuario_Trabalho::COL_USUARIO_ID . ", 
+            ut." . Usuario_Trabalho::COL_PRIMEIRO_AUTOR . ", 
+            e." . Evento::COL_DATA_TERMINO_SUB;
+
+        $tabelas = self::TABELA . " t 
+            INNER JOIN " . Usuario_Trabalho::TABELA . " ut 
+                ON t." . self::COL_TRABALHO_ID . " = ut." . Usuario_Trabalho::COL_TRABALHO_ID . "
+            INNER JOIN " . Evento::TABELA . " e 
+                ON t." . self::COL_EVENTO_ID . " = e." . Evento::COL_EVENTO_ID;
 
         $retorno = [];
 
         try {
-            $retorno = $this->read($tabelas, "*", $where_condicao, $where_valor);
+            $retorno = $this->read($tabelas, $campos, $where_condicao, $where_valor);
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }

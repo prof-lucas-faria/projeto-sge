@@ -100,9 +100,22 @@ class Avaliacao extends CRUD {
 
         }
 
+        if (isset($busca[self::COL_TRABALHO_ID]) && !empty($busca[self::COL_TRABALHO_ID])) {
+        
+            $where_condicao .= " AND " . self::COL_TRABALHO_ID . " = ?";
+            $where_valor[] = $busca[self::COL_TRABALHO_ID];    
+    
+        }
+
         try {
 
-            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
+            if (isset($busca['parecer'])) {  
+                $groupby = self::COL_TRABALHO_ID;
+                $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, $groupby, $ordem, $limite);
+                $retorno = $retorno[0];
+            } else {                
+                $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
+            }
             // echo $this->pegarUltimoSQL();
 
         } catch (Exception $e) {
