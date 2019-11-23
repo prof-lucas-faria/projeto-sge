@@ -25,9 +25,12 @@ $avaliacoes = new Avaliacoes();
 $trabalho = $trabalhos->listarTrabalhos($busca);
 $prazo = $avaliacoes->listarPrazos($evento_id);
 
-//echo "<pre>";
-//print_r($trabalho);
-//exit;
+$aux['evento_id'] = $evento_id;
+$divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
+
+// echo "<pre>";
+// print_r($divergentes);
+// exit;
 ?>
 
 <main role="main">
@@ -52,16 +55,19 @@ $prazo = $avaliacoes->listarPrazos($evento_id);
                     <h5 class='card-title'>Atenção!</h5>
 
                     <?php
-                    if (isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) {
+                    if ( ( isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo) ) || 
+                    ( isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo) ) && count($divergentes) < 0 ) {
+                        //depois que o prazo acaba e os trabalhos foram avaliados
                     ?>
                         <p class="card-text" id="texto_card">
-                            Todos os trabalhos foram avaliados! Podes conferir ou imprimir a lista dos trabalhos 
+                            Todos os trabalhos foram avaliados! Podes conferir a lista dos trabalhos 
                             aprovados.
                         </p>
-                        <a href="#" class="btn btn-outline-primary" id="aprovadsos">Lista de Aprovados</a>
+
+                        <a href="#" id="download_listaAprovados" data-evento_id="<?= $evento_id ?>" class="btn btn-outline-primary" id="aprovadsos">Lista de Aprovados</a>
                     <?php
-                    } elseif ( isset($prazo[0]->prazo) ) {
-                        // depois que os trabalhos foram distribuidos e antes de redistribuir
+                    } elseif (isset($prazo[0]->prazo) || count($divergentes) > 0) {
+                        // depois que os trabalhos foram distribuidos e enquanto existir trabalhos com avaliações diferentes
                     ?>
                         <p class="card-text" id="texto_card">
                             Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar 

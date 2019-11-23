@@ -17,7 +17,7 @@ $trabalhos = [];
 if (isset($usuario_id)) {
     $trabalhos = $trabalhos_md->listarPeloAutor($usuario_id);
     //print_r ($trabalhos);
-    echo $usuario_id;
+    // echo $usuario_id;
 }
 
 // echo "<pre>";
@@ -56,14 +56,24 @@ if (isset($usuario_id)) {
 
                                     <td scope="row" class="align-middle"><?= $v->titulo; ?></td>
 
-
                                     <td scope="row" class="align-middle">
                                         <?php 
-                                        if (strtotime(date('Y/m/d H:m:s')) > strtotime($v->data_termino_sub)) {
-                                            $avaliacoes = new Avaliacoes();
-                                            $parecer = $avaliacoes->parecerTrabalho($v->trabalho_id);
-                                            $v->status = $parecer->parecer;
+                                        if (strtotime(date('Y/m/d')) > strtotime($v->data_termino_sub)) {
+                                            $di = "disabled";
 
+                                            $avaliacoes = new Avaliacoes();
+                                            $aux['evento_id'] = $v->evento_id;
+                                            $prazo = $avaliacoes->listarPrazos($aux);
+                                            
+                                            if (count((array)$prazo[0]) > 0) {
+                                                $prazo = isset($prazo[1]) ? $prazo[1]->prazo : $prazo[0]->prazo;
+
+                                                if (strtotime(date('Y/m/d')) > strtotime($prazo)) {
+                                                    $parecer = $avaliacoes->parecerTrabalho($v->trabalho_id);
+                                                    $v->status = $parecer[0]->parecer;
+                                                }
+                                            }                                            
+                                        } else {
                                             if (!$v->primeiro_autor) {
                                                 $di = "disabled";
                                             } else {
@@ -135,8 +145,8 @@ if (isset($usuario_id)) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> essa
-                    atividade?
+                    Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> esse
+                    trabalho?
                 </div>
                 <div class="modal-footer p-2">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>

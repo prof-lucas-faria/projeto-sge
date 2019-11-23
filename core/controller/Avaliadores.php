@@ -155,16 +155,14 @@ class Avaliadores {
      *
      * @return array
      */
-    public function distribuirTrabalhos($dados = []) {
-        
-        
+    public function distribuirTrabalhos($dados = []) {        
 
         $trabalhos = new Trabalhos();
         $avaliacoes = new Avaliacoes();
         
         // verifica se já não passsado uma lista de trabalhos para avaliar (redistribuir)
         if (isset($dados['trabalhos'])) {
-            $trabalho = $dados['trabalhos'];
+            $trabalho = (array)$dados['trabalhos'];
         } else {
             $trabalho = $trabalhos->listarTrabalhos($dados['evento_id']);
         }

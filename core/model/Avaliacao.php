@@ -72,10 +72,11 @@ class Avaliacao extends CRUD {
 
         $campos = $campos != null ? $campos : "*";
         $ordem = $ordem != null ? $ordem : "";
+        $groupby = "";
 
         $where_condicao = "1 = 1";
         $where_valor = [];
-        $tabela = self::TABELA;
+        $tabela = self::TABELA . " a ";
 
         if (isset($busca[self::COL_AVALIADOR_ID])) {
          
@@ -85,7 +86,7 @@ class Avaliacao extends CRUD {
         }
         if (isset($busca[Evento::COL_EVENTO_ID])) {
             
-            $tabela .= ' a 
+            $tabela .= '
                 INNER JOIN ' . Trabalho::TABELA . ' t 
                     ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID;
             
@@ -102,20 +103,25 @@ class Avaliacao extends CRUD {
 
         if (isset($busca[self::COL_TRABALHO_ID]) && !empty($busca[self::COL_TRABALHO_ID])) {
         
-            $where_condicao .= " AND " . self::COL_TRABALHO_ID . " = ?";
+            $where_condicao .= " AND a." . self::COL_TRABALHO_ID . " = ?";
             $where_valor[] = $busca[self::COL_TRABALHO_ID];    
     
         }
 
+        if (isset($busca[self::COL_PARECER])) {  
+            $groupby = " a." . self::COL_TRABALHO_ID;
+        }
+
+        if (isset($busca['divergentes'])) {  
+            $groupby .= " HAVING 
+                (SUM(" . self::COL_PARECER . " = 'Aprovado') = 1) AND 
+                (SUM(" . self::COL_PARECER . " = 'Reprovado') = 1) AND
+                (COUNT(a." . self::COL_TRABALHO_ID . ") < 3)";
+        }
+
         try {
 
-            if (isset($busca['parecer'])) {  
-                $groupby = self::COL_TRABALHO_ID;
-                $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, $groupby, $ordem, $limite);
-                $retorno = $retorno[0];
-            } else {                
-                $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
-            }
+            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, $groupby, $ordem, $limite);
             // echo $this->pegarUltimoSQL();
 
         } catch (Exception $e) {

@@ -7,6 +7,8 @@ let construct = () => {
 
 const eventos = () => {
     const evento_id = $('#distribuir').attr('data-evento_id');
+    var divergentes = null;
+
     $('#distribuir').on('click', function (e) {
         e.preventDefault();
         let prazo = $('#prazo').val();
@@ -19,8 +21,8 @@ const eventos = () => {
                     acao: "Avaliadores/distribuirTrabalhos"
                 }  
                 
-            if (typeof divergentes !== 'undefined' && divergentes.length > 0) {
-                dados.trabalhos = divergentes;
+            if (divergentes != null && divergentes.length > 0) {
+                dados.trabalhos = divergentes;                
             }
             
             $.ajax({
@@ -35,7 +37,7 @@ const eventos = () => {
                         window.location.href = home_url + '?evento_id=' + evento_id;
                     } else {
                         $('#botao').text('Cadastrar');
-                        $('.modal-body').text("Não foi possível alocar os trabalhos: " + res + " para serem avaliados, de acordo com as regras pré-definidas. Por favor cadastre mais avaliador!");
+                        $('.modal-body').text("Não foi possível alocar os trabalhos com ID: " + res + " para serem avaliados, de acordo com as regras pré-definidas. Por favor cadastre mais avaliador!");
                         $('#msg_erro').toast('show');
                     }
                 },
@@ -57,7 +59,7 @@ const eventos = () => {
             let dados = {
                     evento_id: evento_id,
                     status: "Avaliado",
-                    acao: "Avaliacoes/trabalhosAvaliados"
+                    acao: "Avaliacoes/avaliacoesDivergentes"
                 }        
             
             $.ajax({
@@ -67,22 +69,11 @@ const eventos = () => {
                 dataType: "text",
                 async: true,
                 success: function (res) {
-                    if (res) {        
-                        res = JSON.parse(res);
-                        const divergentes = [];
-                        
-                        for (let i = 0; i < res.length-1; i++) { 
-                            if (res[i].trabalho_id == res[(i+1)].trabalho_id && 
-                                res[i].parecer != res[(i+1)].parecer && 
-                                typeof res[(i+2)] !== 'undefined' &&
-                                res[i].trabalho_id != res[(i+2)].trabalho_id) {
-                                
-                                divergentes.push(res[i].trabalho_id);
-                            }
-                        }
+                    if (res) {  
+                        divergentes = JSON.parse(res);
                         
                         if (divergentes.length > 0) {
-                            // $('.modal-body').text("Os tranalhos " + divergentes + " estão com avaliações divergentes!");
+                            // $('.modal-body').text("Os trabalhos com ID: \n" + divergentes + " \nestão com avaliações divergentes!");
                             $('#distribuir').text('Redistribuir');
                             $('#distribuirModal').modal('show'); 
                         } else {
@@ -139,6 +130,18 @@ const eventos = () => {
 
             window.location.href = link;
         }
+    });
+
+    $('#download_listaAprovados').on('click', function () {
+        let evento_id = $('#download_listaAprovados').attr('data-evento_id');
+
+        let dados = {
+            evento_id: evento_id
+        };
+        console.log('ntror');
+
+        window.open('api.php?acao=Certificado/gerarListaAprovados&evento_id=' + evento_id, '_blank');
+
     });
 };
 

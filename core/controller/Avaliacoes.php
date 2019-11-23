@@ -36,7 +36,7 @@ class Avaliacoes {
 
         foreach ($dados as $avaliador => $trabalhos) {
 
-            foreach ($trabalhos as $value) {
+            foreach ($trabalhos as $key => $value) {
 
                 $dados_avaliacao = [
                     Avaliacao::COL_TRABALHO_ID => $value,
@@ -133,8 +133,6 @@ class Avaliacoes {
         return $this->lista_avaliacao;
     }
 
-
-
     /**
      * Listar de trabalhos que já foram avaliados     
      * 
@@ -149,6 +147,32 @@ class Avaliacoes {
         $lista = $avaliacao->listar($campos, $dados, $ordem, null);
 
         return json_encode($lista);
+    }
+
+    /**
+     * Listar de trabalhos que estão com avaliações diferentes 
+     * 
+     * @return array
+     */
+    public function avaliacoesDivergentes($dados) {
+        $avaliacao = new Avaliacao();
+
+        $dados['divergentes'] = 'ok';
+        $dados['parecer'] = 'ok';
+
+        $campos = " t." . Trabalho::COL_TRABALHO_ID;
+
+        $lista = $avaliacao->listar($campos, $dados, null, null);
+        
+        if ( count((array)$lista[0]) > 0 ) {
+            foreach ($lista as $key => $value) {
+                $trabalhos = $value->trabalho_id;
+            }   
+            return json_encode($trabalhos);
+        } else {
+            return json_encode($lista[0]);
+        }
+
     }
 
     /**
@@ -167,12 +191,12 @@ class Avaliacoes {
                 'parecer' => 'ok'
             ];
 
-            $campos = " case
-                            when SUM(parecer = 'Aprovado') > 1 AND COUNT(correcao) > 0 then 'Aprovado com ressalva'
-                            when SUM(parecer = 'Aprovado') > 1 then 'Aprovado'        
-                            when SUM(parecer = 'Reprovado') > 1 then 'Reprovado'
-                            else NULL
-                        end as parecer ";
+            $campos = " CASE
+                            WHEN SUM(parecer = 'Aprovado') > 1 AND COUNT(correcao) > 0 THEN 'Aprovado com ressalva'
+                            WHEN SUM(parecer = 'Aprovado') > 1 THEN 'Aprovado'        
+                            WHEN SUM(parecer = 'Reprovado') > 1 THEN 'Reprovado'
+                            ELSE NULL
+                        END AS parecer ";
 
             $dados = $avaliacao->listar($campos, $dados, null, null);
 
