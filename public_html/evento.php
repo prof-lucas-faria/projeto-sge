@@ -149,7 +149,21 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 						<div class="card-body col-md-12 text-center">
 							<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
-							<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"> <?= $a ?> </a>
+							<?php
+
+							if ((strtotime(date('Y/m/d')) > strtotime($evento->evento_termino))) {
+								?>
+								<button id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>" data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>" class="btn btn-lg btn-outline-dark ">Certificado</button>
+
+
+							<?php
+							} else {
+								?>
+								<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"> <?= $a ?> </a>
+							<?php
+							}
+							?>
+
 						</div>
 					</div>
 				</div>
