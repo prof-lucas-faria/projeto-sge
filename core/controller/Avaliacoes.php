@@ -62,7 +62,20 @@ class Avaliacoes {
         return $retorno;
 
     }
+    /**samuel
+     * @param $dados
+     * @return avaliacao
+     * @throws \Exception
+     */
+    public function avaliar($dados) {
 
+        $avaliacao = new Avaliacao();
+
+
+        $avaliacao->adicionar($dados);
+
+        return $avaliacao;
+    }
 
     public function atualizarAvaliacao($dados) {
 

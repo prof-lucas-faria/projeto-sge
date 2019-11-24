@@ -29,7 +29,6 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
 }
 ?>
 
-
 <main role='main'>
     <div class="container center-block mt-5 mb-5">
         <div class="card shadow-sm mb-4 p-4">
@@ -50,9 +49,9 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                             <table class="table table-striped" id="tabela">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col"  class= "text-center" width="80%">Titulo</th>
+                                    <th scope="col"  class= "text-center" width="77%">Titulo</th>
                                     <th scope="col" width="10%">Ações</th>
-                                    <th scope="col" width="10%">Verificação</th>
+                                    <th scope="col" width="13%">Verificação <i class='far fa-check-circle'></th>
                                 </tr>
                                 <tr>
 
@@ -71,9 +70,8 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                                                 
                                                 echo "<th>";
                                                 //echo "<th>".$v->trabalho_id;
-                                                echo " <i class=' fas fa-plus'></i>|";
-                                                echo "<i class=' fas fa-edit'></i>|";
-                                                echo "<i class=' fas fa-download'></i>";
+                                                echo "<a href='Cadastro_avaliacao.php?evento_id=1&trabalho_id=1&avaliador_id=1'> <i class='fas fa-plus' data-toggle='modal' data-target='#exampleModalCenter'> </i></a>|";
+                                                echo "<a href='avaliacao.php?edt=1&evento_id=$evento_id&trabalho_id=$v->trabalho_id'><i class=' fas fa-edit'></i></a>";
                                                 echo "</th>";
                                                 
                                                 if($v->parecer!=null){
@@ -118,6 +116,39 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
             </div>
             <div class="card-footer text-muted bg-success p-1"></div>
         </div>
+        
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Avaliação Trabalho</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div>
+            <?php
+                
+            ?>
+            Parecer:<select>
+                            <option>Aprovado</option>
+                            <option>Aprovado com Ressalvas</option>
+                            <option>Não Aprovado</option>
+                        </select><br>
+                Correção:<input><br>
+                
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+        <button type="button" class="btn btn-primary">Salvar Avaliação</button>
+      </div>
+    </div>
+  </div>
+</div>
         <!-- Toast -->
 
         <!-- 
