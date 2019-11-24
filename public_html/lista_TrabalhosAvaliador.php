@@ -23,8 +23,9 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
     ];
     $trabalhos=($avaliacao->avaliacoesAvaliador($dados));//lista todas avaliações 
     //print_r($trabalhos);
+   
 }else{
-    echo "você não tem permissão";
+    echo "Você não tem permissão";
 }
 ?>
 
@@ -42,7 +43,6 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                     <h4 class="h4 mb-3 font-weight-normal text-center">Avaliação de Trabahos</h4>
                 </div>
             </div>
-
             <div class="row justify-content-md-center">
                 <div class="col-md-11">
                     <form action="" id="formulario">
@@ -50,21 +50,43 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                             <table class="table table-striped" id="tabela">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th class="col-md-4 text-center">Titulo</th>
-                                    <th class="col-md-4 text-center">Ações</th>
-                                    <th class="col-md-4 text-center">Verificação</th>
+                                    <th scope="col"  class= "text-center" width="80%">Titulo</th>
+                                    <th scope="col" width="10%">Ações</th>
+                                    <th scope="col" width="10%">Verificação</th>
                                 </tr>
+                                <tr>
+
+                        </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <?php if ($trabalhos[0]==null){echo " <td class='text-center'>Nenhum trabalho para ser avaliado!";}else{?></td>
-                                        <th class="text-center" ><?php
-                                                                    echo $trabalhos[0]->titulo 
-                                                                 ?></th>   <?php
-                                                                    }
-                                                                  ?>
-                                        <th>+</th>
-                                        <th><?php if($trabalhos[0]->parecer == null){echo "-"; } ?></th>
+                                        <?php if ($trabalhos[0]==null){echo " <td class='text-center'>Nenhum trabalho para ser avaliado!</td>";}else{?>
+                                        <?php
+                                            foreach($trabalhos as $i => $v) {
+                                                echo "<tr>";
+                                                
+                                                echo "<th class='text-center' >";
+                                                echo $v->titulo;
+                                                echo "</th>";
+                                                
+                                                echo "<th>";
+                                                //echo "<th>".$v->trabalho_id;
+                                                echo " <i class=' fas fa-plus'></i>|";
+                                                echo "<i class=' fas fa-edit'></i>|";
+                                                echo "<i class=' fas fa-download'></i>";
+                                                echo "</th>";
+                                                
+                                                if($v->parecer!=null){
+                                                    echo "<th><i class='far fa-check-circle'></i></th>";
+                                                 }else{
+                                                    echo "<th></th>";
+                                                 }
+
+                                                echo "</tr>";
+                                                }
+                                        ?>   <?php
+                                             }
+                                        ?>
                                     </tr>
                                 </tbody>
                             </table>
