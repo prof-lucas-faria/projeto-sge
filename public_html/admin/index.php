@@ -137,7 +137,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>"
+                                        <a href="evento.php?evento_id=<?= $evento->evento_id ?>"
                                            class="btn btn-sm btn btn-outline-secondary">Visualizar</a>
                                         <a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
                                            class="btn btn-sm btn-outline-success">

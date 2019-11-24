@@ -35,7 +35,9 @@ class Permissoes {
 
         if (isset($dados['usuarios']) && count($dados['usuarios']) > 0) {
             foreach ($dados['usuarios'] as $usuario) {
-                $retorno[] = $user->salvar($usuario);
+                if ($usuario['permissao'] > 0) {
+                    $retorno[] = $user->salvar($usuario);
+                }
             }
         }
 
@@ -44,6 +46,18 @@ class Permissoes {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Remove permissão do usuário em um evento
+     *
+     * @param $dados
+     * @return bool
+     */
+    public function removerPermissoes($dados) {
+        $user_permissao = new Permissao();
+
+        return $user_permissao->remover($dados['usuario_id'], $dados['evento_id']);
     }
 
     public function listarPermissaoEventos($usuario_id) {
@@ -62,8 +76,9 @@ class Permissoes {
 
         return $retorno;
     }
+
     //samuel
-    public function listarPermissaoEventosUsuario($usuario_id,$evento_id) {
+    public function listarPermissaoEventosUsuario($usuario_id, $evento_id) {
         $user_permissao = new Permissao();
 
         $retorno = [];

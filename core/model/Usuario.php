@@ -119,7 +119,7 @@ class Usuario extends CRUD {
         try {
 
             $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, $ordem, $limite);
-            
+
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
         }
@@ -212,5 +212,34 @@ class Usuario extends CRUD {
         }
 
         return $retorno[0];
+    }
+
+    public function listarUsuariosPermissao($evento_id, $permissao, $relacao = false) {
+        $tabela = self::TABELA . " u LEFT JOIN " . Permissao::TABELA . " p ON u." . self::COL_USUARIO_ID . " = p." . Permissao::COL_USUARIO_ID;
+
+        $campos = "u.*, p.permissao, p.evento_id";
+
+        $where_condicao = "u." . self::COL_ADMIN . " = ?";
+        $where_valor[] = 0;
+
+        $where_condicao .= $relacao
+            ? " AND p." . Permissao::COL_EVENTO_ID . " = ?"
+            : " AND (p." . Permissao::COL_EVENTO_ID . " <> ? || p." . Permissao::COL_EVENTO_ID . " IS NULL)";
+        $where_valor[] = $evento_id;
+
+        $where_condicao .= $relacao
+            ? " AND p." . Permissao::COL_PERMISSAO . " = ?"
+            : " AND (p." . Permissao::COL_PERMISSAO . " <> ? || p." . Permissao::COL_PERMISSAO . " IS NULL)";
+        $where_valor[] = $permissao;
+
+        try {
+
+            $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, self::COL_NOME . " ASC");
+
+        } catch (Exception $e) {
+            echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
+        }
+
+        return $retorno;
     }
 }
