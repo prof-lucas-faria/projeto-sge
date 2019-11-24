@@ -12,6 +12,7 @@ use core\sistema\Util;
 
 if (!Autenticacao::verificarLogin()) {
     header('Location: login.php');
+    exit;
 }
 
 require_once 'header.php';

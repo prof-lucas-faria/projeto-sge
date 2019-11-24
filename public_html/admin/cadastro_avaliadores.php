@@ -32,8 +32,6 @@ $usuarios = new Usuarios();
 
 $lista_tematicas = $tematicas->listar($evento_id);
 $lista_usuarios = $usuarios->listarUsuarios();
-
-// print_r(json_encode($lista_tematicas));
 ?>
 
 <main role="main">

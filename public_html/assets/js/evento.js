@@ -4,14 +4,13 @@ let construct = () => {
     downloadTrabalhosAprovados();
 };
 
-
 const eventos = () => {
-    $(document).ready(function () {
-        let height = $(document).find("#div1").height();
-        console.log(height);
-
-        $("#div2").height(height);
-    });
+    // $(document).ready(function () {
+    //     let height = $(document).find("#div1").height();
+    //     console.log(height);
+    //
+    //     $("#div2").height(height);
+    // });
 
     $('#botao_excluir').on('click', function (event) {
         event.preventDefault();
@@ -53,7 +52,13 @@ const gerarCertificado = () => {
             usuario_id: $(this).attr('data-usuario_id')
         };
 
-        window.open('api.php?acao=Certificado/gerarCertificado&dados=' + JSON.stringify(dados), '_blank');
+        let permissao_avaliador = $(this).attr('data-permissao-avaliador');
+
+        if (permissao_avaliador !== '') {
+            window.open('api.php?acao=Certificado/gerarCertificadoAvaliador&dados=' + JSON.stringify(dados), '_blank');
+        } else {
+            window.open('api.php?acao=Certificado/gerarCertificado&dados=' + JSON.stringify(dados), '_blank');
+        }
     })
 };
 

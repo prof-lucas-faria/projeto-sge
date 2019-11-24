@@ -47,64 +47,79 @@ use core\controller\Eventos;
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
 
                     <?php
-                    if (Autenticacao::usuarioAdministrador() && isset($_GET['evento_id'])) {
+                    if (
+                        (
+                            Autenticacao::usuarioAdministrador()
+                            || Autenticacao::usuarioOrganizador()
+                            || Autenticacao::usuarioAssitente()
+                            || Autenticacao::usuarioAvaliador()
+                        )
+                        && isset($_GET['evento_id'])
+                    ) {
                         $evento_id = $_GET['evento_id'];
 
                         $evento = new Eventos();
 
                         $evento = $evento->listarEvento($evento_id);
 
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d_termino = "disabled" : $d_termino = "";
-                        (strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio)) ? $d_inicio = "disabled" : $d_inicio = "";
+                        $d_termino = strtotime(date('Y/m/d')) > strtotime($evento->evento_termino) ? "disabled" : "";
+                        $d_inicio = strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio) ? "disabled" : "";
 
-
-                    ?>
-                        <?php
-                            if (isset($evento->data_inicio_sub)) {
                         ?>
+                        <?php
+                        if (isset($evento->data_inicio_sub)) {
+                            ?>
                             <li class="nav-item dropdown <?= $d_termino ?>">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Trabalhos
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
                                     <a class="dropdown-item"
-                                    href="cadastro_avaliadores.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Avaliadores</a>
-                                </div>                                    
+                                       href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                    <?php if (!Autenticacao::usuarioAvaliador()) { ?>
+                                        <a class="dropdown-item"
+                                           href="cadastro_avaliadores.php?evento_id=<?= $evento->evento_id ?>">Cadastrar
+                                            Avaliadores</a>
+                                    <?php } ?>
+                                </div>
                             </li>
-                        <?php
+                            <?php
                         }
-                        ?>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Atividade
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="atividades.php?evento_id=<?= $evento->evento_id ?>">Gerenciar</a>
-                                <a class="dropdown-item <?= $d_termino ?>"
-                                   href="cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar Nova</a>
-                            </div>
-                        </li>
+                        if (!Autenticacao::usuarioAvaliador()) { ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                   role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Atividade
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item"
+                                       href="atividades.php?evento_id=<?= $evento->evento_id ?>">Gerenciar</a>
+                                    <a class="dropdown-item <?= $d_termino ?>"
+                                       href="cadastro_atividade.php?evento_id=<?= $evento->evento_id ?>">Cadastrar
+                                        Nova</a>
+                                </div>
+                            </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Evento
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item <?= $d_inicio ?>"
-                                   href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
-                                <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
-                                   data-toggle="modal" data-target="#confirmModal">Excluir</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
-                            </div>
-                        </li>
-
-                    <?php } else if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                   role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Evento
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item <?= $d_inicio ?>"
+                                       href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>">Editar</a>
+                                    <a class="dropdown-item <?= $d_inicio ?>" href="excluir" name="excluir"
+                                       data-toggle="modal" data-target="#confirmModal">Excluir</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="cadastro_evento.php">Cadastrar Novo</a>
+                                </div>
+                            </li>
+                        <?php }
+                    } else if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="cadastro_evento.php">Novo Evento</a>
                         </li>
@@ -117,7 +132,7 @@ use core\controller\Eventos;
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php if (Autenticacao::verificarLogin() && Autenticacao::usuarioAdministrador()) { ?>
-                                    <a class="dropdown-item" href="usuarios.php">Organizadores</a>
+                                <a class="dropdown-item" href="usuarios.php">Organizadores</a>
                             <?php }
 
                             if (Autenticacao::verificarLogin()) { ?>

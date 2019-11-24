@@ -1,16 +1,24 @@
 <?php
 
-require_once 'header.php';
+require_once '../../vendor/autoload.php';
+require_once '../../config.php';
 
 use core\sistema\Autenticacao;
 use core\sistema\Footer;
-use core\sistema\Util;
 use core\controller\Trabalhos;
 use core\controller\Avaliacoes;
 
-if (!Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) {
-    header('Location: login.php');
+if (
+    !Autenticacao::usuarioAdministrador()
+    && !Autenticacao::usuarioOrganizador()
+    && !Autenticacao::usuarioAvaliador()
+    && !Autenticacao::usuarioAssitente()
+) {
+    header('Location: ../login.php?redirect=' . URL);
+    exit;
 }
+
+require_once 'header.php';
 
 $busca = [];
 
@@ -28,9 +36,6 @@ $prazo = $avaliacoes->listarPrazos($evento_id);
 $aux['evento_id'] = $evento_id;
 $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
 
-// echo "<pre>";
-// print_r($divergentes);
-// exit;
 ?>
 
 <main role="main">
@@ -46,7 +51,7 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
             </div>
             <div class="row">
                 <div class="col-md-12 mb-3">
-                <h1 class="h3 mb-3 font-weight-normal text-center">Gerenciar Submissões</h1>
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Gerenciar Submissões</h1>
                 </div>
             </div>
 
@@ -55,47 +60,50 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
                     <h5 class='card-title'>Atenção!</h5>
 
                     <?php
-                    if ( ( isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo) ) || 
-                    ( isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo) ) && count($divergentes) < 0 ) {
+                    if ((isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) ||
+                        (isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo)) && count($divergentes) < 0) {
                         //depois que o prazo acaba e os trabalhos foram avaliados
-                    ?>
+                        ?>
                         <p class="card-text" id="texto_card">
-                            Todos os trabalhos foram avaliados! Podes conferir a lista dos trabalhos 
+                            Todos os trabalhos foram avaliados! Podes conferir a lista dos trabalhos
                             aprovados.
                         </p>
 
-                        <a href="#" id="download_listaAprovados" data-evento_id="<?= $evento_id ?>" class="btn btn-outline-primary" id="aprovadsos">Lista de Aprovados</a>
-                    <?php
-                    } elseif (isset($prazo[0]->prazo) || count($divergentes) > 0) {
+                        <a href="#" id="download_listaAprovados" data-evento_id="<?= $evento_id ?>"
+                           class="btn btn-outline-primary">Lista de Aprovados</a>
+                        <?php
+                    } elseif (isset($prazo[0]->prazo) || count($divergentes[0]) > 0) {
                         // depois que os trabalhos foram distribuidos e enquanto existir trabalhos com avaliações diferentes
-                    ?>
+                        ?>
                         <p class="card-text" id="texto_card">
-                            Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar 
-                            e/ou verifique se já existem divergencia em avaliações e redistribua-as!
+                            Todos os trabalhos foram distribuidos. Aguarde o prazo de avaliação acabar
+                            e/ou verifique se já existem divergências em avaliações e redistribu os trabalhos!
                         </p>
 
                         <button class="btn btn-outline-primary" id="verificar">Verificar</button>
-                    <?php
-                    } elseif ( strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) ) { 
+                        <?php
+                    } elseif (strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub)) {
                         // depois que a data de submissão encerra e antes de distribuir os trabalhos
-                    ?>
+                        ?>
                         <p class="card-text" id="texto_card">
                             Período de submissões já terminou. Se todos os avaliadores foram cadastrados
-                            no sistema, podes fazer a distribuição dos trabalhos.
+                            no sistema, já pode ser feita a distribuição dos trabalhos.
                         </p>
 
-                        <a href="#" class="btn btn-outline-primary" id="botao" data-toggle="modal" data-target="#distribuirModal">Distribuir</a>
-                    <?php
-                    } else { 
+                        <a href="#" class="btn btn-outline-primary" id="botao" data-toggle="modal"
+                           data-target="#distribuirModal">Distribuir</a>
+                        <?php
+                    } else {
                         // antes da data de submissão encerrar
-                    ?>
+                        ?>
 
                         <p class="card-text">
                             Período de submissões ainda não terminou. Cadastre os avaliadores no sistema
-                            antes do período de submissões encerrar, para poder distribuição dos trabalhos logo após.
+                            antes do período de submissões encerrar, em seguida, será possível efetuar a distribuição
+                            dos trabalhos.
                         </p>
                         <a href="cadastro_avaliadores.php?evento_id=<?= $evento_id ?>" class="btn btn-outline-primary">Cadastrar</a>
-                    <?php
+                        <?php
                     }
                     ?>
 
@@ -131,34 +139,34 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
 
             <table class="table table-hover" id="tabela">
                 <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th class="col-md-6" scope="col">Título</th>
-                        <th scope="col">Área Temática</th>
-                        <th scope="col">Situação</th>
-                    </tr>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th class="col-md-6" scope="col">Título</th>
+                    <th scope="col">Área Temática</th>
+                    <th scope="col">Situação</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    if (count((array)$trabalho[0]) > 0) {
-                        foreach ($trabalho as $key => $trab) {
+                <?php
+                if (count((array)$trabalho[0]) > 0) {
+                    foreach ($trabalho as $key => $trab) {
                         ?>
-                            <tr>
-                                <td class="align-middle"> <?= $trab->trabalho_id ?></td>
-                                <td> <?= $trab->titulo ?> </td>
-                                <td class="align-middle"> <?= $trab->descricao ?> </td>
-                                <td class="align-middle"> <?= $trab->status ?> </td>
-                            </tr>
-                    <?php
-                        }
-                    } else {
-                    ?>
                         <tr>
-                            <td class="text-center" colspan="4">Nenhum trabalho encontrado!</td>
+                            <td class="align-middle"> <?= $trab->trabalho_id ?></td>
+                            <td> <?= $trab->titulo ?> </td>
+                            <td class="align-middle"> <?= $trab->descricao ?> </td>
+                            <td class="align-middle"> <?= $trab->status ?> </td>
                         </tr>
-                    <?php
+                        <?php
                     }
+                } else {
                     ?>
+                    <tr>
+                        <td class="text-center" colspan="4">Nenhum trabalho encontrado!</td>
+                    </tr>
+                    <?php
+                }
+                ?>
                 </tbody>
             </table>
         </div>
@@ -242,8 +250,8 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
 </main>
 
 <?php
-    $footer = new Footer();
-    $footer->setJS('../admin/assets/js/lista_trabalhos.js');
+$footer = new Footer();
+$footer->setJS('../admin/assets/js/lista_trabalhos.js');
 
-    require_once 'footer.php';
+require_once 'footer.php';
 ?>

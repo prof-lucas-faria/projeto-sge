@@ -26,17 +26,15 @@ $atividade = $atividades->listarAtividades($evento_id);
 $lista_tematicas = $tematicas->listar($evento_id);
 $lista_tipos = $tipos->listarEventosTipos($evento_id);
 
-(strtotime(date('Y/m/d')) > strtotime($evento->evento_termino)) ? $d = "disabled" : $d = "";
-(strtotime(date('Y/m/d')) < strtotime($evento->evento_termino)) ? $verificacaoGerarCeritificado = "disabled" : $verificacaoGerarCeritificado = "";
+$d = strtotime(date('Y/m/d')) > strtotime($evento->evento_termino) ? "disabled" : "";
+$verificacaoGerarCeritificado = strtotime(date('Y/m/d')) < strtotime($evento->evento_termino) ? "disabled" : "";
 
 if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 	$dados_eventos = [];
 	$dados_eventos['busca']['me'] = Autenticacao::getCookieUsuario();
 	$dados2 = $eventos->listarEventos($dados_eventos); //eventos que o usuario se inscreveu
 }
-
 ?>
-
 
 <main role="main">
 	<!--	<div class="jumbotron mt-n5" style="height: 250px; border-radius:0px; background:url(assets/imagens/grande2.jpg) no-repeat 0 0"></div>-->
@@ -60,13 +58,13 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					<?php
 					$cores = ['primary', 'secondary', 'success', 'danger', 'warning', 'dark'];
 					$i = 0;
-					foreach ($lista_tematicas as $key => $tematica) {
-						?>
-						<span class="badge badge-<?= $cores[$i++] ?>"> <?= $tematica->descricao ?> </span>
-					<?php
-						if ($i > 5) $i = 0;
-					}
-					?>
+					foreach ($lista_tematicas as $key => $tematica) { ?>
+						<span class="badge badge-<?= $cores[$i++] ?>">
+                            <?= $tematica->descricao ?>
+                        </span>
+					    <?php
+                        if ($i > 5) $i = 0;
+					} ?>
 				</div>
 			</div>
 		</div>
@@ -149,21 +147,21 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 
 						<div class="card-body col-md-12 text-center">
 							<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
-							<?php
+							<?php if ((strtotime(date('Y/m/d')) > strtotime($evento->evento_termino))) { ?>
 
-							if ((strtotime(date('Y/m/d')) > strtotime($evento->evento_termino))) {
-								?>
-								<button id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>" data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>" class="btn btn-lg btn-outline-dark ">Certificado</button>
+                                <button id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>"
+                                        data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>"
+                                        data-permissao-avaliador="<?= Autenticacao::usuarioAvaliador() ?>"
+                                        class="btn btn-lg btn-outline-dark ">
+                                    Certificado
+                                </button>
 
-
-							<?php
-							} else {
-								?>
-								<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"> <?= $a ?> </a>
-							<?php
-							}
-							?>
-
+                            <?php } else { ?>
+								<a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
+                                   class="btn btn-outline-dark <?= $d ?>">
+                                    <?= $a ?>
+                                </a>
+							<?php } ?>
 						</div>
 					</div>
 				</div>

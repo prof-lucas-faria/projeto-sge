@@ -35,7 +35,7 @@ $atividade = $atividades->listarAtividades($evento_id);
 $atiInscritas = $presencas->listarAtividadesInscritas([$evento_id, Autenticacao::getCookieUsuario()], "atividades");
 $x = 0;
 
-(strtotime(date('Y/m/d')) > strtotime($evento->data_prorrogacao)) ? $d = "disabled" : $d = "";
+$d = strtotime(date('Y/m/d')) > strtotime($evento->data_prorrogacao) ? "disabled" : "";
 ?>
 
 <main role="main">

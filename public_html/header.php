@@ -45,7 +45,7 @@ use core\controller\Eventos;
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">         
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -55,8 +55,8 @@ use core\controller\Eventos;
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php if (Autenticacao::verificarLogin() && !Autenticacao::usuarioAdministrador()) { ?>
                                 <a class="dropdown-item" href="index.php?me=1">Meus Eventos</a>
-                                
-                                
+
+
                             <?php }
                             if (Autenticacao::verificarLogin()) { ?>
                                 <a class="dropdown-item" href="lista_TrabalhosAutor.php">Meus Trabalhos</a>
@@ -72,7 +72,12 @@ use core\controller\Eventos;
                         </div>
                     </li>
 
-                    <?php if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
+                    <?php if (
+                        Autenticacao::usuarioAdministrador()
+                        || Autenticacao::usuarioOrganizador()
+                        || Autenticacao::usuarioAssitente()
+                        || Autenticacao::usuarioAvaliador()
+                    ) { ?>
                     <li class="nav-item mr-2">
                         <a class="nav-link" href="admin" title="Administrador" id="admin">
                             <i class="fas fa-lock"></i>
@@ -83,7 +88,7 @@ use core\controller\Eventos;
                     <?php if (Autenticacao::verificarLogin()) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="#" title="Sair" id="logout">
-                            
+
                                 <i class="fas fa-sign-out-alt"></i>
                             </a>
                         </li>

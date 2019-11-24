@@ -44,7 +44,11 @@ if (isset($_GET['me']) && $_GET['me'] == 1) {
 }
 
 // Filtra os eventos que o Organizador tem permissão de acesso
-if (Autenticacao::usuarioOrganizador()) {
+if (
+    Autenticacao::usuarioOrganizador()
+    || Autenticacao::usuarioAssitente()
+    || Autenticacao::usuarioAvaliador()
+) {
     $user_permissao = new Permissoes();
     $dados_eventos['busca']['eventos_organizador'] = $user_permissao->listarPermissaoEventos(Autenticacao::getCookieUsuario());
 }
@@ -85,11 +89,13 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
             </div>
             <div class="form-group col-md-2">
                 <label for="data_inicio">Data de Início:</label>
-                <input type="date" class="form-control" id="data_inicio" required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
+                <input type="date" class="form-control" id="data_inicio"
+                       required value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
             </div>
             <div class="form-group col-md-2">
                 <label for="data_termino">Data de Término:</label>
-                <input type="date" class="form-control" id="data_termino" required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
+                <input type="date" class="form-control" id="data_termino"
+                       required value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
             </div>
             <div class="form-group col-md-3">
                 <div class="form-group has-search">
@@ -124,7 +130,11 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                             <div class="card-body">
                                 <h4 class="card-title" style="min-height:7ch;"><?= $evento->nome ?></h4>
                                 <p class="card-text"
-                                   style="min-height:15ch; max-height: 15ch;"><?= (strlen($evento->descricao) <= 150) ? $evento->descricao : substr($evento->descricao, 0, 150) . "<a href='evento.php?evento_id={$evento->evento_id}'> Mostrar Mais</a>" ?></p>
+                                   style="min-height:15ch; max-height: 15ch;">
+                                    <?= (strlen($evento->descricao) <= 150)
+                                        ? $evento->descricao
+                                        : substr($evento->descricao, 0, 150) . "<a href='evento.php?evento_id={$evento->evento_id}'> Mostrar Mais</a>" ?>
+                                </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a href="cadastro_evento.php?evento_id=<?= $evento->evento_id ?>"
@@ -138,22 +148,16 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                                         class="text-muted"><?= Util::formataDataBR($evento->evento_inicio) ?></small>
                                 </div>
                             </div>
-                            <?php
-                            if (strtotime(date('Y/m/d')) < strtotime($evento->evento_inicio)) {
-                            ?>
+                            <?php if (strtotime(date('Y/m/d')) < strtotime($evento->evento_inicio)) { ?>
                                 <div class="card-footer text-muted bg-success p-1"></div>
-                            <?php
-                            } else if (strtotime(date('Y/m/d')) >= strtotime($evento->evento_inicio) &&
-                                        strtotime(date('Y/m/d')) <= strtotime($evento->evento_termino)) {
-                            ?>
+                            <?php } else if (
+                                strtotime(date('Y/m/d')) >= strtotime($evento->evento_inicio)
+                                && strtotime(date('Y/m/d')) <= strtotime($evento->evento_termino)
+                            ) { ?>
                                 <div class="card-footer text-muted bg-warning p-1"></div>
-                            <?php
-                            } else {
-                            ?>
+                            <?php } else { ?>
                                 <div class="card-footer text-muted bg-danger p-1"></div>
-                            <?php
-                            }
-                            ?>
+                            <?php } ?>
                         </div>
                     </div>
 

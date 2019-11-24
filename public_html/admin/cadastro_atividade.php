@@ -30,8 +30,6 @@ $atividade = [];
 $atividade = $atividades->listarAtividade($atividade_id);
 $eventos = new Eventos();
 $evento = $eventos->listarEvento($_GET['evento_id']);
-
-
 ?>
 
 <main role="main">

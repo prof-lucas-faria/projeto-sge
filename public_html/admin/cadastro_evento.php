@@ -47,23 +47,12 @@ $lista_tipos = $tipos->listarTipos();
 $eventos_tipos = new Eventos_Tipos();
 
 $lista_eventos_tipos = $eventos_tipos->listarEventosTipos($evento_id);
-// echo '<pre>';
-// print_r($lista_eventos_tipos);
-// echo '</pre>';
-
 
 if ($evento_id != null && $lista_eventos_tipos != null) {
-    // echo '<pre>';
-    // print_r($lista_eventos_tipos);
-    // echo '</pre>';
     $evento_tipos_id = [];
     foreach ($lista_eventos_tipos as $key => $value) {
         array_push($evento_tipos_id, $value->tipo_id);
     }
-    // echo count($lista_eventos_tipos);
-    // echo '<pre>';
-    // print_r($evento_tipos_id);
-    // echo '</pre>';
 }
 ?>
 
@@ -77,48 +66,53 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario" data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
+                    <form class="needs-validation" id="formulario"
+                          data-evento_id="<?= (isset($evento->nome)) ? $evento->evento_id : "" ?>">
                         <div class="form-group">
                             <label for="nome">Nome:</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento" value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" autofocus>
+                            <input type="text" class="form-control" id="nome" placeholder="Insira o nome do evento"
+                                   value="<?= (isset($evento->nome)) ? $evento->nome : "" ?>" autofocus>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="evento_inicio">Data de Início:</label>
-                                <input type="date" class="form-control" id="evento_inicio" value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
+                                <input type="date" class="form-control" id="evento_inicio"
+                                       value="<?= (isset($evento->evento_inicio)) ? $evento->evento_inicio : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="evento_termino">Data de Término:</label>
-                                <input type="date" class="form-control" id="evento_termino" value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
+                                <input type="date" class="form-control" id="evento_termino"
+                                       value="<?= (isset($evento->evento_termino)) ? $evento->evento_termino : "" ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="local">Local:</label>
-                                <input type="text" class="form-control" id="local" value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
+                                <input type="text" class="form-control" id="local"
+                                       value="<?= (isset($evento->local)) ? $evento->local : "" ?>" placeholder="Insira o local">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="descricao">Descrição:</label>
-                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento" value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
+                            <textarea id="descricao" class="form-control" rows="2" placeholder="Insira a descrição do evento"
+                                      value=""><?= (isset($evento->descricao)) ? $evento->descricao : "" ?></textarea>
                         </div>
                         <div class="form-group">
                             <label>Área Temáticas:</label> <br>
                             <select data-placeholder="Escolha as áreas temáticas" class="custom-select" multiple id="tematica">
                                 <option value=""></option>
                                 <?php
-
-                                foreach ($lista_tematicas as $key => $tematica) {
-                                    ?>
-
-                                    <option value="<?= $tematica->tematica_id ?>" <?= in_array($tematica->tematica_id, $tematicas_evento) ? "selected" : "" ?>> <?= $tematica->descricao ?> </option>
-                                <?php
-                                }
-                                ?>
+                                foreach ($lista_tematicas as $key => $tematica) { ?>
+                                    <option value="<?= $tematica->tematica_id ?>"
+                                        <?= in_array($tematica->tematica_id, $tematicas_evento) ? "selected" : "" ?>>
+                                        <?= $tematica->descricao ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox mw-100">
-                                <input type="checkbox" class="custom-control-input" id="submissoes" <?= ($lista_eventos_tipos != null) ? "checked" : "" ?>>
+                                <input type="checkbox" class="custom-control-input"
+                                       id="submissoes" <?= ($lista_eventos_tipos != null) ? "checked" : "" ?>>
                                 <label class="custom-control-label" for="submissoes">Haverá a submissão de trabalhos científicos</label>
                             </div>
                         </div>
@@ -130,23 +124,25 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
 
                                 <select data-placeholder="Escolha os tipos de trabalhos" class="custom-select tematica" multiple id="tipos">
                                     <option value=""></option>
-                                    <?php
-                                    foreach ($lista_tipos as $key => $tipo) { ?>
-                                        <option value="<?= $tipo->tipo_id ?>" <?= (isset($evento_tipos_id) && in_array($tipo->tipo_id, $evento_tipos_id)) ? "selected" : "" ?>> <?= $tipo->descricao ?> </option>
-                                    <?php
-                                    }
-                                    ?>
+                                    <?php foreach ($lista_tipos as $key => $tipo) { ?>
+                                        <option value="<?= $tipo->tipo_id ?>"
+                                            <?= (isset($evento_tipos_id) && in_array($tipo->tipo_id, $evento_tipos_id)) ? "selected" : "" ?>>
+                                            <?= $tipo->descricao ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="evento_inicio">Data de Início:</label>
-                                    <input type="date" class="form-control" id="data_inicio_sub" value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>">
+                                    <input type="date" class="form-control" id="data_inicio_sub"
+                                           value="<?= (isset($evento->data_inicio_sub)) ? $evento->data_inicio_sub : "" ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="evento_termino">Data de Término:</label>
-                                    <input type="date" class="form-control" id="data_termino_sub" value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>">
+                                    <input type="date" class="form-control" id="data_termino_sub"
+                                           value="<?= (isset($evento->data_termino_sub)) ? $evento->data_termino_sub : "" ?>">
                                 </div>
                             </div>
 
@@ -167,7 +163,11 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_escrita" data-path=<?= (isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                        <button class="btn btn-outline-secondary col-md-12" type="button"
+                                                                name='download_modelo' id="download_escrita"
+                                                                data-path=<?= (isset($tipo->modelo_escrita)) ? '"' . $tipo->modelo_escrita . '"' : '""' . 'disabled=' . '"disabled"' ?>>
+                                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -182,86 +182,73 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
                                                         </label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <button class="btn btn-outline-secondary col-md-12" type="button" name='download_modelo' id="download_apresentacao" data-path=<?= (isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""' . 'disabled=' . '"disabled"' ?>><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                        <button class="btn btn-outline-secondary col-md-12" type="button"
+                                                                name='download_modelo' id="download_apresentacao"
+                                                                data-path=<?= (isset($tipo->modelo_apresentacao)) ? '"' . $tipo->modelo_apresentacao . '"' : '""' . 'disabled=' . '"disabled"' ?>>
+                                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class='form-group col-md-6'>
                                                 <label for="<?= 'qtd_max_autor' . $tipo->tipo_id ?>">Limite de Autores:</label>
-                                                <input type='text' class='form-control' data-tipo_id="<?= $tipo->tipo_id ?>" data-path_apresentacao='<?= $tipo->modelo_apresentacao ?>' data-path_escrita='<?= $tipo->modelo_escrita ?>' name='qtd_max_autor' id="<?= 'qtd_max_autor' . $tipo->tipo_id ?>" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" maxlength='2' value="<?= $tipo->qtde_max_autor ?>"">
+                                                <input type='text' class='form-control' data-tipo_id="<?= $tipo->tipo_id ?>"
+                                                       data-path_apresentacao='<?= $tipo->modelo_apresentacao ?>' data-path_escrita='<?= $tipo->modelo_escrita ?>'
+                                                       name='qtd_max_autor' id="<?= 'qtd_max_autor' . $tipo->tipo_id ?>"
+                                                       onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" maxlength='2'
+                                                       value="<?= $tipo->qtde_max_autor ?>">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php
-                                }
-                            }
-                            ?>
+                            <?php }
+                            } ?>
+                        </div>
+                        <!-- Submissões -->
 
-                            <!-- <h1 class=" h5 mt-2 mb-2 font-weight-normal">Submissões:</h1>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="modelo_escrita">Modelo Escrita:</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="modelo_escrita" lang="pt-br">
-                                                            <label class="custom-file-label" for="modelo_escrita">Selecione o arquivo</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="modelo_banner">Modelo Banner:</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="modelo_banner" lang="pt-br">
-                                                            <label class="custom-file-label" for="modelo_banner">Selecione o arquivo</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="qtd_max_autor">Limite de Autores:</label>
-                                                        <input type="text" class="form-control" id="qtd_max_autor" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="2">
-                                                    </div>
-                                                </div> -->
-                                            </div>
-                                            <!-- Submissões -->
+                        <!-- Inscrições -->
+                        <hr class="mb-3">
 
-                                            <!-- Inscrições -->
-                                            <hr class="mb-3">
+                        <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="data_inicio">Data de Início:</label>
+                                <input type="date" class="form-control" id="data_inicio"
+                                       value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="data_termino">Data de Término:</label>
+                                <input type="date" class="form-control" id="data_termino"
+                                       value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
+                            </div>
 
-                                            <h1 class="h4 mb-3 font-weight-normal">Inscrições</h1>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="data_inicio">Data de Início:</label>
-                                                    <input type="date" class="form-control" id="data_inicio" value="<?= (isset($evento->data_inicio)) ? $evento->data_inicio : "" ?>">
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="data_termino">Data de Término:</label>
-                                                    <input type="date" class="form-control" id="data_termino" value="<?= (isset($evento->data_termino)) ? $evento->data_termino : "" ?>">
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label for="data_prorrogacao">Data de Prorrogação:</label>
-                                                    <input type="date" class="form-control" id="data_prorrogacao" value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
-                                                </div>
-                                            </div>
-                                            <!-- Inscrições -->
+                            <div class="form-group col-md-4">
+                                <label for="data_prorrogacao">Data de Prorrogação:</label>
+                                <input type="date" class="form-control" id="data_prorrogacao"
+                                       value="<?= (isset($evento->data_prorrogacao)) ? $evento->data_prorrogacao : "" ?>">
+                            </div>
+                        </div>
+                        <!-- Inscrições -->
 
 
-                                            <hr class="mb-3">
+                        <hr class="mb-3">
 
-                                            <div class="form-row">
-                                                <div class="col-md-7"></div>
-                                                <div class="col-md-1" id="btn_atividade">
-                                                    <?= (isset($evento->evento_id)) ? '<a href="./cadastro_atividade.php?evento_id=' . $evento->evento_id . '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>' : "" ?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <button type="reset" class="btn btn-block btn-outline-info">Limpar</button>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
-                                                        Cadastrar
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
+                        <div class="form-row">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-1" id="btn_atividade">
+                                <?= (isset($evento->evento_id))
+                                    ? '<a href="./cadastro_atividade.php?evento_id=' . $evento->evento_id . '" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>'
+                                    : "" ?>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="reset" class="btn btn-block btn-outline-info">Limpar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" id="botao_submit" class="btn btn-block btn-outline-success">
+                                    Cadastrar
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
@@ -270,9 +257,7 @@ if ($evento_id != null && $lista_eventos_tipos != null) {
     </div>
 
     <div  aria-live="polite" aria-atomic="true" style="position: relative;">
-        <div id="mensagens" style="position: fixed; top:4rem; right:2rem;">
-        
-        </div>
+        <div id="mensagens" style="position: fixed; top:4rem; right:2rem;"></div>
     </div>
 </main>
 
@@ -282,6 +267,5 @@ $footer = new Footer();
 $footer->setJS('../admin/assets/js/cadastro_evento.js');
 
 require_once 'footer.php';
-
 
 ?>

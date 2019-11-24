@@ -8,6 +8,7 @@ use core\sistema\Footer;
 
 if (!Autenticacao::verificarLogin()) {
     header('Location: index.php');
+    exit;
 }
 
 require_once 'header.php';

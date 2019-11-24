@@ -3,6 +3,10 @@ let construct = () => {
 };
 
 const eventos = () => {
+    $('#cpf').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/(\d{3}).*(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+    });
+
     $('#botao_login').on('click', function (e) {
         e.preventDefault();
 

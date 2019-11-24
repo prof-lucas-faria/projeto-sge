@@ -24,7 +24,7 @@ require 'header.php';
                             <div class="form-group">
                                 <label for="cpf" class="sr-only">CPF</label>
                                 <input type="text" id="cpf" name="cpf" class="form-control" placeholder="CPF" required
-                                       autofocus>
+                                       maxlength="14" autofocus>
                             </div>
 
                             <div class="form-group">

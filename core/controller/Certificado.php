@@ -11,16 +11,14 @@ use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use core\model\Trabalho;
 
-class Certificado
-{
+class Certificado {
 
     /**
      * @param $dados
      * @return bool
      * @throws MpdfException
      */
-    public function gerarCertificado($dados)
-    {
+    public function gerarCertificado($dados) {
         $usuario = new Usuario();
         $evento = new Evento();
         $atividade = new Atividades();
@@ -28,7 +26,7 @@ class Certificado
 
         $dados = json_decode($dados['dados'], true);
 
-        $dados_evento = $evento->selecionarEvento($dados['evento_id'])[0];
+        $dados_evento = $evento->selecionarEvento($dados['evento_id']);
         $dados_usuario = $usuario->selecionarUsuario($dados['usuario_id'])[0];
         $dados_atividades = $atividade->listarAtividades($dados_evento->evento_id)['lista_atividades'];
         $dados_presenca = [];
@@ -46,7 +44,7 @@ class Certificado
         if (count($dados_presenca) > 0) {
             foreach ($dados_presenca as $valor) {
                 if ($valor['presenca'] == 1) {
-                    $carga_horaria += (int) $valor['carga_horaria'];
+                    $carga_horaria += (int)$valor['carga_horaria'];
                 }
             }
         }
@@ -179,8 +177,7 @@ class Certificado
      * @return bool
      * @throws MpdfException
      */
-    public function gerarListaPresenca($params)
-    {
+    public function gerarListaPresenca($params) {
         $evento = new Evento();
         $atividade = new Atividade();
         $presenca = new Presencas();
@@ -276,18 +273,128 @@ class Certificado
         return true;
     }
 
-    public function gerarCertificadoAvaliador($dados)
-    { }
+    public function gerarCertificadoAvaliador($dados) {
+        $usuario = new Usuario();
+        $evento = new Evento();
 
-    public function gerarListaAprovados($params)
-    {
+        $dados = json_decode($dados['dados'], true);
+
+        $dados_evento = $evento->selecionarEvento($dados['evento_id']);
+        $dados_usuario = $usuario->selecionarUsuario($dados['usuario_id'])[0];
+
+        $converte_mes = [
+            '01' => 'Janeiro',
+            '02' => 'Fevereiro',
+            '03' => 'Março',
+            '04' => 'Abril',
+            '05' => 'Maio',
+            '06' => 'Junho',
+            '07' => 'Julho',
+            '08' => 'Agosto',
+            '09' => 'Setembro',
+            '10' => 'Outubro',
+            '11' => 'Novembro',
+            '12' => 'Dezembro'
+        ];
+
+        $data_emissao = date('d') . " de " . $converte_mes[date('m')] . " de " . date('Y');
+
+        $dados = [
+            'nome' => $dados_usuario->nome,
+            'cpf' => $dados_usuario->cpf,
+            'evento' => $dados_evento->nome,
+            'data_emissao' => $data_emissao
+        ];
+
+        $html = "<!DOCTYPE html>";
+        $html .= "<html lang='pt-br'>";
+        $html .= "<head>";
+        $html .= "    <meta charset='UTF-8'>";
+        $html .= "    <title>Certificado</title>";
+        $html .= "</head>";
+        $html .= "<body>";
+        $html .= "<section class='topo'>";
+        $html .= "  <div class='brasao'><img src='" . BASE . "public_html/assets/imagens/brasao.jpeg' width='80' height='80'></div>";
+        $html .= "</section>";
+        $html .= "<table>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14 pt10'>MINISTÉRIO DA EDUCAÇÃO</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14'>SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='cabecalho center bold fs14'>INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA GOIANO<br/> CAMPUS CERES</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='center certificado'>Certificado</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='center'>O IF Goiano - Campus Ceres no uso de suas atribuições e em consonância com a legislação vigente certifica que</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='center bold nome fs18 p10'>{$dados['nome']}</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='center pb40 lh'>
+                            CPF nº {$dados['cpf']}, atuou como avaliador(a) dos trabalhos submetidos no(a) <b>{$dados['evento']}</b>, promovido pelo(a) Coordenação de Sistemas
+                            de Informação.
+                          </td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td colspan='3' class='right pb80'>Ceres - Goiás, {$dados['data_emissao']}</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td class='center'>Nome</td>";
+        $html .= "        <td class='center'>Nome</td>";
+        $html .= "        <td class='center'>Nome</td>";
+        $html .= "    </tr>";
+        $html .= "    <tr>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
+        $html .= "        <td class='center pb60'>Cargo/Função</td>";
+        $html .= "    </tr>";
+        $html .= "</table>";
+        $html .= "<section class='rodape'>";
+        $html .= "  <div class='logo'><img src='" . BASE . "public_html/assets/imagens/Logotipo.png' width='273' height='70'></div>";
+        $html .= "</section>";
+        $html .= "</body>";
+        $html .= "</html>";
+
+        $config = [
+            'mode' => '',
+            'format' => 'A4',
+            'default_font_size' => 0,
+            'default_font' => 14,
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'orientation' => 'L',
+        ];
+
+        $pdf = new Mpdf($config);
+
+        $style = file_get_contents(ROOT . 'public_html/assets/css/certificado.css');
+
+        $pdf->WriteHTML($style, 1);
+        $pdf->WriteHTML($html);
+
+        $pdf->Output('CertificadoAvaliador.pdf', 'D');
+
+        return true;
+    }
+
+    public function gerarListaAprovados($params) {
         $evento = new Evento();
         $trabalhos = new Trabalho();
 
         $listaAprovados = $trabalhos->listarAprovados($params['evento_id']);
         $dados_evento = $evento->selecionarEvento($params['evento_id']);
         // print_r($dados_evento);
-        
+
         // titulo, nome
 
         print_r($listaAprovados);
@@ -307,7 +414,7 @@ class Certificado
         $html .= "    <p class='center bold '>Ministério da Educação</p>";
         $html .= "    <p class='center bold '>Secretaria de Educação Profissional e Tecnológica</p>";
         $html .= "    <p class='center bold '>Instituto Federal de Educação, Ciência e Tecnologia Goiano</p>";
-              
+
         $html .= "<table class='mt25 mb25 collapse fs14' border='0'> ";
         $html .= "        <tr class=''>";
         $html .= "            <td colspan='4' class='center '><b>{$dados['evento']}</b></td>";

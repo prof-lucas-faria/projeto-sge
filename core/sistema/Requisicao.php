@@ -43,7 +43,7 @@ class Requisicao {
         if (!$acao) {
             $request = $request["dados"];
         }
-        
+
         return $request;
     }
 }
