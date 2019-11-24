@@ -11,8 +11,6 @@ use core\controller\Tematicas;
 if (
     !Autenticacao::usuarioAdministrador()
     && !Autenticacao::usuarioOrganizador()
-    && !Autenticacao::usuarioAvaliador()
-    && !Autenticacao::usuarioAssitente()
 ) {
     header('Location: ../login.php?redirect=' . URL);
     exit;

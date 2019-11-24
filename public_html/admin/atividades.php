@@ -13,7 +13,6 @@ use core\sistema\Util;
 if (
     !Autenticacao::usuarioAdministrador()
     && !Autenticacao::usuarioOrganizador()
-    && !Autenticacao::usuarioAvaliador()
     && !Autenticacao::usuarioAssitente()
 ) {
     header('Location: ../login.php?redirect=' . URL);
