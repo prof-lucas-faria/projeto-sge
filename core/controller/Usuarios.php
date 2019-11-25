@@ -4,6 +4,7 @@
 namespace core\controller;
 
 use core\model\Permissao;
+use core\sistema\Autenticacao;
 use core\sistema\Util;
 use core\model\Usuario;
 
@@ -110,9 +111,7 @@ class Usuarios {
      * @throws \Exception
      */
     public function atualizarDados($dados) {
-
         $usuario = new Usuario();
-
 
         $usuario->alterar($dados);
 
@@ -129,11 +128,30 @@ class Usuarios {
 
         $campos = "u." . Usuario::COL_USUARIO_ID . ", " .
             "u." . Usuario::COL_NOME . ", " .
-            "u.". Usuario::COL_EMAIL . ", " .
+            "u." . Usuario::COL_EMAIL . ", " .
             "u." . Usuario::COL_ADMIN . ", " .
             "p." . Permissao::COL_PERMISSAO;
 
         $lista = $usuario->listar($campos, null, null, 100);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_usuarios", $lista);
+        }
+
+        return $this->lista_usuarios;
+    }
+
+    /**
+     * Lista os assistentes do evento
+     *
+     * @param $evento_id
+     * @param bool $relacao
+     * @return array
+     */
+    public function listarAssistentes($evento_id, $relacao = false) {
+        $usuario = new Usuario();
+
+        $lista = $usuario->listarUsuariosPermissao($evento_id, Autenticacao::ASSISTENTE, $relacao);
 
         if (count($lista) > 0) {
             $this->__set("lista_usuarios", $lista);
@@ -175,12 +193,11 @@ class Usuarios {
     public function listarAutores($dados) {
         $usuario = new Usuario();
 
-        $campos = "u." . Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(u.".
-                                                                    Usuario::COL_NOME .", ".
-                                                                    " ' - ', u." .
-                                                                    Usuario::COL_EMAIL .
-                                                                    ") as label";
-
+        $campos = "u." . Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(u." .
+            Usuario::COL_NOME . ", " .
+            " ' - ', u." .
+            Usuario::COL_EMAIL .
+            ") as label";
 
         $lista = $usuario->listar($campos, $dados, null, 10);
 
@@ -201,12 +218,11 @@ class Usuarios {
 
         $dados[Usuario::COL_USUARIO_ID] = Usuario::COL_USUARIO_ID;
 
-        $campos = "u." . Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(u.".
-                                                                    Usuario::COL_NOME .", ".
-                                                                    " ' - ', u." .
-                                                                    Usuario::COL_EMAIL .
-                                                                    ") as label";
-
+        $campos = "u." . Usuario::COL_USUARIO_ID . " as value, " . "CONCAT(u." .
+            Usuario::COL_NOME . ", " .
+            " ' - ', u." .
+            Usuario::COL_EMAIL .
+            ") as label";
 
         $lista = $usuario->listar($campos, $dados, null, 10);
 
@@ -216,6 +232,4 @@ class Usuarios {
 
         return json_encode($this->lista_usuarios);
     }
-
-
 }
