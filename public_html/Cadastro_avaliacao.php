@@ -18,7 +18,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
         'trabalho_id' => $_GET['trabalho_id']
     ];
     $trabalhos=($avaliacao->avaliacoesAvaliador($dados));
-    //print_r($trabalhos);
+    print_r($trabalhos);
 }else{
     echo ("Você não tem Permissão");
 }

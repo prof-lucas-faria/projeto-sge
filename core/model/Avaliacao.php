@@ -45,7 +45,7 @@ class Avaliacao extends CRUD {
             throw new Exception("É necessário informar o ID do avaliador e o trabalho para atualizar");
         }
 
-        $where_condicao = self::COL_TRABALHO_ID . " = ? AND " . self::COL_AVALIADOR_ID;
+        $where_condicao = self::COL_TRABALHO_ID . " = ? AND " . self::COL_AVALIADOR_ID . " = ?";
         $where_valor[] = $dados[self::COL_TRABALHO_ID];
         $where_valor[] = $dados[self::COL_AVALIADOR_ID];
 
