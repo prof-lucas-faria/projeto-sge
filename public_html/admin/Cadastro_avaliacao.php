@@ -1,15 +1,18 @@
 <?php
 
 use core\controller\Avaliacoes;
+use core\controller\Eventos_Tipos;
 use core\sistema\Util;
 use core\sistema\Footer;
 use core\controller\Permissoes;
-require_once 'header.php';
 
+require_once 'header.php';
 
 $permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
+
 $usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id));//verificação se usuario tem permissão no evento
+
 if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
     $avaliacao = new Avaliacoes();
     $dados = [
@@ -17,8 +20,15 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
         'avaliador_id' => $_COOKIE['usuario'],
         'trabalho_id' => $_GET['trabalho_id']
     ];
-    $trabalhos=($avaliacao->avaliacoesAvaliador($dados));
-    //print_r($trabalhos);
+    $trabalhos = $avaliacao->avaliacoesAvaliador($dados);
+    $infoTrabalho = $trabalhos[0];
+    
+    $tipos = new Eventos_Tipos();
+    $tipo = $tipos->listarTipoTrabalho($evento_id, $infoTrabalho->tipo_id);
+
+    // echo "<pre>";
+    // print_r($tipo);
+    // echo "</pre>";
 }else{
     echo ("Você não tem Permissão");
 }
@@ -30,53 +40,71 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
             <div class="row">
                 <div class="col">
                     <h3 class="display-5 mb-3 font-weight-bold text-center">Avaliação do Trabalho</h3>
-                    <h5 class="display-5 mb-3 font-weight-bold text-center"><?php echo $trabalhos[0]->titulo ?></h5>
+                    <h5 class="display-5 mb-3 font-weight-bold text-center"><?= $infoTrabalho->titulo ?></h5>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
+            
+            <div class="row mb-5 mt-3">
                 <div class="col-md-6">
-                    <form class="form-signin" id="formulario">
+                    <div class="card text-justify" width="100%">
+                        <div class="card-body">
+                            <h5 class='card-title text-danger'>Orientaçoẽs!</h5>
+                            <p class="card-text">
+                                - Avalie de acordo com as regras do modelo de estrita. <br>
+                                - Só insira o parecer se o trabalho estiver totalmente avaliado. <br>
+                                - Caso queira aprovar com ressalvas, é só inserir as correções e aprovar. <br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card text-justify" width="100%">
+                        <div class="card-body">
+                            <h5 class='card-title text-warning'>Informações!</h5>
+                            <p class="card-text mb-0">
+                                <strong>Área Temática:</strong> <?= $infoTrabalho->te_descricao ?> <br>
+                                <strong>Tipo:</strong> <?= $infoTrabalho->ti_descricao ?> <br>
+                                <button class="btn btn-sm btn-outline-dark col-md-5 ml-3 mt-3" id='download_modelo' 
+                                data-path="<?= (isset($infoTrabalho->arquivo_nao_identificado)) ? $infoTrabalho->arquivo_nao_identificado : '" disabled "' ?>"> <i class="fas fa-download mr-1"></i>Trabalho</button>
+                                <button class="btn btn-sm btn-outline-dark col-md-5 ml-5 mt-3" id='download_modelo'
+                                data-path="<?= (isset($tipo[0]->modelo_escrita)) ? $tipo[0]->modelo_escrita : '" disabled "' ?>"> <i class="fas fa-download mr-1"></i>Escrita</button>
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class="col-md-9">
+                    <form class="needs-validation" id="formulario">
                         <div class="form-row mb-4">
-                            <div class="form-group col">
-                                <label for="parecer">Parecer:*</label>
-                                <script>
-                                function myFunction(){
-                                    let selecao=($('#parecer option:selected').val());
-                                    if(selecao==2){
-                                        document.getElementById("correcao").disabled = false;
-                                        camp2.attr('required', true);
-                                    }else{
-                                        document.getElementById("correcao").disabled = true;
-                                    }
-                                }
-                                
-                                </script>
-                                <select id="parecer" class="form-control" onchange="myFunction()">
-                                    <option value="" <?php echo $trabalhos[0]->parecer == ''?'selected':'';?>></option>
-                                    <option value='1' <?php echo $trabalhos[0]->parecer == '1'?'selected':'';?> >Aprovado</option>
-                                    <option value='2' <?php echo $trabalhos[0]->parecer == '2'?'selected':'';?>>Aprovado com resalvas</option>
-                                    <option value='3' <?php echo $trabalhos[0]->parecer == '3'?'selected':'';?>>Não aprovado</option>
-                                </select>
-                                
+                            <div class="form-group col-md-6">
+                                <label for="parecer">Parecer:</label>
+                                <select id="parecer" class="custom-select">
+                                    <option value="NULL" <?= $infoTrabalho->parecer == ''?'selected':'';?>>Selecione o parecer</option>
+                                    <option value="Aprovado" <?= $infoTrabalho->parecer == "Aprovado"?"selected":"";?> >Aprovado</option>
+                                    <option value="Reprovado" <?= $infoTrabalho->parecer == "Reprovado"?"selected":"";?>>Reprovado</option>
+                                </select>                                
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="correcao">Sugestão de Correção:</label>
-                                <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus <?php if($trabalhos[0]->parecer!=2){echo 'disabled';}?> onChange="update()" ><?php if($trabalhos[0]->parecer ==2){echo $trabalhos[0]->correcao;}?></textarea>
+                                <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus 
+                                value="<?= $infoTrabalho->correcao ?>"></textarea>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="col-md-3 ml-md-auto">
+                        <div class="form-row mt-2">
+                            <div class="col-md-2 ml-md-auto">
                                 <input type="hidden" id="usuario_id"  value="<?php echo $_COOKIE['usuario']?>">
                                 <input type="hidden" id="trabalho_id"  value="<?php echo $_GET['trabalho_id']?>">
                                 <input type="hidden" id="evento_id"  value="<?php echo $_GET['evento_id']?>">
-                                <button class="btn btn-success" name="salvar" type="submit">Salvar</button>
+                                <button class="btn btn-outline-success btn-block" name="salvar" type="submit">Salvar</button>
                                 </form>    
                             </div> 
                             
                         </div>
-                        <button type="submit" class="btn btn-primary" id= 'download_modelo' name='download_modelo' data-path=<?= (isset($trabalhos[0]->arquivo_nao_identificado)) ? '"' . $trabalhos[0]->arquivo_nao_identificado . '"' : '""' . 'disabled=' . '"disabled"' ?>> <i class="fas fa-download mr-1"></i>Arquivo</button>
                         <div class="form-row">    
                             <div class="col-md-3">
                             </div>
@@ -95,7 +123,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                 </button>
             </div>
             <div class="toast-body">
-                Pronto, sua senha foi alterada com sucesso.
+                Pronto, sua avaliação foi salva com sucesso.
             </div>
             <div class="card-footer text-muted bg-success p-1"></div>
         </div>
@@ -112,7 +140,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                 </button>
             </div>
             <div class="toast-body">
-                Desculpe, não foi possível alterar sua senha.
+                Desculpe, não foi possível salvar sua avaliação.
             </div>
             <div class="card-footer text-muted bg-warning p-1"></div>
         </div>

@@ -34,6 +34,7 @@ class Avaliacoes {
     public function cadastrar($dados) {
 
         $avaliacao = new Avaliacao();
+        $trabalho = new Trabalho();
 
         foreach ($dados as $avaliador => $trabalhos) {
 
@@ -50,6 +51,14 @@ class Avaliacoes {
                     $retorno = $avaliacao->adicionar($dados_avaliacao);
                     // $retorno = json_encode($dados_avaliacao);
 
+                    $dados_t = [
+                        'status' => 'Em avaliação',
+                        'trabalho_id' => $value
+                    ];
+            
+                    $trabalho->alterar($dados_t);
+    
+
                 } catch (Exception $e) {
 
                     echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
@@ -63,6 +72,7 @@ class Avaliacoes {
         return $retorno;
 
     }
+
     /**samuel
      * @param $dados
      * @return avaliacao
@@ -71,12 +81,36 @@ class Avaliacoes {
     public function avaliar($dados) {
 
         $avaliacao = new Avaliacao();
-
+        $trabalho = new Trabalho();
 
         $avaliacao->alterar($dados);
+        
+        if (isset($dados['parecer']) && $dados['parecer'] != NULL) {
+            //verifico status -> se já tiver pelo menos 1 e for igual ao meu atualiza
+
+            $dados_p = [
+                'trabalho_id' => $dados['trabalho_id']
+            ];
+
+            $status = $this->listarParecer($dados_p);
+            
+            if (count((array)$status[0]) > 0) {
+                foreach ($status as $key => $value) {
+                    if ($value->parecer == $dados['parecer']) {
+                        $dados_t = [
+                            'status' => 'Avaliado',
+                            'trabalho_id' => $dados['trabalho_id']
+                        ];
+                
+                        $trabalho->alterar($dados_t);
+                    }
+                }
+            }
+        }
 
         return $avaliacao;
     }
+
     /**samuel
      * @param $dados
      * @return 
@@ -125,6 +159,21 @@ class Avaliacoes {
         $avaliacao = new Avaliacao();
     
         $campos = " DISTINCT(prazo) ";
+
+        $lista = $avaliacao->listar($campos, $dados, null, null);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_avaliacao", $lista);
+        }
+
+        return $this->lista_avaliacao;
+    }
+
+
+    public function listarParecer($dados = []) {
+        $avaliacao = new Avaliacao();
+    
+        $campos = " DISTINCT(parecer) ";
 
         $lista = $avaliacao->listar($campos, $dados, null, null);
 
@@ -198,7 +247,7 @@ class Avaliacoes {
     }
 
     /**
-     * Saber o parecer final de um derterminado trabalho     
+     * Saber o parecer FINAL de um derterminado trabalho     
      * 
      * @return array
      */

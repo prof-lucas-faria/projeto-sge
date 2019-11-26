@@ -110,7 +110,7 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
                 </div>
             </div>
 
-            <form id="pesquisar" class=" mt-5">
+            <form id="pesquisar" class="mt-5">
                 <div class="form-row">
                     <div class="form-group col-md-8">
                         <label for="texto">Título ou área temática do trabalho:</label>

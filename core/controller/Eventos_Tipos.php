@@ -110,9 +110,27 @@ class Eventos_Tipos
     {
         $evento_tipo = new Evento_Tipo();
 
-        $tipos = $evento_tipo->listar($evento_id);
+        $dados['evento_id'] = $evento_id;
 
-        if (count($tipos) > 0 && (!empty($tipos[0]))) {
+        $tipos = $evento_tipo->listar($dados);
+
+        if (count((array)$tipos) > 0 && (!empty($tipos[0]))) {
+            return $tipos;
+        } else {
+            return false;
+        }
+    }
+
+    public function listarTipoTrabalho($evento_id, $tipo_id)
+    {
+        $evento_tipo = new Evento_Tipo();
+
+        $dados['evento_id'] = $evento_id;
+        $dados['tipo_id'] = $tipo_id;
+
+        $tipos = $evento_tipo->listar($dados);
+
+        if (count((array)$tipos) > 0 && (!empty($tipos[0]))) {
             return $tipos;
         } else {
             return false;
