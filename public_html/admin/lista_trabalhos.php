@@ -34,7 +34,8 @@ $trabalho = $trabalhos->listarTrabalhos($busca);
 $prazo = $avaliacoes->listarPrazos($evento_id);
 
 $aux['evento_id'] = $evento_id;
-$divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
+$divergentes = json_decode($avaliacoes->avaliacoesDivergentes($aux));
+
 
 ?>
 
@@ -72,7 +73,7 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
                         <a href="#" id="download_listaAprovados" data-evento_id="<?= $evento_id ?>"
                            class="btn btn-outline-primary">Lista de Aprovados</a>
                         <?php
-                    } elseif (isset($prazo[0]->prazo) || count($divergentes[0]) > 0) {
+                    } else if (isset($prazo[0]->prazo) || count((array)$divergentes) > 0) {
                         // depois que os trabalhos foram distribuidos e enquanto existir trabalhos com avaliações diferentes
                         ?>
                         <p class="card-text" id="texto_card">
