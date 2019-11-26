@@ -21,12 +21,21 @@ if (!Autenticacao::getCookieUsuario()) {
     $usuario_id = Autenticacao::getCookieUsuario();
 }
 
-require_once 'header.php';
-
 if (!isset($_GET['evento_id'])) {
     header('Location: index.php');
     exit;
+}else{
+    $e = new Eventos();
+    $evento = $e->listarEvento($_GET['evento_id']);
+    // Caso o período de submissão não tenha começado
+    if (!(strtotime(date('Y/m/d')) >= strtotime($evento->data_inicio_sub) && strtotime(date('Y/m/d')) < strtotime($evento->data_termino_sub))) {
+        header('Location: index.php');
+    }
 }
+
+
+require_once 'header.php';
+
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 $trabalho_id = isset($_GET['trabalho_id']) ? $_GET['trabalho_id'] : null;
