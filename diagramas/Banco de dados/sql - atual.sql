@@ -89,10 +89,10 @@ ENGINE = InnoDB;
 -- Table `sge`.`presenca`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`presenca` (
-  `presenca` INT NOT NULL AUTO_INCREMENT,
+  `presenca` INT NOT NULL,
   `usuario_id` INT NOT NULL,
   `atividade_id` INT NOT NULL,
-  PRIMARY KEY (`presenca`),
+  PRIMARY KEY (`atividade_id`,`usuario_id`),
   INDEX `fk_presenca_usuario1_idx` (`usuario_id` ASC),
   INDEX `fk_presenca_atividade1_idx` (`atividade_id` ASC),
   CONSTRAINT `fk_presenca_usuario1`
