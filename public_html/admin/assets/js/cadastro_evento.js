@@ -150,7 +150,7 @@ const eventos = () => {
                             };
                             mensagem(data);
 
-                            window.location.href = window.location.href + '?evento_id=' + res;
+                            // window.location.href = window.location.href + '?evento_id=' + res;
                             urlAtividade = './cadastro_atividade.php?evento_id=' + res; // Para inservir na div btn_atividade o botão para cadastro de atividade dps que o cadastro de evento for feito
                             $('#btn_atividade').append('<a href="' + urlAtividade + '"" class="btn btn-block btn-outline-dark" title="Adicionar Atividades"><i class="fas fa-plus"></i></a>');
                         } else {

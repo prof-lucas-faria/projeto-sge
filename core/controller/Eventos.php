@@ -76,6 +76,18 @@ class Eventos {
         } else {
             //Senão, será feito o cadastro
             $resultado = $evento->adicionar($dados);
+
+            if (Autenticacao::usuarioOrganizador()) {
+                $permissao = new Permissao();
+    
+                $params = [
+                    Permissao::COL_USUARIO_ID => Autenticacao::getCookieUsuario(),
+                    Permissao::COL_PERMISSAO => Autenticacao::ORGANIZADOR,
+                    Permissao::COL_EVENTO_ID => $resultado
+                ];
+    
+                $permissao->salvar($params);
+            }
         }
 
         $tematica['evento_id'] = $resultado;
@@ -90,17 +102,6 @@ class Eventos {
         $eventos_tipos = new Eventos_Tipos();
         $eventos_tipos->adicionar($tipos);
 
-        if (Autenticacao::usuarioOrganizador()) {
-            $permissao = new Permissao();
-
-            $params = [
-                Permissao::COL_USUARIO_ID => Autenticacao::getCookieUsuario(),
-                Permissao::COL_PERMISSAO => Autenticacao::ORGANIZADOR,
-                Permissao::COL_EVENTO_ID => $resultado
-            ];
-
-            $permissao->salvar($params);
-        }
 
         if ($resultado > 0) {
             return $resultado;

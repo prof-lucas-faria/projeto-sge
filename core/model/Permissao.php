@@ -119,8 +119,8 @@ class Permissao extends CRUD {
 
         try {
 
-            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor)[0];
-
+            $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor);
+            
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
             return [];

@@ -68,12 +68,12 @@ class Permissoes {
         $eventos = $user_permissao->checkPermissaoEvento($usuario_id, null, ['campos' => Permissao::COL_EVENTO_ID]);
 
         if (count((array)$eventos) > 0) {
-            foreach ($eventos as $evento_id) {
-                if (!empty($evento_id))
-                    $retorno[] = $evento_id;
+            foreach ($eventos as $value) {
+                if (!empty($value->evento_id))
+                    $retorno[] = $value->evento_id;
             }
         }
-
+        
         return $retorno;
     }
 
