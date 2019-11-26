@@ -36,15 +36,15 @@ const eventos = () => {
                 async: true,
                 success: function (res) {
                     if (res && res === '1') {
-                        $('#msg_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
+                        $('#msg_login_sucesso').toast('show'); // Para aparecer a mensagem de sucesso
                         if (redirect !== '') {
                             window.location.href = `${window.location.protocol}${redirect}`;
                         } else {
                             window.location.href = `${base}/${url[1]}/`;
                         }
                     } else {
-                        alert('Usuário/senha inválidos!');
-                        $('#msg_erro').toast('show');
+                        // alert('Usuário/senha inválidos!');
+                        $('#msg_login_erro').toast('show');
                     }
                 },
                 error: function (request, status, str_error) {

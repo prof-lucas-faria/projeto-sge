@@ -110,6 +110,56 @@ require 'header.php';
                 <div class="card-footer text-muted bg-warning p-1"></div>
             </div>
             <!-- Toast -->
+            <!-- Toast Sucesso -->
+            <div class="toast" id="msg_login_sucesso" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000"
+                 style="position: absolute; top: 4rem; right: 1rem;">
+                <div class="toast-header">
+                    <strong class="mr-auto">Deu tudo certo!</strong>
+                    <small>Agora</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Pronto, seu login foi efetuado!.
+                </div>
+                <div class="card-footer text-muted bg-success p-1"></div>
+            </div>
+            <!-- Toast -->
+
+            <!-- Toast Erro -->
+            <div class="toast" id="msg_login_erro" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000"
+                 style="position: absolute; top: 4rem; right: 1rem;">
+                <div class="toast-header">
+                    <strong class="mr-auto">Houve um erro!</strong>
+                    <small>Agora</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Desculpe, não foi possível realizar seu login. Por favor, confira seus dados!
+                </div>
+                <div class="card-footer text-muted bg-warning p-1"></div>
+            </div>
+            <!-- Toast -->
+
+            <!-- Toast Alerta -->
+            <div class="toast" id="msg_login_alerta" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000"
+                 style="position: absolute; top: 4rem; right: 1rem;">
+                <div class="toast-header">
+                    <strong class="mr-auto">Existe um conflito!</strong>
+                    <small>Agora</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Preencha seu CPF!
+                </div>
+                <div class="card-footer text-muted bg-warning p-1"></div>
+            </div>
+            <!-- Toast -->
         </div>
     </main>
 
