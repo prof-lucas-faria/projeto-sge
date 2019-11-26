@@ -50,7 +50,7 @@ require 'header.php';
                             <button class="btn btn-lg btn-primary btn-block" type="submit" id="botao_login">Entrar
                             </button>
                             <hr>
-                            <p class="text-center">Ainda não está no SGE? <a href="#">Cadastre-se</a></p>
+                            <p class="text-center">Ainda não está no SGE? <a href="cadastro.php">Cadastre-se</a></p>
                         </form>
                     </div>
                     <div class="col">
