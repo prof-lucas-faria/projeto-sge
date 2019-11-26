@@ -17,6 +17,7 @@ $usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario']
 
 if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
     $avaliacao = new Avaliacoes();
+    $usuario_id=$_COOKIE['usuario'];
     $dados = [
         'evento_id' => $evento_id,
         'avaliador_id' => $_COOKIE['usuario']
@@ -70,8 +71,8 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                                                 
                                                 echo "<th>";
                                                 //echo "<th>".$v->trabalho_id;
-                                                echo "<a href='Cadastro_avaliacao.php?evento_id=1&trabalho_id=1&avaliador_id=1'> <i class='fas fa-plus' data-toggle='modal' data-target='#exampleModalCenter'> </i></a>|";
-                                                echo "<a href='avaliacao.php?edt=1&evento_id=$evento_id&trabalho_id=$v->trabalho_id'><i class=' fas fa-edit'></i></a>";
+                                                if($v->parecer==""){echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'> <i class='fas fa-plus' data-toggle='modal' data-target='#exampleModalCenter'> </i></a>|";}
+                                                echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'><i class=' fas fa-edit'></i></a>";
                                                 echo "</th>";
                                                 
                                                 if($v->parecer!=null){

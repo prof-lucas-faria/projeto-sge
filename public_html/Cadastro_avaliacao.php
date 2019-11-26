@@ -18,7 +18,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
         'trabalho_id' => $_GET['trabalho_id']
     ];
     $trabalhos=($avaliacao->avaliacoesAvaliador($dados));
-    print_r($trabalhos);
+    //print_r($trabalhos);
 }else{
     echo ("Você não tem Permissão");
 }
@@ -51,11 +51,11 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                                 }
                                 
                                 </script>
-                                <select id="parecer" class="form-control" onchange="myFunction()" required="">
-                                    <option value=""></option>
-                                    <option value='1'>Aprovado</option>
-                                    <option value='2'>Aprovado com resalvas</option>
-                                    <option value='3'>Não aprovado</option>
+                                <select id="parecer" class="form-control" onchange="myFunction()">
+                                    <option value="" <?php echo $trabalhos[0]->parecer == ''?'selected':'';?>></option>
+                                    <option value='1' <?php echo $trabalhos[0]->parecer == '1'?'selected':'';?> >Aprovado</option>
+                                    <option value='2' <?php echo $trabalhos[0]->parecer == '2'?'selected':'';?>>Aprovado com resalvas</option>
+                                    <option value='3' <?php echo $trabalhos[0]->parecer == '3'?'selected':'';?>>Não aprovado</option>
                                 </select>
                                 
                             </div>
@@ -63,27 +63,27 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="correcao">Sugestão de Correção:</label>
-                                <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus disabled onChange="update()" ></textarea>
+                                <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus <?php if($trabalhos[0]->parecer!=2){echo 'disabled';}?> onChange="update()" ><?php if($trabalhos[0]->parecer ==2){echo $trabalhos[0]->correcao;}?></textarea>
                             </div>
                         </div>
                         <div class="form-row">
-                        
                             <div class="col-md-3 ml-md-auto">
-                            <input type="hidden" id="usuario_id"  value="<?php echo $_COOKIE['usuario']?>">
-                            <input type="hidden" id="trabalho_id"  value="<?php echo $_GET['trabalho_id']?>">
-
-                            <button class="btn btn-success" type="submit">Salvar</button>
+                                <input type="hidden" id="usuario_id"  value="<?php echo $_COOKIE['usuario']?>">
+                                <input type="hidden" id="trabalho_id"  value="<?php echo $_GET['trabalho_id']?>">
+                                <input type="hidden" id="evento_id"  value="<?php echo $_GET['evento_id']?>">
+                                <button class="btn btn-success" name="salvar" type="submit">Salvar</button>
+                                </form>    
                             </div> 
-                    </form>
-                       
-                            <div class="col-md-3 ml-md-auto">
-                            <button class="btn btn-primary"><i class=' fas fa-download'></i>Arquivo</button>
-                            </div>    
+                            
+                        </div>
+                        <button type="submit" class="btn btn-primary" id= 'download_modelo' name='download_modelo' data-path=<?= (isset($trabalhos[0]->arquivo_nao_identificado)) ? '"' . $trabalhos[0]->arquivo_nao_identificado . '"' : '""' . 'disabled=' . '"disabled"' ?>> <i class="fas fa-download mr-1"></i>Arquivo</button>
+                        <div class="form-row">    
+                            <div class="col-md-3">
+                            </div>
                         </div>
                 </div>
             </div>
         </div>
-
         <!-- Toast Sucesso -->
         <div class="toast" id="msg_sucesso" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000"
              style="position: absolute; top: 4rem; right: 1rem;">
