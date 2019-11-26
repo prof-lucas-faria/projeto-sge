@@ -6,6 +6,7 @@ use core\sistema\Util;
 use core\model\Avaliacao;
 use core\model\Trabalho;
 use core\model\Avaliador;
+use core\sistema\Arquivos;
 
 class Avaliacoes {
 
@@ -75,6 +76,17 @@ class Avaliacoes {
         $avaliacao->alterar($dados);
 
         return $avaliacao;
+    }
+    /**samuel
+     * @param $dados
+     * @return 
+     * @throws 
+     */
+    public function downloadArquivo($dados){
+        $arquivos = new Arquivos();
+        // $dados = json_decode($dados);
+        print_r($dados);
+        $arquivos->startDownload($dados['caminho_arquivo']);
     }
 
     public function atualizarAvaliacao($dados) {

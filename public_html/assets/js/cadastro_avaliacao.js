@@ -5,13 +5,12 @@ let construct = () => {
 const eventos = () => {
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
-
         let correcao = $('#correcao').val(),
             usuario_id=$('#usuario_id').val(),
             trabalho_id=$('#trabalho_id').val(),
+            evento_id=$('#evento_id').val(),
             selecao=($('#parecer option:selected').val());
         
-            
 
             if(selecao == 2 && correcao==""){
                 $('#msg_erro').toast('show');
@@ -36,6 +35,7 @@ const eventos = () => {
                 success: function (res) {
                     if (res) {
                         $('#msg_sucesso').toast('show');
+                        window.location.href = "lista_TrabalhosAvaliador.php?evento_id="+evento_id;
                     } else {
                         console.log(res);
                         $('#msg_erro').toast('show');
@@ -50,5 +50,15 @@ const eventos = () => {
         }
     }
     });
+    $('#download_modelo').on('click', function (e) {
+        e.preventDefault();
+    
+            let caminho_arquivo = $(this).attr('data-path');
+            alert(caminho_arquivo);
+            if (caminho_arquivo !== '') {
+                window.open('api.php?acao=Avaliacoes/downloadArquivo&caminho_arquivo=' + caminho_arquivo, '_blank')
+            }
+    
+        });
 };
 construct();
