@@ -60,10 +60,10 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 					$i = 0;
 					foreach ($lista_tematicas as $key => $tematica) { ?>
 						<span class="badge badge-<?= $cores[$i++] ?>">
-                            <?= $tematica->descricao ?>
-                        </span>
-					    <?php
-                        if ($i > 5) $i = 0;
+							<?= $tematica->descricao ?>
+						</span>
+					<?php
+						if ($i > 5) $i = 0;
 					} ?>
 				</div>
 			</div>
@@ -149,18 +149,14 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 							<p><small class="text-muted">Inscrições apenas pelo site.</small></p>
 							<?php if ((strtotime(date('Y/m/d')) > strtotime($evento->evento_termino))) { ?>
 
-                                <button id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>"
-                                        data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>"
-                                        data-permissao-avaliador="<?= Autenticacao::usuarioAvaliador() ?>"
-                                        class="btn btn-lg btn-outline-dark ">
-                                    Certificado
-                                </button>
+								<button id="gerar_certificado" data-evento_id="<?= $evento->evento_id ?>" data-usuario_id="<?= Autenticacao::getCookieUsuario() ?>" data-permissao-avaliador="<?= Autenticacao::usuarioAvaliador() ?>" class="btn btn-lg btn-outline-dark ">
+									Certificado
+								</button>
 
-                            <?php } else { ?>
-								<a href="atividades.php?evento_id=<?= $evento->evento_id ?>"
-                                   class="btn btn-outline-dark <?= $d ?>">
-                                    <?= $a ?>
-                                </a>
+							<?php } else { ?>
+								<a href="atividades.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>">
+									<?= $a ?>
+								</a>
 							<?php } ?>
 						</div>
 					</div>
@@ -197,9 +193,13 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 										Trabalhos Aprovados
 									</button>
 								<?php
-									} else {
+									} elseif ((strtotime(date('Y/m/d')) >= strtotime($evento->data_inicio_sub) && strtotime(date('Y/m/d')) < strtotime($evento->data_termino_sub))) {
 										?>
 									<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a>
+								<?php
+									} else {
+										?>
+									<button  class="btn btn-outline-dark disabled"><?= $b ?></button>
 								<?php
 									}
 									?>

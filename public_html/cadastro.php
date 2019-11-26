@@ -41,7 +41,8 @@ if (isset($usuario_id)) {
                             <div class="form-group col-md-5">
                                 <label for="cpf">CPF:</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00"
-                                       pattern="\d{3}\.\d{3}.\d{3}-\d{2}" title="Exemplo: xxx.xxx.xxx-xx"
+                                      title="Exemplo: xxx.xxx.xxx-xx"
+                                      maxlength="14"
                                        value="<?php if ($usuario_id) {
                                            echo $usuario->cpf;
                                        } ?>" <?= isset($usuario_id) ? "disabled" : "" ?> required>
@@ -81,10 +82,11 @@ if (isset($usuario_id)) {
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="telefone">Telefone:</label>
-                                <input type="tel" id="telefone" class="form-control" placeholder="(00) 90000-0000"
+                                <input type="text" id="telefone" class="form-control" placeholder="(00) 90000-0000"
+                                        maxlength="14"
                                        value="<?php if ($usuario_id) {
                                            echo $usuario->telefone;
-                                       } ?>" pattern="\([0-9]{2}\) \[0-9]{4,6}-[0-9]{3,4}$" required>
+                                       } ?>"  required>
                             </div>
                         </div>
                         <?php
@@ -125,13 +127,15 @@ if (isset($usuario_id)) {
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP:</label>
                                 <input type="text" class="form-control" id="cep" placeholder="00000-000"
-                                       pattern="\d{5}\-\d{3}" value="<?php if ($usuario_id) {
+                                    maxlength="8"
+                                    value="<?php if ($usuario_id) {
                                     echo $usuario->cep;
                                 } ?>" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="estado">Estado:</label>
                                 <input type="text" class="form-control" id="estado" placeholder="Insira seu estado"
+                                        maxlength="2"
                                        value="<?php if ($usuario_id) {
                                            echo $usuario->estado;
                                        } ?>" required>
@@ -226,7 +230,7 @@ if (isset($usuario_id)) {
 <?php
 
 $footer = new Footer();
-$footer->setJS('admin/assets/js/cadastro_usuario.js');
+$footer->setJS('assets/js/cadastro_usuario.js');
 require_once 'footer.php';
 
 ?>

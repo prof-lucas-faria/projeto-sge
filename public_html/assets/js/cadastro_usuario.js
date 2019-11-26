@@ -4,6 +4,18 @@ let construct = () => {
 
 const eventos = () => {
     
+    $('#cpf').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/(\d{3}).*(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+    });
+
+    $('#cep').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/^(\d{5})(\d{3})/,"$1-$2"));
+    });
+
+    $('#telefone').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/^(\d\d)(\d)(\d{4})(\d{4}).*/, "($1) $2 $3-$4"));
+    });
+
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
         let nome = $('#nome').val(),
