@@ -183,11 +183,14 @@ class Certificado {
         $presenca = new Presencas();
 
         $params = json_decode($params['dados'], true);
-        $dados_evento = $evento->selecionarEvento($params['evento_id'])[0];
-        $dados_atividade = $atividade->selecionarAtividade($params['atividade_id'])[0];
+        $dados_evento = $evento->selecionarEvento($params['evento_id']);
+        $dados_atividade = $atividade->selecionarAtividade($params['atividade_id']);
         $participantes = $presenca->listarPresencas([$params['atividade_id'], null], 'nomes');
 
-        $data_atividade = explode(' ', $dados_atividade->datahora_inicio)[0];
+        $dados_atividade = $dados_atividade[0];
+
+        $data_atividade = explode(' ', $dados_atividade->datahora_inicio);
+        $data_atividade = $data_atividade[0];
 
         $dados = [
             'participantes' => $participantes,
@@ -196,6 +199,11 @@ class Certificado {
             'data' => Util::formataDataBR($data_atividade),
             'responsavel' => $dados_atividade->responsavel
         ];
+
+        // echo '<pre>';
+        // print_r($dados);
+        // echo '</pre>';
+
 
         $html = "<!DOCTYPE html>";
         $html .= "<html lang='pt-br'>";
