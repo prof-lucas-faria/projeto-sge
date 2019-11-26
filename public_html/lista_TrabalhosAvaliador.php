@@ -71,8 +71,8 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                                                 
                                                 echo "<th>";
                                                 //echo "<th>".$v->trabalho_id;
-                                                if($v->parecer==""){echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'> <i class='fas fa-plus' data-toggle='modal' data-target='#exampleModalCenter'> </i></a>|";}
-                                                echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'><i class=' fas fa-edit'></i></a>";
+                                                if($v->parecer==""){echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'> <i class='fas fa-plus' data-toggle='modal' data-target='#exampleModalCenter'> </i></a>";}
+                                                if($v->parecer==2){echo "<a href='Cadastro_avaliacao.php?evento_id=$evento_id&trabalho_id=$v->trabalho_id&avaliador_id=$usuario_id'><i class=' fas fa-edit'></i></a>";};
                                                 echo "</th>";
                                                 
                                                 if($v->parecer!=null){

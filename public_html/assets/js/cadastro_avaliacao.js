@@ -54,7 +54,6 @@ const eventos = () => {
         e.preventDefault();
     
             let caminho_arquivo = $(this).attr('data-path');
-            alert(caminho_arquivo);
             if (caminho_arquivo !== '') {
                 window.open('api.php?acao=Avaliacoes/downloadArquivo&caminho_arquivo=' + caminho_arquivo, '_blank')
             }
