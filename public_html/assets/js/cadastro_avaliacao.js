@@ -7,21 +7,25 @@ const eventos = () => {
         e.preventDefault();
 
         let correcao = $('#correcao').val(),
-            parecer = $('#parecer').val(),
             usuario_id=$('#usuario_id').val(),
             trabalho_id=$('#trabalho_id').val(),
             selecao=($('#parecer option:selected').val());
-           
+        
+            
+
             if(selecao == 2 && correcao==""){
                 $('#msg_erro').toast('show');
             }else{
-            if (parecer !== "" &&usuario_id !== "" &&trabalho_id != "") {
+            if (parecer !== "" && usuario_id !== "" &&trabalho_id != "") {
+                
                 let dados = {
                     trabalho_id: trabalho_id,
-                    avaliador_id: usuario_id
+                    avaliador_id: usuario_id,
+                    correcao: correcao,
+                    parecer: selecao
                 };
             
-            dados.acao = "Avaliacoes/adicionar";
+            dados.acao = "Avaliacoes/avaliar";
 
             $.ajax({
                 url: baseUrl,

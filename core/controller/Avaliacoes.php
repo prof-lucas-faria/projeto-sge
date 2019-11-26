@@ -72,17 +72,14 @@ class Avaliacoes {
         $avaliacao = new Avaliacao();
 
 
-        $avaliacao->adicionar($dados);
+        $avaliacao->alterar($dados);
 
         return $avaliacao;
     }
 
     public function atualizarAvaliacao($dados) {
-
         $avaliacao = new Avaliacao();
-
         $avaliacao->alterar($dados);
-
         return $avaliacao;
     }
 

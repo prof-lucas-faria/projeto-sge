@@ -34,7 +34,7 @@ $lista_assistentes = $usuarios->listarAssistentes($evento_id);
     <div class="container center-block mt-5 mb-5">
         <div class="card shadow-sm mb-4 p-4">
 
-            <?php if (count($lista_assistentes) > 0) { ?>
+            <?php if (count($lista_assistentes[0]) > 0) { ?>
 
                 <h2 class="display-5 mb-4 font-weight-bold text-center">Lista de Assistentes</h2>
 

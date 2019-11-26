@@ -40,6 +40,7 @@ $lista_tematicas = $tematicas->listar($evento_id);
 
 $lista_assistentes = $usuario->listarAssistentes($evento_id, true);
 
+
 $d = strtotime(date('Y/m/d')) > strtotime($evento->evento_termino) ? "disabled" : "";
 $verificacaoGerarCeritificado = strtotime(date('Y/m/d')) < strtotime($evento->evento_termino) ? "disabled" : "";
 
@@ -95,7 +96,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                 </div>
             </div>
 
-            <?php if (count($lista_assistentes) > 0) { ?>
+            <?php if (count($lista_assistentes[0]) > 0) { ?>
                 <div class="row mt-4">
                     <div class="col-md-12">
                         <table class="table table-hover table-bordered">
