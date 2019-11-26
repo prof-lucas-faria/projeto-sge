@@ -4,6 +4,32 @@ let construct = () => {
 
 const eventos = () => {
     
+    $('#cpf').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/(\d{3}).*(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+    });
+
+    $('#cep').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/^(\d{5})(\d{3})/,"$1-$2"));
+    });
+
+    $('#telefone').on('keyup', function (e) {
+        $(this).val($(this).val().replace(/^(\d\d)(\d)(\d{4})(\d{4}).*/, "($1) $2 $3-$4"));
+        // $(this).val($(this).val().replace(/\D/g,""))
+        // $(this).val($(this).val().replace(/^(\d{2})(\d)/g,"($1) $2"));
+        // $(this).val($(this).val().replace(/(\d)(\d{4})$/,"$1-$2"));
+
+        // let numero = $(this).val();
+        // numero = numero.replace(/^(\d{2})(\d)/g,"($1) $2");
+        // numero = numero.replace(/(\d)(\d{6})$/,"$1-$2");
+        // $(this).val(numero);
+
+        // const parte1 = numero.slice(0,2);
+        // const parte2 = numero.slice(0,2);
+        // const parte3 = numero.slice(5,9);
+        // textoAjustado = `${parte1}-${parte2}` 
+
+    });
+
     $('#formulario').on('submit', function (e) {
         e.preventDefault();
         let nome = $('#nome').val(),
