@@ -1,6 +1,9 @@
 <?php
 
-require_once 'header.php';
+
+require_once '../vendor/autoload.php';
+require_once '../config.php';
+
 
 use core\controller\Eventos;
 use core\sistema\Footer;
@@ -17,6 +20,8 @@ if (!Autenticacao::getCookieUsuario()) {
 } else {
     $usuario_id = Autenticacao::getCookieUsuario();
 }
+
+require_once 'header.php';
 
 if (!isset($_GET['evento_id'])) {
     header('Location: index.php');
