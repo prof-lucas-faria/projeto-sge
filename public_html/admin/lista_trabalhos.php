@@ -58,7 +58,7 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
             <div class="card text-justify" style="width: 25rem;">
                 <div class="card-body">
                     <h5 class='card-title'>Atenção!</h5>
-
+                    
                     <?php
                     if ((isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) ||
                         (isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo)) && count($divergentes) < 0) {
@@ -192,7 +192,8 @@ $divergentes = (array)$avaliacoes->avaliacoesDivergentes($aux);
                     </div>
                     <div class="modal-footer p-2">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                        <a id="distribuir" href="#" class="btn btn-outline-success" data-evento_id="<?= $evento_id ?>">Distribuir</a>
+                        <a id="distribuir" href="#" class="btn btn-outline-success" 
+                        data-evento_id="<?= $evento_id ?>" data-dt_inicio="<?= $evento->evento_inicio ?>">Distribuir</a>
                     </div>
                 </div>
             </div>

@@ -11,9 +11,13 @@ const eventos = () => {
 
     $('#distribuir').on('click', function (e) {
         e.preventDefault();
-        let prazo = $('#prazo').val();
+        let prazo = $('#prazo').val(), 
+            dt_inicio = $('#distribuir').attr('data-dt_inicio'); // data de inicio do evento
         
-        if (prazo !== "" && evento_id !== "") {
+        if (prazo !== "" && evento_id !== "" && 
+            (new Date(prazo) < new Date(dt_inicio) && 
+            new Date(prazo) > new Date()) 
+        ) { //prazo final para avaliação deve ser menor que a data de inicio do evento e maoir que a data atual
             
             let dados = {
                     evento_id: evento_id,
