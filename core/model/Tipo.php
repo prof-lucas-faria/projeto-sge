@@ -8,7 +8,7 @@ use Exception;
 class Tipo extends CRUD {
     
     const TABELA = "tipo";
-    const COL_TIPO_ID = "tematica_id";
+    const COL_TIPO_ID = "tipo_id";
     const COL_DESCRICAO = "descricao";
 
     public function adicionar($dados){

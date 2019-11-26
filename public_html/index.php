@@ -30,11 +30,6 @@ if (isset($_GET['me']) && $_GET['me'] == 1) {
     $me = "";
 }
 
-// Filtra os eventos que o Organizador tem permissão de acesso
-if (Autenticacao::usuarioOrganizador()) {
-    $user_permissao = new Permissoes();
-    $dados_eventos['busca']['eventos_organizador'] = $user_permissao->listarPermissaoEventos(Autenticacao::getCookieUsuario());
-}
 
 $dados = $eventos->listarEventos($dados_eventos); //todos os eventos
 

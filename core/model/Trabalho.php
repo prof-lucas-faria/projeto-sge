@@ -40,6 +40,7 @@ class Trabalho extends CRUD {
 
         $where_condicao = self::COL_TRABALHO_ID . " = ?";
         $where_valor[] = $dados[self::COL_TRABALHO_ID];
+
         try {
 
             $this->update(self::TABELA, $dados, $where_condicao, $where_valor);
@@ -164,36 +165,6 @@ class Trabalho extends CRUD {
 
         return $retorno;
     }
-
-
-    //public function alterarStatus($dados){
-
-        //$dados = [
-        //     'status' => 'Em avaliação',
-        //     'trabalho_id' => '3'
-        // ];
-
-       // if (!isset($dados[self::COL_TRABALHO_ID])) {
-            //throw new Exception("É necessário informar o ID do trabalho para atualizar");
-       // }
-
-        //$dados_trabalho = [
-         //   self::COL_STATUS => $dados[self::COL_STATUS]
-        //];
-
-        //$where_condicao = self::COL_TRABALHO_ID . " = ?";
-        //$where_valor[] = $dados[self::COL_TRABALHO_ID];
-        
-        //try {
-
-        //    $this->update(self::TABELA, $dados_trabalho, $where_condicao, $where_valor);
-
-        //} catch (Exception $e) {
-         //   echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
-         //   return false;
-        //}
-
-        //return true;
 
     public function listarAprovados($evento_id){
         $where_condicao = self::COL_EVENTO_ID . " = ? 

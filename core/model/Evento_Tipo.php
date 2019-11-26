@@ -51,11 +51,16 @@ class Evento_Tipo extends CRUD {
         return $retorno;
     }
 
-    public function listar($evento_id){
+    public function listar($dados = []){
         $campos = "*";
 
         $where_condicao = self::COL_EVENTO_ID . " = ?";
-        $where_valor[] = $evento_id;
+        $where_valor[] = $dados['evento_id'];
+
+        if (isset($dados['tipo_id']) && !empty($dados['tipo_id'])) {
+            $where_condicao .= " AND t." . self::COL_TIPO_ID . " = ?";
+            $where_valor[] = $dados['tipo_id'];
+        }
 
         $retorno = [];
 

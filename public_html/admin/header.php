@@ -67,27 +67,30 @@ use core\controller\Eventos;
 
                         ?>
                         <?php
-                        if (isset($evento->data_inicio_sub)) {
-                            ?>
+                        if (isset($evento->data_inicio_sub) && Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) {
+                        ?>
                             <li class="nav-item dropdown <?= $d_termino ?>">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Trabalhos
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item"
-                                       href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
-                                    <?php if (!Autenticacao::usuarioAvaliador()) { ?>
-                                        <a class="dropdown-item"
-                                           href="cadastro_avaliadores.php?evento_id=<?= $evento->evento_id ?>">Cadastrar
-                                            Avaliadores</a>
-                                    <?php } ?>
+                                    <a class="dropdown-item" href="lista_trabalhos.php?evento_id=<?= $evento->evento_id ?>">Submissões</a>
+                                    <a class="dropdown-item" href="cadastro_avaliadores.php?evento_id=<?= $evento->evento_id ?>">
+                                        Cadastrar Avaliadores
+                                    </a>
                                 </div>
                             </li>
-                            <?php
+                        <?php
+                        } elseif (isset($evento->data_inicio_sub) && Autenticacao::usuarioAvaliador()) {
+                        ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="lista_TrabalhosAvaliador.php?evento_id=<?= $evento->evento_id ?>">Avaliar Trabalhos</a>
+                            </li>
+                        <?php
                         }
 
-                        if (!Autenticacao::usuarioAvaliador()) { ?>
+                        if (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador()) { ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    role="button"
@@ -131,9 +134,12 @@ use core\controller\Eventos;
                             Usuário
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php if (Autenticacao::verificarLogin() && Autenticacao::usuarioAdministrador()) { ?>
+                            <?php if (Autenticacao::usuarioAdministrador()) { ?>
                                 <a class="dropdown-item" href="usuarios.php">Organizadores</a>
-                            <?php }
+                            <?php } if (isset($evento) && (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador())) { ?>
+                                <a class="dropdown-item" href="lista_assistentes.php?evento_id=<?= $evento->evento_id ?>">Assistentes</a>
+                            <?php
+                            }
 
                             if (Autenticacao::verificarLogin()) { ?>
                                 <!-- <a class="dropdown-item" href="../lista_TrabalhosAutor.php">Meus Trabalhos</a> -->

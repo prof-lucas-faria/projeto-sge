@@ -88,7 +88,14 @@ class Avaliacao extends CRUD {
             
             $tabela .= '
                 INNER JOIN ' . Trabalho::TABELA . ' t 
-                    ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID;
+                    ON a.' . self::COL_TRABALHO_ID . " = t." . Trabalho::COL_TRABALHO_ID . "
+                INNER JOIN " . Tematica::TABELA . " te
+                    ON t." . Trabalho::COL_TEMATICA_ID . " = te." . Tematica::COL_TEMATICA_ID . "
+                INNER JOIN " . Tipo::TABELA . " ti
+                    ON t." . Trabalho::COL_TIPO_ID . " = ti." . Tipo::COL_TIPO_ID;
+    
+                $campos .= ", te." . Tematica::COL_DESCRICAO . " AS te_descricao, 
+                    ti." . Tipo::COL_DESCRICAO . " AS ti_descricao ";;           
             
             $where_condicao .= " AND t." . Evento::COL_EVENTO_ID . " = ?";
             $where_valor[] = $busca[Evento::COL_EVENTO_ID];
