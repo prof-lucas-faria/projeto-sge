@@ -31,7 +31,9 @@ const atividades = () => {
                 evento_termino = new Date(evento_termino);
                 
                 data_atividade = new Date(data);
-                data_atividade.setDate(data_atividade.getDate() + 1);
+                console.log('22222222222222222'+data_atividade +' -------------------------'+  data);
+                data_atividade = data_atividade.setDate(data_atividade.getDate() + 1);
+                evento_termino = evento_termino.setDate(evento_termino.getDate() + 1);
     
                 console.log(evento_inicio +'\n'+ evento_termino +'\n'+ data_atividade);
                 if (data_atividade >= evento_inicio && data_atividade <= evento_termino){
