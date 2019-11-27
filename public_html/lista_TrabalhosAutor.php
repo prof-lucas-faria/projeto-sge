@@ -64,11 +64,12 @@ if (isset($usuario_id)) {
                                             $avaliacoes = new Avaliacoes();
                                             $aux['evento_id'] = $v->evento_id;
                                             $prazo = $avaliacoes->listarPrazos($aux);
+                                            $divergentes = json_decode($avaliacoes->avaliacoesDivergentes($aux));
                                             
                                             if (count((array)$prazo[0]) > 0) {
                                                 $prazo = isset($prazo[1]) ? $prazo[1]->prazo : $prazo[0]->prazo;
 
-                                                if (strtotime(date('Y/m/d')) > strtotime($prazo)) {
+                                                if (strtotime(date('Y/m/d')) > strtotime($prazo) && count((array)$divergentes) <= 0) {
                                                     $parecer = $avaliacoes->parecerTrabalho($v->trabalho_id);
                                                     $v->status = $parecer[0]->parecer;
                                                 }
@@ -107,7 +108,7 @@ if (isset($usuario_id)) {
 
                                     <td class="align-middle text-center">
                                         <a class="btn btn-outline-dark mt-1"
-                                            href="cadastro_trabalho.php?trabalho_id=<?= $v->trabalho_id ?>&evento_id=<?= $v->evento_id ?>"
+                                            href="cadastro_trabalho.php?trabalho_id=<?= $v->trabalho_id ?>&evento_id=<?= $v->evento_id ?>&vi=1"
                                             id="botao_visualizar" title="Visualizar">
                                             <i class="fas fa-eye"></i>
                                         </a>

@@ -89,7 +89,7 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
                             <div class="form-group col-md-6">
                                 <label for="parecer">Parecer:</label>
                                 <select id="parecer" class="custom-select">
-                                    <option value="NULL" <?= $infoTrabalho->parecer == ''?'selected':'';?>>Selecione o parecer</option>
+                                    <option value="" <?= $infoTrabalho->parecer == ''?'selected':'';?>>Selecione o parecer</option>
                                     <option value="Aprovado" <?= $infoTrabalho->parecer == "Aprovado"?"selected":"";?> >Aprovado</option>
                                     <option value="Reprovado" <?= $infoTrabalho->parecer == "Reprovado"?"selected":"";?>>Reprovado</option>
                                 </select>                                

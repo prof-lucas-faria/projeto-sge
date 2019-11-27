@@ -20,7 +20,7 @@ $usuarioPermissao = $permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'
 
 $avaliador = new Avaliadores();
 $avaliador_id = $avaliador->acharAvaliador($_COOKIE['usuario']);
-// print_r($avaliador_id);
+// print_r($_COOKIE['usuario']);
 
 if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $usuarioPermissao->permissao == 3){
     $avaliacao = new Avaliacoes();
@@ -82,7 +82,10 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
                     if (count((array)$trabalhos[0]) > 0) {
                         foreach ($trabalhos as $i => $v) {
                             // print_r($v);
-                            (strtotime(date('Y/m/d')) > strtotime($v->prazo)) || $v->parecer != "NULL" ? $di = "disabled" : $di = "";
+                            // if ($v->parecer != "NULL") {
+                            //     echo "<br>AAAAAAAAAAAAAa";
+                            // }
+                            (strtotime(date('Y/m/d')) > strtotime($v->prazo)) || $v->parecer != NULL || $v->parecer != "" ? $di = "disabled" : $di = "";
                     ?>
                             <tr>
                                 <td class="align-middle"> <?= $v->titulo ?></td>

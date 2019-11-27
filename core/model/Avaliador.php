@@ -81,6 +81,15 @@ class Avaliador extends CRUD {
             $where_valor[] = $busca[Permissao::COL_EVENTO_ID];
         }
 
+        if (isset($busca[Usuario::COL_USUARIO_ID]) && !empty($busca[Usuario::COL_USUARIO_ID])) {
+            $tabela = self::TABELA . " a 
+                INNER JOIN " . Usuario::TABELA . " u 
+                    ON a." . self::COL_USUARIO_ID . " = u." . Usuario::COL_USUARIO_ID;
+
+            $where_condicao .= " AND u." . Usuario::COL_USUARIO_ID . " = ?";
+            $where_valor[] = $busca[Usuario::COL_USUARIO_ID];
+        }
+
         try {
 
             $retorno = $this->read($tabela, $campos, $where_condicao, $where_valor, null, null, null);

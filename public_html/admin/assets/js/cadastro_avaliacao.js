@@ -15,6 +15,8 @@ const eventos = () => {
 
         if (usuario_id !== "" && trabalho_id != "") {
 
+            
+
             let dados = {
                 trabalho_id: trabalho_id,
                 avaliador_id: usuario_id,
