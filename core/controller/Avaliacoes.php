@@ -274,4 +274,26 @@ class Avaliacoes {
             return $dados;
         }
     }
+    /**
+     * Retorna as correções atribuídas pelos avaliadores à um trabalho     
+     * 
+     * @return array
+     */
+    public function listarCorrecoes($trabalho_id) {
+
+        $avaliacao = new Avaliacao();
+
+        if(!empty($trabalho_id)){
+
+            $dados = [
+                'trabalho_id' => $trabalho_id,
+            ];
+
+            $campos = Avaliacao::COL_CORRECAO;
+
+            $dados = $avaliacao->listar($campos, $dados, null, null);
+
+            return $dados;
+        }
+    }
 }
