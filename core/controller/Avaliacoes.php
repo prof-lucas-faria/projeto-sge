@@ -96,7 +96,7 @@ class Avaliacoes {
             
             if (count((array)$status[0]) > 0) {
                 foreach ($status as $key => $value) {
-                    if ($value->parecer == $dados['parecer']) {
+                    if ($value->parecer == $dados['parecer'] && ($dados['parecer'] == 'Aprovado' || $dados['parecer'] == 'Reprovado')) {
                         $dados_t = [
                             'status' => 'Avaliado',
                             'trabalho_id' => $dados['trabalho_id']

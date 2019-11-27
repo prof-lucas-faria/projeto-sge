@@ -81,7 +81,8 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
                     <?php
                     if (count((array)$trabalhos[0]) > 0) {
                         foreach ($trabalhos as $i => $v) {
-                            (strtotime(date('Y/m/d')) > strtotime($v->prazo)) || $v->parecer != NULL ? $di = "disabled" : $di = "";
+                            // print_r($v);
+                            (strtotime(date('Y/m/d')) > strtotime($v->prazo)) || $v->parecer != "NULL" ? $di = "disabled" : $di = "";
                     ?>
                             <tr>
                                 <td class="align-middle"> <?= $v->titulo ?></td>

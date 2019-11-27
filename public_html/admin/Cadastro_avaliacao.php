@@ -84,7 +84,7 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
 
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario">
+                    <form class="needs-validation" id="formulario" >
                         <div class="form-row mb-4">
                             <div class="form-group col-md-6">
                                 <label for="parecer">Parecer:</label>
@@ -99,12 +99,12 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
                             <div class="form-group col">
                                 <label for="correcao">Sugestão de Correção:</label>
                                 <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus 
-                                value="<?= $infoTrabalho->correcao ?>"></textarea>
+                                value=""><?= $infoTrabalho->correcao ?></textarea>
                             </div>
                         </div>
                         <div class="form-row mt-2">
                             <div class="col-md-2 ml-md-auto">
-                                <input type="hidden" id="usuario_id"  value="<?php echo $_COOKIE['usuario']?>">
+                                <input type="hidden" id="usuario_id"  value="<?php echo $avaliador_id?>">
                                 <input type="hidden" id="trabalho_id"  value="<?php echo $_GET['trabalho_id']?>">
                                 <input type="hidden" id="evento_id"  value="<?php echo $_GET['evento_id']?>">
                                 <button class="btn btn-outline-success btn-block" name="salvar" type="submit">Salvar</button>
@@ -116,6 +116,7 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
                             <div class="col-md-3">
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
