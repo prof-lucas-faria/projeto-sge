@@ -54,6 +54,7 @@ if (
 }
 
 $dados = $eventos->listarEventos($dados_eventos); //todos os eventos
+// print_r($dados_eventos);
 
 //para mudar o botão de 'Inscrever-se'
 if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
