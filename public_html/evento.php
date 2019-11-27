@@ -8,6 +8,7 @@ use core\sistema\Footer;
 use core\sistema\Util;
 use core\controller\Tematicas;
 use core\controller\Eventos_Tipos;
+use core\controller\Trabalhos;
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 
@@ -34,6 +35,12 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 	$dados_eventos['busca']['me'] = Autenticacao::getCookieUsuario();
 	$dados2 = $eventos->listarEventos($dados_eventos); //eventos que o usuario se inscreveu
 }
+
+// $usuario_id =   ?  Autenticacao::getCookieUsuario() : null;
+$trabalhos = new Trabalhos();
+$trabalhosAutor = (Autenticacao::getCookieUsuario() != null) ? $trabalhos->listarPeloAutor(Autenticacao::getCookieUsuario()) : null;
+// print_r($trabalhosAutor);
+// echo count($trabalhosAutor[0]);
 ?>
 
 <main role="main">
@@ -187,7 +194,7 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 								<p><small class="text-muted">Submissões apenas pelo site.</small></p>
 								<?php
 
-									if ((strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub))) {
+									if ((strtotime(date('Y/m/d')) > strtotime($evento->evento_inicio))) {
 										?>
 									<button id="download_listaAprovados" data-evento_id="<?= $evento->evento_id ?>" class="btn btn-outline-dark listaAprovados mt-1" title="Baixar Lista de Trabalhos Aprovados">
 										Trabalhos Aprovados
@@ -195,11 +202,17 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
 								<?php
 									} elseif ((strtotime(date('Y/m/d')) >= strtotime($evento->data_inicio_sub) && strtotime(date('Y/m/d')) < strtotime($evento->data_termino_sub))) {
 										?>
-									<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>"><?= $b ?></a>
+									<a href="cadastro_trabalho.php?evento_id=<?= $evento->evento_id ?>" class="btn btn-outline-dark <?= $d ?>">Envie seu Trabalho</a>
+
+								<?php
+									} elseif ((strtotime(date('Y/m/d')) > strtotime($evento->data_termino_sub) && ($trabalhosAutor != null && count($trabalhosAutor[0]) > 0))) {
+										?>
+									<a href="lista_TrabalhosAutor.php" class="btn btn-outline-dark <?= $d ?>">Acompanhar Submissões</a>
+
 								<?php
 									} else {
 										?>
-									<button  class="btn btn-outline-dark disabled"><?= $b ?></button>
+									<button class="btn btn-outline-dark disabled"><?= $b ?></button>
 								<?php
 									}
 									?>

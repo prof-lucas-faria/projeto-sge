@@ -119,6 +119,17 @@ class Avaliadores {
     }
 
 
+    public function acharAvaliador($usuario_id) {
+        $avaliador = new Avaliador();
+
+        $dados['usuario_id'] = $usuario_id;
+        $campos = "avaliador_id";
+
+        $lista = $avaliador->listar($campos, $dados, null, null);
+
+        return $lista[0]->avaliador_id;
+    }
+
     /**
      * Listar avaliadores, caso tenha $evento_id são somente avaliadores de determinado evento
      *

@@ -14,18 +14,15 @@ const eventos = () => {
         
 
         if (usuario_id !== "" && trabalho_id != "") {
+
             
-            if (correcao == "") {
-                correcao = "NULL";
-            }
 
             let dados = {
                 trabalho_id: trabalho_id,
                 avaliador_id: usuario_id,
                 correcao: correcao,
                 parecer: selecao
-            };
-            
+            };            
             
             dados.acao = "Avaliacoes/avaliar";
 

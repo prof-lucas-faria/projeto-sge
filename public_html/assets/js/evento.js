@@ -2,6 +2,7 @@ let construct = () => {
     eventos();
     gerarCertificado();
     downloadTrabalhosAprovados();
+    downloadArquivo();
 };
 
 const eventos = () => {

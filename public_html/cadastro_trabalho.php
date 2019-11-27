@@ -40,6 +40,7 @@ require_once 'header.php';
 
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
 $trabalho_id = isset($_GET['trabalho_id']) ? $_GET['trabalho_id'] : null;
+$vi = isset($_GET['vi']) ? $_GET['vi'] : 0;
 
 $usuarios = new Usuarios();
 $usuario = $usuarios->listarUsuarioID($usuario_id);
@@ -77,8 +78,9 @@ $divergentes = json_decode($avaliacoes->avaliacoesDivergentes($aux));
        <!-- Correções -->
         <?php
         // Coloque a condição para listar apenas a correção todas as correções forem liberadas
-        $apresentarCorrecoes = (isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) ||
-                               (isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo)) && count($divergentes) < 0;
+        $apresentarCorrecoes = ((isset($prazo[1]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[1]->prazo)) ||
+                               (isset($prazo[0]->prazo) && strtotime(date('Y/m/d')) > strtotime($prazo[0]->prazo)) && 
+                               count((array)$divergentes) <= 0);
         if ($apresentarCorrecoes) {
             ?>
          
@@ -148,7 +150,7 @@ $divergentes = json_decode($avaliacoes->avaliacoesDivergentes($aux));
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
                     <form class="needs-validation" id="formulario" data-evento_id="<?= isset($evento_id) ? $evento_id : '' ?>" data-trabalho_id="<?= isset($trabalho_id) ? $trabalho_id : '' ?>">
-                        <fieldset <?= ($apresentarCorrecoes) ? 'disabled' : ''  ?>>
+                        <fieldset <?= ($apresentarCorrecoes || $vi) ? 'disabled' : ''  ?>>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="area_tematica">Tipo do Trabalho:</label>

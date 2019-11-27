@@ -1,6 +1,7 @@
 <?php
 
 use core\controller\Avaliacoes;
+use core\controller\Avaliadores;
 use core\controller\Eventos_Tipos;
 use core\sistema\Util;
 use core\sistema\Footer;
@@ -11,15 +12,20 @@ require_once 'header.php';
 $permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
-$usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id));//verificação se usuario tem permissão no evento
+$usuarioPermissao=$permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id)[0];//verificação se usuario tem permissão no evento
 
-if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
+$avaliador = new Avaliadores();
+$avaliador_id = $avaliador->acharAvaliador($_COOKIE['usuario']);
+
+if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $usuarioPermissao->permissao == 3){
     $avaliacao = new Avaliacoes();
+
     $dados = [
         'evento_id' => $evento_id,
-        'avaliador_id' => $_COOKIE['usuario'],
+        'avaliador_id' => $avaliador_id,
         'trabalho_id' => $_GET['trabalho_id']
     ];
+
     $trabalhos = $avaliacao->avaliacoesAvaliador($dados);
     $infoTrabalho = $trabalhos[0];
     
@@ -27,10 +33,11 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
     $tipo = $tipos->listarTipoTrabalho($evento_id, $infoTrabalho->tipo_id);
 
     // echo "<pre>";
-    // print_r($tipo);
-    // echo "</pre>";
+    // print_r($infoTrabalho);
+    // exit;
 }else{
     echo ("Você não tem Permissão");
+    exit;
 }
 ?>
 
@@ -77,12 +84,12 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
 
             <div class="row justify-content-md-center">
                 <div class="col-md-9">
-                    <form class="needs-validation" id="formulario">
+                    <form class="needs-validation" id="formulario" >
                         <div class="form-row mb-4">
                             <div class="form-group col-md-6">
                                 <label for="parecer">Parecer:</label>
                                 <select id="parecer" class="custom-select">
-                                    <option value="NULL" <?= $infoTrabalho->parecer == ''?'selected':'';?>>Selecione o parecer</option>
+                                    <option value="" <?= $infoTrabalho->parecer == ''?'selected':'';?>>Selecione o parecer</option>
                                     <option value="Aprovado" <?= $infoTrabalho->parecer == "Aprovado"?"selected":"";?> >Aprovado</option>
                                     <option value="Reprovado" <?= $infoTrabalho->parecer == "Reprovado"?"selected":"";?>>Reprovado</option>
                                 </select>                                
@@ -92,12 +99,12 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                             <div class="form-group col">
                                 <label for="correcao">Sugestão de Correção:</label>
                                 <textarea id="correcao" class="form-control" placeholder="Digite a sugestão de correção" autofocus 
-                                value="<?= $infoTrabalho->correcao ?>"></textarea>
+                                value=""><?= $infoTrabalho->correcao ?></textarea>
                             </div>
                         </div>
                         <div class="form-row mt-2">
                             <div class="col-md-2 ml-md-auto">
-                                <input type="hidden" id="usuario_id"  value="<?php echo $_COOKIE['usuario']?>">
+                                <input type="hidden" id="usuario_id"  value="<?php echo $avaliador_id?>">
                                 <input type="hidden" id="trabalho_id"  value="<?php echo $_GET['trabalho_id']?>">
                                 <input type="hidden" id="evento_id"  value="<?php echo $_GET['evento_id']?>">
                                 <button class="btn btn-outline-success btn-block" name="salvar" type="submit">Salvar</button>
@@ -109,6 +116,7 @@ if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPe
                             <div class="col-md-3">
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
