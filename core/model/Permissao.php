@@ -15,17 +15,21 @@ class Permissao extends CRUD {
     const COL_EVENTO_ID = "evento_id";
 
     public function salvar($dados) {
-        $evento_id = isset($dados[self::COL_EVENTO_ID]) && !empty($dados[self::COL_EVENTO_ID])
+        $dados[self::COL_EVENTO_ID] = isset($dados[self::COL_EVENTO_ID]) && !empty($dados[self::COL_EVENTO_ID])
             ? $dados[self::COL_EVENTO_ID]
             : null;
 
-        $check = $this->checkPermissao($dados[self::COL_USUARIO_ID], $evento_id);
+        $check = $this->checkPermissao($dados[self::COL_USUARIO_ID], $dados[self::COL_EVENTO_ID]);
 
         if (count((array)$check) > 0) {
             return $this->alterar($dados);
         } else {
-            return $this->adicionar($dados);
+            if ($dados[self::COL_PERMISSAO] > 0) {
+                return $this->adicionar($dados);
+            }
         }
+
+        return true;
     }
 
     public function adicionar($dados) {

@@ -161,6 +161,25 @@ class Usuarios {
     }
 
     /**
+     * Lista os organizadores do evento
+     *
+     * @param $evento_id
+     * @param bool $relacao
+     * @return array
+     */
+    public function listarOrganizadores($evento_id, $relacao = false) {
+        $usuario = new Usuario();
+
+        $lista = $usuario->listarUsuariosPermissao($evento_id, Autenticacao::ORGANIZADOR, $relacao);
+
+        if (count($lista) > 0) {
+            $this->__set("lista_usuarios", $lista);
+        }
+
+        return $this->lista_usuarios;
+    }
+
+    /**
      * Altera as permissões dos usuários cadastrados entre admin ou não
      *
      * @param $dados

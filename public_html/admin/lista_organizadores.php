@@ -15,11 +15,18 @@ if (
     exit;
 }
 
+$evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : null;
+
+if ($evento_id == null) {
+    header('Location: ../index.php?redirect=' . URL);
+    exit;
+}
+
 require_once 'header.php';
 
 $usuarios = new Usuarios();
 
-$lista_usuarios = $usuarios->listarUsuarios();
+$lista_usuarios = $usuarios->listarOrganizadores($evento_id);
 
 ?>
 
@@ -61,7 +68,9 @@ $lista_usuarios = $usuarios->listarUsuarios();
                 </table>
 
                 <div class="row d-flex justify-content-end pr-3 pl-3">
-                    <button id="atualiza_permissao" class="btn btn-outline-success col-2">Atualizar</button>
+                    <button id="atualiza_permissao"
+                            data-evento_id="<?= $evento_id ?>"
+                            class="btn btn-outline-success col-2">Atualizar</button>
                 </div>
 
             <?php } else { ?>

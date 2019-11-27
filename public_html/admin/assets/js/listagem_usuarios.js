@@ -18,7 +18,7 @@ const eventos = () => {
             dados.usuarios.push({
                 usuario_id: check.attr('id'),
                 permissao: check_permissao,
-                evento_id: null,
+                evento_id: e.target.dataset.evento_id,
             });
         });
 

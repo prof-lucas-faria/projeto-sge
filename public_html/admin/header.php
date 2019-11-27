@@ -134,8 +134,8 @@ use core\controller\Eventos;
                             Usuário
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php if (Autenticacao::usuarioAdministrador()) { ?>
-                                <a class="dropdown-item" href="usuarios.php">Organizadores</a>
+                            <?php if (isset($evento) && (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador())) { ?>
+                                <a class="dropdown-item" href="lista_organizadores.php?evento_id=<?= $evento->evento_id ?>">Organizadores</a>
                             <?php } if (isset($evento) && (Autenticacao::usuarioAdministrador() || Autenticacao::usuarioOrganizador())) { ?>
                                 <a class="dropdown-item" href="lista_assistentes.php?evento_id=<?= $evento->evento_id ?>">Assistentes</a>
                             <?php

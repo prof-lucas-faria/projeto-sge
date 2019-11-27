@@ -35,9 +35,7 @@ class Permissoes {
 
         if (isset($dados['usuarios']) && count($dados['usuarios']) > 0) {
             foreach ($dados['usuarios'] as $usuario) {
-                if ($usuario['permissao'] > 0) {
-                    $retorno[] = $user->salvar($usuario);
-                }
+                $retorno[] = $user->salvar($usuario);
             }
         }
 
@@ -73,7 +71,7 @@ class Permissoes {
                     $retorno[] = $value->evento_id;
             }
         }
-        
+
         return $retorno;
     }
 
