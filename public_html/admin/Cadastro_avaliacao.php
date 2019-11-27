@@ -1,6 +1,7 @@
 <?php
 
 use core\controller\Avaliacoes;
+use core\controller\Avaliadores;
 use core\controller\Eventos_Tipos;
 use core\sistema\Util;
 use core\sistema\Footer;
@@ -13,11 +14,14 @@ $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
 $usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id));//verificação se usuario tem permissão no evento
 
-if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2]==3){
+$avaliador = new Avaliadores();
+$avaliador_id = $avaliador->acharAvaliador($_COOKIE['usuario']);
+
+if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $usuarioPermissao->permissao == 3){
     $avaliacao = new Avaliacoes();
     $dados = [
         'evento_id' => $evento_id,
-        'avaliador_id' => $_COOKIE['usuario'],
+        'avaliador_id' => $avaliador_id,
         'trabalho_id' => $_GET['trabalho_id']
     ];
     $trabalhos = $avaliacao->avaliacoesAvaliador($dados);
