@@ -58,7 +58,7 @@ $lista_assistentes = $usuarios->listarAssistentes($evento_id);
                             <td class="check_permissao text-center">
                                 <input type="checkbox" id="<?= $usuario->usuario_id ?>"
                                        value="<?= $usuario->permissao ?>"
-                                    <?= $usuario->permissao == 1 ? 'checked' : '' ?>>
+                                    <?= $usuario->permissao == 3 ? 'checked' : '' ?>>
                             </td>
                         </tr>
 

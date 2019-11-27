@@ -39,6 +39,7 @@ $atividade = $atividades->listarAtividades($evento_id);
 $lista_tematicas = $tematicas->listar($evento_id);
 
 $lista_assistentes = $usuario->listarAssistentes($evento_id, true);
+$lista_organizadores = $usuario->listarOrganizadores($evento_id, true);
 
 
 $d = strtotime(date('Y/m/d')) > strtotime($evento->evento_termino) ? "disabled" : "";
@@ -82,6 +83,51 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                     } ?>
                 </div>
             </div>
+        </div>
+
+        <div class="card shadow-sm mb-2 p-4">
+            <h1 class="text-center font-weight-bold mb-4">Organizadores</h1>
+
+            <div class="form-row">
+                <div class="col-md-4">
+                    <button type="submit" id="botao_adicionar_organizador"
+                            data-evento_id="<?= $evento_id ?>" class="btn btn-block btn-outline-success">
+                        Adicionar Organizador
+                    </button>
+                </div>
+            </div>
+
+            <?php if (count($lista_organizadores[0]) > 0) { ?>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th class="col-md-10">Usuário</th>
+                                <th class="col-md-2">Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($lista_organizadores as $organizador) { ?>
+                                <tr>
+                                    <td class="col-md-10 align-middle"><?= $organizador->nome ?></td>
+                                    <td class=" col-md-2align-middle">
+                                        <a class="btn btn-outline-danger mt-1" href="#"
+                                           data-usuario_id="<?= $organizador->usuario_id ?>"
+                                           data-evento_id="<?= $evento_id ?>"
+                                           name="excluir_organizador"
+                                           data-toggle="modal" data-target="#confirmModalOrganizador"
+                                           title="Excluir">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
 
         <div class="card shadow-sm mb-2 p-4">
@@ -250,6 +296,29 @@ if (!Autenticacao::usuarioAdministrador() && Autenticacao::verificarLogin()) {
                 <div class="modal-footer p-2">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
                     <a id="botao_excluir_assistente" href="#"
+                       class="btn btn-outline-danger" data-usuario_id="" data-evento_id="">Sim</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmModalOrganizador" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente <span class="font-weight-bold text-uppercase text-danger"> Excluir</span> esse
+                    Organizador?
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
+                    <a id="botao_excluir_organizador" href="#"
                        class="btn btn-outline-danger" data-usuario_id="" data-evento_id="">Sim</a>
                 </div>
             </div>
