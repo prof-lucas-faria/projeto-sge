@@ -5,6 +5,7 @@ require_once '../../config.php';
 use core\controller\Eventos;
 use core\sistema\Autenticacao;
 use core\controller\Avaliacoes;
+use core\controller\Avaliadores;
 use core\sistema\Util;
 use core\sistema\Footer;
 use core\controller\Permissoes;
@@ -14,19 +15,23 @@ require_once 'header.php';
 
 $permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
-$usuarioPermissao = $permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id);//verificação se usuario tem permissão no evento
+$usuarioPermissao = $permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id)[0];//verificação se usuario tem permissão no evento
 //mostrar no print_r o valor da permissao e do evento
 
-if($usuarioPermissao != null && $usuarioPermissao[0] == $evento_id && $usuarioPermissao[2] == 3){
+$avaliador = new Avaliadores();
+$avaliador_id = $avaliador->acharAvaliador($_COOKIE['usuario']);
+// print_r($avaliador_id);
+
+if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $usuarioPermissao->permissao == 3){
     $avaliacao = new Avaliacoes();
-    $usuario_id = $_COOKIE['usuario'];
+    
     $dados = [
         'evento_id' => $evento_id,
-        'avaliador_id' => $_COOKIE['usuario']
+        'avaliador_id' => $avaliador_id
     ];
 
     $trabalhos = $avaliacao->avaliacoesAvaliador($dados);//lista todas avaliações 
-    
+
     // echo "<pre>";
     // print_r($trabalhos);
     // exit;
