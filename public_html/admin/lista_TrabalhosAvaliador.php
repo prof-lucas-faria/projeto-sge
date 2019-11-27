@@ -37,6 +37,7 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
     // exit;
 } else{
     echo "Você não tem permissão";
+    exit;
 }
 ?>
 
