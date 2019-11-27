@@ -9,6 +9,7 @@ class Permissao extends CRUD {
 
     const TABELA = "permissao";
 
+    const COL_PERMISSAO_ID = "permissao_id";
     const COL_USUARIO_ID = "usuario_id";
     const COL_PERMISSAO = "permissao";
     const COL_EVENTO_ID = "evento_id";
@@ -120,7 +121,7 @@ class Permissao extends CRUD {
         try {
 
             $retorno = $this->read(self::TABELA, $campos, $where_condicao, $where_valor);
-            
+
         } catch (Exception $e) {
             echo "Mensagem: " . $e->getMessage() . "\n Local: " . $e->getTraceAsString();
             return [];

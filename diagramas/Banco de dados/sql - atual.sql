@@ -166,22 +166,11 @@ ENGINE = InnoDB;
 -- Table `sge`.`permissao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sge`.`permissao` (
+  `permissao_id` INT NOT NULL AUTO_INCREMENT,
   `evento_id` INT NOT NULL,
   `usuario_id` INT NOT NULL,
-  `permissao` INT NOT NULL DEFAULT 0,
-  INDEX `fk_evento_has_usuario_usuario1_idx` (`usuario_id` ASC),
-  INDEX `fk_evento_has_usuario_evento1_idx` (`evento_id` ASC),
-  PRIMARY KEY (`evento_id`, `usuario_id`),
-  CONSTRAINT `fk_evento_has_usuario_evento1`
-    FOREIGN KEY (`evento_id`)
-    REFERENCES `sge`.`evento` (`evento_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_evento_has_usuario_usuario1`
-    FOREIGN KEY (`usuario_id`)
-    REFERENCES `sge`.`usuario` (`usuario_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `permissao` INT DEFAULT 0,
+  PRIMARY KEY (`permissao_id`))
 ENGINE = InnoDB;
 
 
