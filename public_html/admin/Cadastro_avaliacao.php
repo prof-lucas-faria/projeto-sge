@@ -12,18 +12,20 @@ require_once 'header.php';
 $permissao = new Permissoes();
 $evento_id = isset($_GET['evento_id']) ? $_GET['evento_id'] : "";
 
-$usuarioPermissao=($permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id));//verificação se usuario tem permissão no evento
+$usuarioPermissao=$permissao->listarPermissaoEventosUsuario($_COOKIE['usuario'],$evento_id)[0];//verificação se usuario tem permissão no evento
 
 $avaliador = new Avaliadores();
 $avaliador_id = $avaliador->acharAvaliador($_COOKIE['usuario']);
 
 if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $usuarioPermissao->permissao == 3){
     $avaliacao = new Avaliacoes();
+
     $dados = [
         'evento_id' => $evento_id,
         'avaliador_id' => $avaliador_id,
         'trabalho_id' => $_GET['trabalho_id']
     ];
+
     $trabalhos = $avaliacao->avaliacoesAvaliador($dados);
     $infoTrabalho = $trabalhos[0];
     
@@ -31,10 +33,11 @@ if($usuarioPermissao != null && $usuarioPermissao->evento_id == $evento_id && $u
     $tipo = $tipos->listarTipoTrabalho($evento_id, $infoTrabalho->tipo_id);
 
     // echo "<pre>";
-    // print_r($tipo);
-    // echo "</pre>";
+    // print_r($infoTrabalho);
+    // exit;
 }else{
     echo ("Você não tem Permissão");
+    exit;
 }
 ?>
 
